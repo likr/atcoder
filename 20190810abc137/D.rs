@@ -83,7 +83,6 @@ fn main() {
     let mut index = 0;
     let mut total = 0;
     for remains in 1..m + 1 {
-        let last_index = 0;
         while index < n && ab[index].0 <= remains {
             let b = ab[index].1;
             let j = match v.binary_search(&b) {

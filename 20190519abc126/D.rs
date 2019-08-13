@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::{HashSet, VecDeque};
 
 macro_rules! input {
     (source = $s:expr, $($r:tt)*) => {
@@ -53,61 +53,36 @@ macro_rules! read_value {
     };
 }
 
+fn dfs(neighbors: &Vec<Vec<(usize, usize)>>, u: usize, d: usize, height: &mut Vec<usize>, visited: &mut HashSet<usize>) {
+    if visited.contains(&u) {
+        return;
+    }
+    visited.insert(u);
+    height[u] = d;
+    for &(v, w) in neighbors[u].iter() {
+        dfs(neighbors, v, d + w, height, visited);
+    }
+}
+
 fn main() {
     input! {
         n: usize,
-        uvw: [[usize; 3]; n - 1],
+        uvw: [(usize, usize, usize); n - 1],
     }
 
-    let mut color = Vec::new();
-    color.resize(n, 2);
-
-    let mut neighbors = Vec::new();
-    neighbors.resize(n, Vec::new());
-    for row in uvw.iter() {
-        let u = row[0] - 1;
-        let v = row[1] - 1;
-        let w = row[2];
+    let mut neighbors = vec![vec![]; n];
+    for (u, v, w) in uvw {
+        let u = u - 1;
+        let v = v - 1;
         neighbors[u].push((v, w));
         neighbors[v].push((u, w));
     }
 
-    'outer: loop {
-        for i in 0..n {
-            if color[i] == 2 {
-                continue;
-            }
-            let mut visited = HashSet::new();
-            let mut nodes = Vec::new();
-            nodes.push(i);
-            while nodes.len() > 0 {
-                let u = nodes.pop().unwrap();
-                if visited.contains(&u) {
-                    continue;
-                }
-                visited.insert(u);
-                for vw in neighbors[u].iter() {
-                    let v = vw.0;
-                    let w = vw.1;
-                    if w % 2 == 0 {
-                        color[v] = color[i];
-                        nodes.push(v);
-                    } else {
-                        color[v] = if color[i] == 0 { 1 } else { 0 };
-                    }
-                }
-            }
-        }
-        for i in 0..n {
-            if color[i] == 2 {
-                color[i] = 0;
-                continue 'outer;
-            }
-        }
-        break;
-    }
+    let mut visited = HashSet::new();
+    let mut height = vec![0; n];
+    dfs(&neighbors, 0, 0, &mut height, &mut visited);
 
-    for c in color.iter() {
-        println!("{}", c);
+    for h in height {
+        println!("{}", if h % 2 == 0 { 0 } else { 1 });
     }
 }
