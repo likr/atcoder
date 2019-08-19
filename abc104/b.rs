@@ -70,27 +70,27 @@ macro_rules! read_value {
     };
 }
 
+fn check(s: Vec<char>) -> bool {
+    if s[0] != 'A' {
+        return false;
+    }
+    for i in 1..s.len() {
+        if s[i] != 'C' && !s[i].is_lowercase() {
+            return false;
+        }
+    }
+    let mut count = 0;
+    for i in 2..s.len() - 1 {
+        if s[i] == 'C' {
+            count += 1;
+        }
+    }
+    count == 1
+}
+
 fn main() {
     input! {
-        n: usize,
-        s: [String; n],
+        s: String,
     }
-    let chars = vec!["M", "A", "R", "C", "H"];
-    let mut count = vec![0u64; 5];
-    for i in 0..5 {
-        for sj in s.iter() {
-            if sj.starts_with(chars[i]) {
-                count[i] += 1;
-            }
-        }
-    }
-    let mut ans = 0;
-    for i in 0..5 {
-        for j in 0..i {
-            for k in 0..j {
-                ans += count[i] * count[j] * count[k];
-            }
-        }
-    }
-    println!("{}", ans);
+    println!("{}", if check(s.chars().collect()) { "AC" } else { "WA" });
 }

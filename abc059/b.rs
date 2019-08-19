@@ -72,25 +72,26 @@ macro_rules! read_value {
 
 fn main() {
     input! {
-        n: usize,
-        s: [String; n],
+        a: String,
+        b: String,
     }
-    let chars = vec!["M", "A", "R", "C", "H"];
-    let mut count = vec![0u64; 5];
-    for i in 0..5 {
-        for sj in s.iter() {
-            if sj.starts_with(chars[i]) {
-                count[i] += 1;
-            }
+    if a.len() > b.len() {
+        println!("GREATER");
+        return;
+    }
+    if b.len() > a.len() {
+        println!("LESS");
+        return;
+    }
+    for i in 0..a.len() {
+        if a.chars().nth(i) > b.chars().nth(i) {
+            println!("GREATER");
+            return;
+        }
+        if b.chars().nth(i) > a.chars().nth(i) {
+            println!("LESS");
+            return;
         }
     }
-    let mut ans = 0;
-    for i in 0..5 {
-        for j in 0..i {
-            for k in 0..j {
-                ans += count[i] * count[j] * count[k];
-            }
-        }
-    }
-    println!("{}", ans);
+    println!("EQUAL");
 }

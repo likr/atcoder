@@ -70,27 +70,25 @@ macro_rules! read_value {
     };
 }
 
+fn gcd(a: usize, b: usize) -> usize {
+    if b > a {
+        return gcd(b, a);
+    }
+    if a % b == 0 {
+        return b;
+    }
+    gcd(b, a % b)
+}
+
 fn main() {
     input! {
         n: usize,
-        s: [String; n],
+        t: [usize; n],
     }
-    let chars = vec!["M", "A", "R", "C", "H"];
-    let mut count = vec![0u64; 5];
-    for i in 0..5 {
-        for sj in s.iter() {
-            if sj.starts_with(chars[i]) {
-                count[i] += 1;
-            }
-        }
-    }
-    let mut ans = 0;
-    for i in 0..5 {
-        for j in 0..i {
-            for k in 0..j {
-                ans += count[i] * count[j] * count[k];
-            }
-        }
+    let mut ans = 1;
+    for ti in t {
+        let a = gcd(ans, ti);
+        ans = ans / a * ti;
     }
     println!("{}", ans);
 }
