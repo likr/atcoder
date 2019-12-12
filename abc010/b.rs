@@ -104,25 +104,17 @@ where
 fn main() {
     input! {
         n: usize,
-        a: [i64; n],
+        a: [usize; n],
     }
-    let mut left = vec![0 as i64; n];
-    let mut right = vec![0 as i64; n];
-    left[0] = a[0];
-    for i in 1..n {
-        left[i] = left[i - 1] + a[i];
-    }
-    right[n - 1] = a[n - 1];
-    for i in (1..n).rev() {
-        right[i - 1] = right[i] + a[i - 1];
-    }
-    // println!("{:?} {:?}", left, right);
-    let mut result = 1000000000000;
-    for i in 1..n {
-        let m = (left[i - 1] - right[i]).abs();
-        if m < result {
-            result = m;
+    let mut result = 0;
+    for ai in a {
+        let m = (ai - 1) % 6;
+        if m == 1 {
+            result += 1;
+        } else if m >= 3 {
+            result += m - 2;
         }
+        // println!("{}", result);
     }
     println!("{}", result);
 }

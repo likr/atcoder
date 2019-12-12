@@ -103,26 +103,28 @@ where
 
 fn main() {
     input! {
+        txa: usize,
+        tya: usize,
+        txb: usize,
+        tyb: usize,
+        t: usize,
+        v: usize,
         n: usize,
-        a: [i64; n],
+        xy: [(usize, usize); n],
     }
-    let mut left = vec![0 as i64; n];
-    let mut right = vec![0 as i64; n];
-    left[0] = a[0];
-    for i in 1..n {
-        left[i] = left[i - 1] + a[i];
-    }
-    right[n - 1] = a[n - 1];
-    for i in (1..n).rev() {
-        right[i - 1] = right[i] + a[i - 1];
-    }
-    // println!("{:?} {:?}", left, right);
-    let mut result = 1000000000000;
-    for i in 1..n {
-        let m = (left[i - 1] - right[i]).abs();
-        if m < result {
-            result = m;
+    let d = (t * v) as f64;
+    for i in 0..n {
+        let dx1 = txa as f64 - xy[i].0 as f64;
+        let dy1 = tya as f64 - xy[i].1 as f64;
+        let d1 = (dx1 * dx1 + dy1 * dy1).sqrt();
+        let dx2 = txb as f64 - xy[i].0 as f64;
+        let dy2 = tyb as f64 - xy[i].1 as f64;
+        let d2 = (dx2 * dx2 + dy2 * dy2).sqrt();
+        // println!("{} {} {}", d, d1, d2);
+        if d1 + d2 <= d {
+            println!("YES");
+            return;
         }
     }
-    println!("{}", result);
+    println!("NO");
 }
