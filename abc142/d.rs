@@ -1,5 +1,6 @@
-use std::cmp::Ordering;
+use std::collections::HashSet;
 
+#[allow(unused_macros)]
 macro_rules! input {
     (source = $s:expr, $($r:tt)*) => {
         let mut iter = $s.split_whitespace();
@@ -21,6 +22,7 @@ macro_rules! input {
     };
 }
 
+#[allow(unused_macros)]
 macro_rules! input_inner {
     ($next:expr) => {};
     ($next:expr, ) => {};
@@ -29,8 +31,14 @@ macro_rules! input_inner {
         let $var = read_value!($next, $t);
         input_inner!{$next $($r)*}
     };
+
+    ($next:expr, mut $var:ident : $t:tt $($r:tt)*) => {
+        let mut $var = read_value!($next, $t);
+        input_inner!{$next $($r)*}
+    };
 }
 
+#[allow(unused_macros)]
 macro_rules! read_value {
     ($next:expr, ( $($t:tt),* )) => {
         ( $(read_value!($next, $t)),* )
@@ -40,8 +48,19 @@ macro_rules! read_value {
         (0..$len).map(|_| read_value!($next, $t)).collect::<Vec<_>>()
     };
 
+    ($next:expr, [ $t:tt ]) => {
+        {
+            let len = read_value!($next, usize);
+            (0..len).map(|_| read_value!($next, $t)).collect::<Vec<_>>()
+        }
+    };
+
     ($next:expr, chars) => {
         read_value!($next, String).chars().collect::<Vec<char>>()
+    };
+
+    ($next:expr, bytes) => {
+        read_value!($next, String).into_bytes()
     };
 
     ($next:expr, usize1) => {
@@ -53,65 +72,42 @@ macro_rules! read_value {
     };
 }
 
-pub trait BinarySearch<T> {
-    fn lower_bound(&self, x: &T) -> usize;
-    fn upper_bound(&self, x: &T) -> usize;
-}
-
-impl<T: Ord> BinarySearch<T> for [T] {
-    fn lower_bound(&self, x: &T) -> usize {
-        let mut low = 0;
-        let mut high = self.len();
-
-        while low != high {
-            let mid = (low + high) / 2;
-            match self[mid].cmp(x) {
-                Ordering::Less => {
-                    low = mid + 1;
-                }
-                Ordering::Equal | Ordering::Greater => {
-                    high = mid;
-                }
-            }
+fn factors(x: usize) -> HashSet<usize> {
+    let mut x = x;
+    let mut result = HashSet::new();
+    result.insert(1);
+    let target = (x as f64).sqrt() as usize;
+    let mut d = 2;
+    while d < target {
+        while x % d == 0 {
+            result.insert(d);
+            x /= d;
         }
-        low
+        d += 1;
     }
-
-    fn upper_bound(&self, x: &T) -> usize {
-        let mut low = 0;
-        let mut high = self.len();
-
-        while low != high {
-            let mid = (low + high) / 2;
-            match self[mid].cmp(x) {
-                Ordering::Less | Ordering::Equal => {
-                    low = mid + 1;
-                }
-                Ordering::Greater => {
-                    high = mid;
-                }
-            }
-        }
-        low
+    if x > 1 {
+        result.insert(x);
     }
+    result
 }
 
 fn main() {
     input! {
-        n: usize,
-        k: usize,
-        a: [usize; n],
+        a: usize,
+        b: usize,
     }
-    let mut acc = vec![0; n];
-    acc[0] = a[0];
-    for i in 1..n {
-        acc[i] = a[i] + acc[i - 1]
-    }
+
+    let a_factors = factors(a);
+    let b_factors = factors(b);
+
+    // println!(" {:?}", a_factors);
+    // println!(" {:?}", b_factors);
+
     let mut result = 0;
-    for i in 0..n {
-        let b = if i == 0 { 0 } else { acc[i - 1] };
-        let j = acc.lower_bound(&(k + b));
-        result += n - j;
+    for f in a_factors {
+        if b_factors.contains(&f) {
+            result += 1;
+        }
     }
     println!("{}", result);
 }
