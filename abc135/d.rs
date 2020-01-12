@@ -70,60 +70,50 @@ macro_rules! read_value {
     };
 }
 
+const B : usize = 13;
 const M : usize = 1000000007;
-
-fn inv(a: usize) -> usize {
-    let m = M as i64;
-    let mut a = a as i64;
-    let mut b = m as i64;
-    let mut u = 1;
-    let mut v = 0;
-    let mut tmp;
-    while b != 0 {
-        let t = a / b;
-        a -= t * b;
-        tmp = a;
-        a = b;
-        b = tmp;
-        u -= t * v;
-        tmp = u;
-        u = v;
-        v = tmp;
-    }
-    u %= m;
-    if u < 0 {
-        u += m;
-    }
-    return u as usize;
-}
 
 fn main() {
     input! {
-        n: usize,
-        k: usize,
+        s: chars,
     }
+    let n = s.len();
+    let mut s = s;
+    s.reverse();
+    let mut count = vec![0; B];
+    let mut count2 = vec![0; B];
 
-    let mut f = vec![0; n + 1];
-    f[0] = 1;
-    for i in 1..n + 1 {
-        f[i] = f[i - 1] * i % M;
-    }
-    let mut g = vec![0; n + 1];
-    for i in 0..n + 1 {
-        g[i] = inv(f[i]);
-    }
-    // println!("{:?}", f);
-    // println!("{:?}", g);
-
-    for i in 1..k + 1 {
-        if i > n - k + 1 {
-            println!("0");
-        } else {
-            let a = (f[n - k + 1] * g[n - k + 1 - i] % M) * g[i] % M;
-            let b = (f[k - 1] * g[k - i] % M) * g[i - 1] % M;
-            // println!("{} {}", a, b);
-            println!("{}", a * b % M);
+    if s[0] == '?' {
+        for d in 0..10 {
+            count[d] += 1;
         }
+    } else {
+        count[s[0] as usize - '0' as usize] += 1;
     }
 
+    let mut base = 10;
+    for i in 1..n {
+        for j in 0..B {
+            count2[j] = 0;
+        }
+        if s[i] == '?' {
+            for d in 0..10 {
+                for j in 0..B {
+                    let k = (d * base + j) % B;
+                    count2[k] = (count2[k] + count[j]) % M;
+                }
+            }
+        } else {
+            let d = s[i] as usize - '0' as usize;
+            for j in 0..B {
+                let k = (d * base + j) % B;
+                count2[k] = (count2[k] + count[j]) % M;
+            }
+        }
+        for j in 0..B {
+            count[j] = count2[j];
+        }
+        base = base * 10 % B;
+    }
+    println!("{}", count[5]);
 }

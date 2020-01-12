@@ -1,3 +1,5 @@
+use std::collections::{HashMap, HashSet, VecDeque};
+
 #[allow(unused_macros)]
 macro_rules! input {
     (source = $s:expr, $($r:tt)*) => {
@@ -70,60 +72,53 @@ macro_rules! read_value {
     };
 }
 
-const M : usize = 1000000007;
-
-fn inv(a: usize) -> usize {
-    let m = M as i64;
-    let mut a = a as i64;
-    let mut b = m as i64;
-    let mut u = 1;
-    let mut v = 0;
-    let mut tmp;
-    while b != 0 {
-        let t = a / b;
-        a -= t * b;
-        tmp = a;
-        a = b;
-        b = tmp;
-        u -= t * v;
-        tmp = u;
-        u = v;
-        v = tmp;
-    }
-    u %= m;
-    if u < 0 {
-        u += m;
-    }
-    return u as usize;
-}
-
 fn main() {
     input! {
         n: usize,
-        k: usize,
+        ab: [(usize, usize); n - 1],
+    }
+    let mut adjacency = vec![vec![]; n + 1];
+    for &(ai, bi) in &ab {
+        adjacency[ai].push(bi);
+        adjacency[bi].push(ai);
     }
 
-    let mut f = vec![0; n + 1];
-    f[0] = 1;
-    for i in 1..n + 1 {
-        f[i] = f[i - 1] * i % M;
-    }
-    let mut g = vec![0; n + 1];
-    for i in 0..n + 1 {
-        g[i] = inv(f[i]);
-    }
-    // println!("{:?}", f);
-    // println!("{:?}", g);
+    let mut degrees = adjacency.iter().enumerate().map(|(i, l)| (i, l.len())).collect::<Vec<_>>();
+    degrees.sort_by_key(|&(_, d)| d);
+    degrees.reverse();
+    let k = degrees[0].1;
+    println!("{}", k);
 
-    for i in 1..k + 1 {
-        if i > n - k + 1 {
-            println!("0");
-        } else {
-            let a = (f[n - k + 1] * g[n - k + 1 - i] % M) * g[i] % M;
-            let b = (f[k - 1] * g[k - i] % M) * g[i - 1] % M;
-            // println!("{} {}", a, b);
-            println!("{}", a * b % M);
+    let mut colors = HashMap::new();
+    let mut visited = HashSet::new();
+    let mut queue = VecDeque::new();
+    queue.push_back(1);
+
+    while queue.len() > 0 {
+        let u = queue.pop_front().unwrap();
+        visited.insert(u);
+        let mut used = 0;
+        for &v in &adjacency[u] {
+            if colors.contains_key(&(u, v)) {
+                used = *colors.get(&(u, v)).unwrap();
+                break;
+            }
+        }
+        let mut c = 0;
+        for &v in &adjacency[u] {
+            if !visited.contains(&v) {
+                queue.push_back(v);
+                c += 1;
+                if c == used {
+                    c += 1;
+                }
+                colors.insert((u, v), c);
+                colors.insert((v, u), c);
+            }
         }
     }
 
+    for &(ai, bi) in &ab {
+        println!("{}", colors.get(&(ai, bi)).unwrap());
+    }
 }
