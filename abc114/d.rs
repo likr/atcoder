@@ -70,72 +70,61 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
-    }
-    false
-}
-
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        n: usize,
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
-
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
-        }
-    }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
+    let mut factors = vec![0; n + 1];
+    for i in 1..n + 1 {
+        let t = (i as f64).sqrt() as usize;
+        let mut m = i;
+        for d in 2..t + 1 {
+            while m % d == 0 {
+                factors[d] += 1;
+                m /= d;
             }
         }
+        if m > 1 {
+            factors[m] += 1;
+        }
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
+    let mut count3 = 0;
+    let mut count5 = 0;
+    let mut count15 = 0;
+    let mut count25 = 0;
+    let mut count75 = 0;
+    for i in 0..n + 1 {
+        if factors[i] + 1 >= 3 {
+            count3 += 1;
+        }
+        if factors[i] + 1 >= 5 {
+            count5 += 1;
+        }
+        if factors[i] + 1 >= 15 {
+            count15 += 1;
+        }
+        if factors[i] + 1 >= 25 {
+            count25 += 1;
+        }
+        if factors[i] + 1 >= 75 {
+            count75 += 1;
+        }
     }
+    let mut result = 0;
+    if count3 >= 3 && count5 >= 2 {
+        result += count5 * (count5 - 1) / 2 * (count3 - count5);
+    }
+    if count5 >= 3 {
+        result += count5 * (count5 - 1) / 2 * (count5 - 2);
+    }
+    if count15 >= 1 {
+        result += count15 * (count5 - 1);
+    }
+    if count25 >= 1 {
+        result += count25 * (count3 - 1);
+    }
+    if count75 >= 1 {
+        result += count75;
+    }
+    println!("{}", result);
 }

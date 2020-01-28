@@ -70,72 +70,30 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
+fn gcd(a: usize, b: usize) -> usize {
+    if b > a {
+        return gcd(b, a);
     }
-    false
+    if a % b == 0 {
+        return b;
+    }
+    gcd(b, a % b)
 }
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        n: usize,
+        x: [usize; n + 1],
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
-
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
-        }
+    let mut x = x;
+    x.sort();
+    let mut d = vec![0; n];
+    for i in 0..n {
+        d[i] = x[i + 1] - x[i];
     }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
-            }
-        }
+    let mut g = d[0];
+    for i in 1..n {
+        g = gcd(g, d[i]);
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
-    }
+    println!("{}", g);
 }

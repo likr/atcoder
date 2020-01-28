@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 #[allow(unused_macros)]
 macro_rules! input {
     (source = $s:expr, $($r:tt)*) => {
@@ -70,72 +72,70 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
+fn valid(s: &String) -> bool {
+    let s = s.chars().collect::<Vec<_>>();
+    if s[0] == 'A' && s[1] == 'G' && s[3] == 'C' {
+        return false;
     }
-    false
+    if s[0] == 'A' && s[2] == 'G' && s[3] == 'C' {
+        return false;
+    }
+    if s[1] == 'A' && s[2] == 'G' && s[3] == 'C' {
+        return false;
+    }
+    if s[1] == 'G' && s[2] == 'A' && s[3] == 'C' {
+        return false;
+    }
+    if s[1] == 'A' && s[2] == 'C' && s[3] == 'G' {
+        return false;
+    }
+    true
 }
+
+const M : usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        n: usize,
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
-
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
-        }
-    }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
+    let chars = vec!['A', 'C', 'G', 'T'];
+    let mut dp = vec![HashMap::new(); n + 1];
+    for c1 in &chars {
+        for c2 in &chars {
+            for c3 in &chars {
+                let s = format!("{}{}{}", c1, c2, c3);
+                if s == "AGC" || s == "GAC" || s == "ACG" {
+                    dp[3].insert(s.clone(), 0);
+                } else {
+                    dp[3].insert(s.clone(), 1);
                 }
-                items.push(ai + bj + ck);
+                for i in 4..n + 1 {
+                    dp[i].insert(s.clone(), 0);
+                }
             }
         }
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
+    for i in 4..n + 1 {
+        for c1 in &chars {
+            for c2 in &chars {
+                for c3 in &chars {
+                    for c4 in &chars {
+                        let s0 = format!("{}{}{}", c1, c2, c3);
+                        let s1 = format!("{}{}{}", c2, c3, c4);
+                        let s = format!("{}{}{}{}", c1, c2, c3, c4);
+                        if valid(&s) {
+                            let v = dp[i - 1][&s0];
+                            let mut r = dp[i].get_mut(&s1).unwrap();
+                            *r = (*r + v) % M;
+                        }
+                    }
+                }
+            }
+        }
     }
+    let mut result = 0;
+    for &count in dp[n].values() {
+        result = (result + count) % M;
+    }
+    println!("{}", result);
 }

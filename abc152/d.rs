@@ -70,72 +70,48 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
+fn f(n: usize) -> usize {
+    let mut n = n;
+    while n / 10 > 0 {
+        n /= 10;
     }
-    false
+    return n;
 }
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        n: usize,
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
-
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
+    let mut m = 0;
+    let mut tmp = n;
+    while tmp != 0 {
+        m += 1;
+        tmp /= 10;
+    }
+    let mut result = 0;
+    for i in 1..n + 1 {
+        // println!("{} {}", i, result);
+        let f = f(i);
+        let l = i % 10;
+        if l == 0 {
+            continue;
         }
-    }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
+        if f == l {
+            result += 1;
+        }
+        let mut base = 10;
+        for _ in 1..m {
+            if l * base + f > n {
+                break;
             }
+            if (l + 1) * base + f - 10 > n {
+                result += (n - (l * base + f)) / 10 + 1;
+                break;
+            }
+            result += base / 10;
+            base *= 10;
         }
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
-    }
+
+    println!("{}", result);
 }

@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 #[allow(unused_macros)]
 macro_rules! input {
     (source = $s:expr, $($r:tt)*) => {
@@ -70,72 +72,84 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
+fn inv(a: usize) -> usize {
+    let m = M as i64;
+    let mut a = a as i64;
+    let mut b = m as i64;
+    let mut u = 1;
+    let mut v = 0;
+    let mut tmp;
+    while b != 0 {
+        let t = a / b;
+        a -= t * b;
+        tmp = a;
+        a = b;
+        b = tmp;
+        u -= t * v;
+        tmp = u;
+        u = v;
+        v = tmp;
     }
-    false
+    u %= m;
+    if u < 0 {
+        u += m;
+    }
+    return u as usize;
 }
+
+const M : usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        n: usize,
+        a: [usize; n],
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
 
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
+    let mut max = a[0];
+    for i in 1..n {
+        if a[i] > max {
+            max = a[i];
         }
     }
-    let p = left - 1;
-    // println!("{}", p);
 
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
+    let mut factors = HashMap::new();
+    for i in 0..n {
+        let mut ai = a[i];
+        let target = (ai as f64).sqrt() as usize;
+        for j in 2..target + 1 {
+            let mut count = 0;
+            while ai % j == 0 {
+                count += 1;
+                ai /= j
+            }
+            if count > 0 {
+                if !factors.contains_key(&j) || count > factors[&j] {
+                    factors.insert(j, count);
                 }
-                items.push(ai + bj + ck);
+            }
+            if ai == 1 {
+                break;
+            }
+        }
+        if ai > 1 {
+            if !factors.contains_key(&ai) {
+                factors.insert(ai, 1);
             }
         }
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
+    // println!("{:?}", factors);
+
+    let mut lcm = 1;
+    for (p, count) in factors {
+        for _ in 0..count {
+            lcm = lcm * p % M;
+        }
     }
+    // println!("{}", lcm);
+
+    let mut result = 0;
+    for i in 0..n {
+        result = (result + lcm * inv(a[i]) % M) % M;
+    }
+    println!("{}", result);
 }

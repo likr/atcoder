@@ -70,72 +70,27 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
-    }
-    false
-}
-
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
+        n: usize,
         k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
-
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
-        }
+    if k > (n - 1) * (n - 2) / 2 {
+        println!("-1");
+        return;
     }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
+    let m = (n - 1) * (n - 2) / 2 - k;
+    println!("{}", n + m - 1);
+    for u in 2..n + 1 {
+        println!("1 {}", u);
+    }
+    let mut count = 0;
+    for v in 2..n + 1 {
+        for u in 2..v {
+            if count < m {
+                println!("{} {}", u, v);
+                count += 1;
             }
         }
-    }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
     }
 }

@@ -70,72 +70,53 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
-    }
-    false
-}
+const B1 : usize = 1009;
+const B2 : usize = 1007;
+const M1 : usize = 1000000007;
+const M2 : usize = 1000000009;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        n: usize,
+        a: [usize; n],
+        b: [usize; n],
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
+    let mut p = vec![0; n];
+    let mut q = vec![0; 2 * n];
+    for i in 0..n {
+        p[i] = b[i] ^ b[(i + 1) % n];
+        q[i] = a[i] ^ a[(i + 1) % n];
+        q[i + n] = q[i];
+    }
+    // println!("{:?}", p);
+    // println!("{:?}", q);
 
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
-        }
+    let mut q_hash1 = vec![0; 2 * n + 1];
+    let mut q_hash2 = vec![0; 2 * n + 1];
+    let mut q_pow1 = vec![1; 2 * n + 1];
+    let mut q_pow2 = vec![1; 2 * n + 1];
+    for i in 0..2 * n {
+        q_hash1[i + 1] = (q_hash1[i] + q[i]) * B1 % M1;
+        q_hash2[i + 1] = (q_hash2[i] + q[i]) * B2 % M2;
+        q_pow1[i + 1] = q_pow1[i] * B1 % M1;
+        q_pow2[i + 1] = q_pow2[i] * B2 % M2;
     }
-    let p = left - 1;
-    // println!("{}", p);
+    let mut p_hash1 = vec![0; n + 1];
+    let mut p_hash2 = vec![0; n + 1];
+    for i in 0..n {
+        p_hash1[i + 1] = (p_hash1[i] + p[i]) * B1 % M1;
+        p_hash2[i + 1] = (p_hash2[i] + p[i]) * B2 % M2;
+    }
 
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
-            }
+    let p_hash = (p_hash1[n], p_hash2[n]);
+    for k in 0..n {
+        let q_hash = (
+            ((q_hash1[n + k] + M1 - q_hash1[k] * q_pow1[n] % M1) % M1 + M1) % M1,
+            ((q_hash2[n + k] + M2 - q_hash2[k] * q_pow2[n] % M2) % M2 + M2) % M2
+        );
+        // println!("{:?} {:?}", p_hash, q_hash);
+        if p_hash == q_hash {
+            println!("{} {}", k, a[k] ^ b[0]);
         }
-    }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
     }
 }

@@ -1,3 +1,5 @@
+use std::collections::{HashMap, HashSet, VecDeque};
+
 #[allow(unused_macros)]
 macro_rules! input {
     (source = $s:expr, $($r:tt)*) => {
@@ -70,72 +72,53 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
-    }
-    false
-}
-
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        n: usize,
+        ab: [(usize, usize); n - 1],
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
+    let mut adjacency = vec![vec![]; n + 1];
+    for &(ai, bi) in &ab {
+        adjacency[ai].push(bi);
+        adjacency[bi].push(ai);
+    }
 
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
+    let mut degrees = adjacency.iter().enumerate().map(|(i, l)| (i, l.len())).collect::<Vec<_>>();
+    degrees.sort_by_key(|&(_, d)| d);
+    degrees.reverse();
+    let k = degrees[0].1;
+    println!("{}", k);
+
+    let mut colors = HashMap::new();
+    let mut visited = HashSet::new();
+    let mut queue = VecDeque::new();
+    queue.push_back(1);
+
+    while queue.len() > 0 {
+        let u = queue.pop_front().unwrap();
+        visited.insert(u);
+        let mut used = 0;
+        for &v in &adjacency[u] {
+            if colors.contains_key(&(u, v)) {
+                used = *colors.get(&(u, v)).unwrap();
+                break;
+            }
         }
-    }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
+        let mut c = 0;
+        for &v in &adjacency[u] {
+            if !visited.contains(&v) {
+                queue.push_back(v);
+                c += 1;
+                if c == used {
+                    c += 1;
                 }
-                items.push(ai + bj + ck);
+                colors.insert((u, v), c);
+                colors.insert((v, u), c);
             }
         }
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
+
+    for &(ai, bi) in &ab {
+        println!("{}", colors.get(&(ai, bi)).unwrap());
     }
 }

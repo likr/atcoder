@@ -1,3 +1,5 @@
+use std::collections::VecDeque;
+
 #[allow(unused_macros)]
 macro_rules! input {
     (source = $s:expr, $($r:tt)*) => {
@@ -70,72 +72,47 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
-    }
-    false
-}
-
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        h: usize,
+        w: usize,
+        s: [chars; h],
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
 
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
-        }
-    }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
+    let mut b_count = 0;
+    for i in 0..h {
+        for j in 0..w {
+            if s[i][j] == '#' {
+                b_count += 1;
             }
         }
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
+
+    let mut visited = vec![vec![false; w]; h];
+    let mut queue = VecDeque::new();
+    queue.push_back((0, 0, 0));
+    while queue.len() > 0 {
+        let (i, j, d) = queue.pop_front().unwrap();
+        if visited[i][j] {
+            continue;
+        }
+        visited[i][j] = true;
+        if i == h - 1 && j == w - 1 {
+            println!("{}", w * h - d - 1 - b_count);
+            return;
+        }
+        if i > 0 && s[i - 1][j] == '.' {
+            queue.push_back((i - 1, j, d + 1));
+        }
+        if i < h - 1 && s[i + 1][j] == '.' {
+            queue.push_back((i + 1, j, d + 1));
+        }
+        if j > 0 && s[i][j - 1] == '.' {
+            queue.push_back((i, j - 1, d + 1));
+        }
+        if j < w - 1 && s[i][j + 1] == '.' {
+            queue.push_back((i, j + 1, d + 1));
+        }
     }
+    println!("-1");
 }

@@ -70,72 +70,22 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
-    }
-    false
-}
-
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        x1: i64,
+        y1: i64,
+        x2: i64,
+        y2: i64,
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
-
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
-        }
-    }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
-            }
-        }
-    }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
+    let dx = (x2 - x1).abs();
+    let dy = (y2 - y1).abs();
+    if x1 <= x2 && y1 <= y2 {
+        println!("{} {} {} {}", x2 - dy, y2 + dx, x1 - dy, y1 + dx);
+    } else if x1 > x2 && y1 <= y2 {
+        println!("{} {} {} {}", x2 - dy, y2 - dx, x1 - dy, y1 - dx);
+    } else if x1 > x2 && y1 > y2 {
+        println!("{} {} {} {}", x2 + dy, y2 - dx, x1 + dy, y1 - dx);
+    } else {
+        println!("{} {} {} {}", x2 + dy, y2 + dx, x1 + dy, y1 + dx);
     }
 }

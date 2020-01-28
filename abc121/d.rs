@@ -70,72 +70,40 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
-    }
-    false
-}
-
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        a: usize,
+        b: usize,
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
-
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
+    let a = if a > 0 { a - 1 } else { a };
+    let mut t = b;
+    let mut m = 0;
+    while t > 0 {
+        m += 1;
+        t /= 2;
+    }
+    let mut result = 0;
+    for i in 0..m {
+        let k = 2usize.pow(i + 1);
+        let b_count = (b + 1) / k * k / 2;
+        let kb = (b + 1) % k;
+        let b_count = if kb > k / 2 {
+            b_count + kb - k / 2
         } else {
-            right = p;
-        }
-    }
-    let p = left - 1;
-    // println!("{}", p);
+            b_count
+        };
+        let a_count = (a + 1) / k * k / 2;
+        let ka = (a + 1) % k;
+        let a_count = if ka > k / 2 {
+            a_count + ka - k / 2
+        } else {
+            a_count
+        };
 
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
-            }
+        // println!("{} {}", b_count, a_count);
+        if (b_count - a_count) % 2 == 1 {
+            result += k / 2;
         }
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
-    }
+    println!("{}", result);
 }

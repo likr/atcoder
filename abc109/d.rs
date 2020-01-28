@@ -70,72 +70,40 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
-    }
-    false
-}
-
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        h: usize,
+        w: usize,
+        a: [[usize; w]; h],
     }
     let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
-
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
-        }
-    }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
+    let mut result = vec![];
+    for i in 0..h {
+        for k in 0..w {
+            let j = if i % 2 == 0 { k } else { w - 1 - k };
+            if a[i][j] % 2 == 1 {
+                let i_next = if (i % 2 == 0 && j == w - 1) || (i % 2 == 1 && j == 0) {
+                    i + 1
+                } else {
+                    i
+                };
+                let j_next = if (i % 2 == 0 && j == w - 1) || (i % 2 == 1 && j == 0) {
+                    j
+                } else if i % 2 == 0 {
+                    j + 1
+                } else {
+                    j - 1
+                };
+                if i_next < h {
+                    a[i][j] -= 1;
+                    a[i_next][j_next] += 1;
+                    result.push((i, j, i_next, j_next));
                 }
-                items.push(ai + bj + ck);
             }
         }
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
+    println!("{}", result.len());
+    for (i0, j0, i1, j1) in result {
+        println!("{} {} {} {}", i0 + 1, j0 + 1, i1 + 1, j1 + 1);
     }
 }

@@ -70,72 +70,50 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
-    }
-    false
-}
+const B : usize = 13;
+const M : usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        s: chars,
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
+    let n = s.len();
+    let mut s = s;
+    s.reverse();
+    let mut count = vec![0; B];
+    let mut count2 = vec![0; B];
 
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
+    if s[0] == '?' {
+        for d in 0..10 {
+            count[d] += 1;
         }
+    } else {
+        count[s[0] as usize - '0' as usize] += 1;
     }
-    let p = left - 1;
-    // println!("{}", p);
 
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
+    let mut base = 10;
+    for i in 1..n {
+        for j in 0..B {
+            count2[j] = 0;
+        }
+        if s[i] == '?' {
+            for d in 0..10 {
+                for j in 0..B {
+                    let k = (d * base + j) % B;
+                    count2[k] = (count2[k] + count[j]) % M;
                 }
-                items.push(ai + bj + ck);
+            }
+        } else {
+            let d = s[i] as usize - '0' as usize;
+            for j in 0..B {
+                let k = (d * base + j) % B;
+                count2[k] = (count2[k] + count[j]) % M;
             }
         }
+        for j in 0..B {
+            count[j] = count2[j];
+        }
+        base = base * 10 % B;
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
-    }
+    println!("{}", count[5]);
 }

@@ -1,3 +1,5 @@
+use std::io::Read;
+
 #[allow(unused_macros)]
 macro_rules! input {
     (source = $s:expr, $($r:tt)*) => {
@@ -70,72 +72,44 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
-    }
-    false
-}
-
 fn main() {
-    input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
-    }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
+    let mut buf = String::new();
+    let stdin = std::io::stdin();
+    stdin.lock().read_to_string(&mut buf).unwrap();
+    let mut iter = buf.split_whitespace();
 
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
+    let n = iter.next().unwrap().parse::<usize>().unwrap();
+    let m = iter.next().unwrap().parse::<usize>().unwrap();
+
+    let mut a = vec![0; m];
+    let mut x = vec![0; m];
+    for i in 0..m {
+        a[i] = iter.next().unwrap().parse::<usize>().unwrap();
+        let bi = iter.next().unwrap().parse::<usize>().unwrap();
+        for _ in 0..bi {
+            let cij = iter.next().unwrap().parse::<usize>().unwrap();
+            x[i] |= 1 << (cij - 1);
         }
     }
-    let p = left - 1;
-    // println!("{}", p);
+    // println!("{:?}", x);
 
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
+    let inf = 10000000000;
+    let max = 2usize.pow(n as u32);
+    let mut dp = vec![inf; max];
+    dp[0] = 0;
+
+    for i in 0..m {
+        for j in 0..max {
+            let y = x[i] | j;
+            let s = dp[j] + a[i];
+            if s < dp[y] {
+                dp[y] = s;
             }
         }
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
+    if dp[max - 1] == inf {
+        println!("-1");
+    } else {
+        println!("{}", dp[max - 1]);
     }
 }

@@ -70,72 +70,60 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
+const M : i64 = 1000000007;
+
+fn inv(a: i64) -> i64 {
+    let m = M as i64;
+    let mut a = a as i64;
+    let mut b = m as i64;
+    let mut u = 1;
+    let mut v = 0;
+    let mut tmp;
+    while b != 0 {
+        let t = a / b;
+        a -= t * b;
+        tmp = a;
+        a = b;
+        b = tmp;
+        u -= t * v;
+        tmp = u;
+        u = v;
+        v = tmp;
     }
-    false
+    u %= m;
+    if u < 0 {
+        u += m;
+    }
+    return u;
 }
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
+        n: usize,
         k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        a: [i64; n],
     }
     let mut a = a;
-    let mut b = b;
-    let mut c = c;
     a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
 
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
-        }
+    let mut f = vec![0i64; n + 1];
+    f[0] = 1;
+    for i in 1..n + 1 {
+        f[i] = f[i - 1] * i as i64 % M;
     }
-    let p = left - 1;
-    // println!("{}", p);
+    let mut g = vec![0i64; n + 1];
+    for i in 0..n + 1 {
+        g[i] = inv(f[i]);
+    }
 
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
-            }
-        }
+    let mut result = 0;
+    for i in k - 1..n {
+        let c = (f[i] * g[i - k + 1] % M) * g[k - 1] % M;
+        let s = a[i] * c % M;
+        result = (result + s) % M;
+        let s = a[n - i - 1] * c % M;
+        result = (result - s + M) % M;
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
-    }
+
+    println!("{}", result);
 }

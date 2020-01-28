@@ -70,72 +70,95 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
-    }
-    false
+pub trait LexicalPermutation {
+    fn next_permutation(&mut self) -> bool;
+    fn prev_permutation(&mut self) -> bool;
 }
+
+impl<T> LexicalPermutation for [T]
+where
+    T: Ord,
+{
+    fn next_permutation(&mut self) -> bool {
+        if self.len() < 2 {
+            return false;
+        }
+        let mut i = self.len() - 1;
+        while i > 0 && self[i - 1] >= self[i] {
+            i -= 1;
+        }
+        if i == 0 {
+            return false;
+        }
+        let mut j = self.len() - 1;
+        while j >= i && self[j] <= self[i - 1] {
+            j -= 1;
+        }
+        self.swap(j, i - 1);
+        self[i..].reverse();
+        true
+    }
+
+    fn prev_permutation(&mut self) -> bool {
+        if self.len() < 2 {
+            return false;
+        }
+        let mut i = self.len() - 1;
+        while i > 0 && self[i - 1] <= self[i] {
+            i -= 1;
+        }
+        if i == 0 {
+            return false;
+        }
+        self[i..].reverse();
+        let mut j = self.len() - 1;
+        while j >= i && self[j - 1] < self[i - 1] {
+            j -= 1;
+        }
+        self.swap(i - 1, j);
+        true
+    }
+}
+
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        n: usize,
+        p: [usize; n],
+        q: [usize; n],
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
-
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
-        }
-    }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
+    let mut x = (1..n + 1).collect::<Vec<_>>();
+    let mut a = 0i64;
+    let mut b = 0i64;
+    let mut count = 0;
+    loop {
+        let mut same = true;
+        for i in 0..n {
+            if x[i] != p[i] {
+                same = false;
+                break;
             }
         }
+        if same {
+            a = count;
+        }
+
+        let mut same = true;
+        for i in 0..n {
+            if x[i] != q[i] {
+                same = false;
+                break;
+            }
+        }
+        if same {
+            b = count;
+        }
+
+        if !x.next_permutation() {
+            break;
+        }
+        count += 1;
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
-    }
+
+    println!("{}", (a - b).abs());
 }

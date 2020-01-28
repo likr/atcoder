@@ -1,3 +1,5 @@
+use std::cmp::Ordering;
+
 #[allow(unused_macros)]
 macro_rules! input {
     (source = $s:expr, $($r:tt)*) => {
@@ -70,72 +72,84 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
+pub trait BinarySearch<T> {
+    fn lower_bound(&self, x: &T) -> usize;
+    fn upper_bound(&self, x: &T) -> usize;
+}
+
+impl<T: Ord> BinarySearch<T> for [T] {
+    fn lower_bound(&self, x: &T) -> usize {
+        let mut low = 0;
+        let mut high = self.len();
+
+        while low != high {
+            let mid = (low + high) / 2;
+            match self[mid].cmp(x) {
+                Ordering::Less => {
+                    low = mid + 1;
                 }
-                count += 1;
-                if count >= k {
-                    return true;
+                Ordering::Equal | Ordering::Greater => {
+                    high = mid;
                 }
             }
         }
+        low
     }
-    false
+
+    fn upper_bound(&self, x: &T) -> usize {
+        let mut low = 0;
+        let mut high = self.len();
+
+        while low != high {
+            let mid = (low + high) / 2;
+            match self[mid].cmp(x) {
+                Ordering::Less | Ordering::Equal => {
+                    low = mid + 1;
+                }
+                Ordering::Greater => {
+                    high = mid;
+                }
+            }
+        }
+        low
+    }
 }
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        n: usize,
+        d: usize,
+        a: usize,
+        xh: [(usize, usize); n],
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
-
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
+    let mut xh = xh;
+    xh.sort();
+    let x = xh.iter().map(|&(xi, _)| xi).collect::<Vec<_>>();
+    let h = xh.iter().map(|&(_, hi)| hi).collect::<Vec<_>>();
+    let mut acc = vec![0; n + 1];
+    let mut result = (h[0] + a - 1) / a;
+    acc[1] = result;
+    for i in 1..n {
+        let left = if 2 * d > x[i] {
+            0
         } else {
-            right = p;
-        }
+            x[i] - 2 * d
+        };
+        let k = x.lower_bound(&left);
+        let before = if k < i {
+            acc[i] - acc[k]
+        } else {
+            0
+        };
+        let c = if before * a > h[i] {
+            0
+        } else {
+            (h[i] - before * a + a - 1) / a
+        };
+        // println!("{} {} {}", k, before, c);
+        acc[i + 1] = acc[i] + c;
+        result += c;
     }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
-            }
-        }
-    }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
-    }
+    // println!("{:?}", acc);
+    println!("{}", result);
 }

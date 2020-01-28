@@ -70,72 +70,63 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
-    }
-    false
-}
-
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        h: usize,
+        w: usize,
+        s: [chars; h],
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
 
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
-        }
-    }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
+    let inf = 1000000000;
+    let n = w * h;
+    let mut matrix = vec![vec![0; n]; n];
+    for i in 0..h {
+        for j in 1..w {
+            let u = i * w + j - 1;
+            let v = i * w + j;
+            if s[i][j - 1] != '#' && s[i][j] != '#' {
+                matrix[u][v] = 1;
+                matrix[v][u] = 1;
             }
         }
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
+    for j in 0..w {
+        for i in 1..h {
+            let u = (i - 1) * w + j;
+            let v = i * w + j;
+            if s[i - 1][j] != '#' && s[i][j] != '#' {
+                matrix[u][v] = 1;
+                matrix[v][u] = 1;
+            }
+        }
     }
+    // println!("{:?}", matrix);
+    let mut distance = vec![vec![inf; n]; n];
+    for i in 0..n {
+        for j in 0..n {
+            if matrix[i][j] == 1 {
+                distance[i][j] = 1;
+            }
+        }
+        distance[i][i] = 0;
+    }
+    for k in 0..n {
+        for i in 0..n {
+            for j in 0..n {
+                if distance[i][j] > distance[i][k] + distance[k][j] {
+                    distance[i][j] = distance[i][k] + distance[k][j];
+                }
+            }
+        }
+    }
+    // println!("{:?}", distance);
+    let mut result = 0;
+    for i in 0..n {
+        for j in 0..n {
+            if i != j && distance[i][j] != inf && distance[i][j] > result {
+                result = distance[i][j];
+            }
+        }
+    }
+    println!("{}", result);
 }

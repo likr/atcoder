@@ -70,72 +70,45 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
-    }
-    false
-}
-
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        n: usize,
+        xy: [(f64, f64); n],
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
-
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
-        }
-    }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
+    let x = xy.iter().map(|&(xi, _)| xi).collect::<Vec<_>>();
+    let y = xy.iter().map(|&(_, yi)| yi).collect::<Vec<_>>();
+    let mut result = 1000.;
+    for i in 0..n {
+        for j in 0..i {
+            let dx = x[i] - x[j];
+            let dy = y[i] - y[j];
+            let r = (dx * dx + dy * dy).sqrt() / 2.;
+            let cx = (x[i] + x[j]) / 2.;
+            let cy = (y[i] + y[j]) / 2.;
+            if r < result && (0..n).all(|l| (x[l] - cx) * (x[l] - cx) + (y[l] - cy) * (y[l] - cy) - r * r <= 1e-6) {
+                result = r;
             }
         }
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
+    for i in 0..n {
+        for j in 0..i {
+            for k in 0..j {
+                let a = x[i] - x[j];
+                let b = y[i] - y[j];
+                let c = x[j] - x[k];
+                let d = y[j] - y[k];
+                let f = 2. * (a * d - b * c);
+                let ni = x[i] * x[i] + y[i] * y[i];
+                let nj = x[j] * x[j] + y[j] * y[j];
+                let nk = x[k] * x[k] + y[k] * y[k];
+                let cx = (d * (ni - nj) + b * (nk - nj)) / f;
+                let cy = (c * (nj - ni) + a * (nj - nk)) / f;
+                let r = ((x[i] - cx) * (x[i] - cx) + (y[i] - cy) * (y[i] - cy)).sqrt();
+                if r < result && (0..n).all(|l| (x[l] - cx) * (x[l] - cx) + (y[l] - cy) * (y[l] - cy) - r * r <= 1e-6) {
+                    result = r;
+                }
+            }
+        }
     }
+    println!("{}", result);
 }

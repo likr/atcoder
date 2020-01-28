@@ -70,72 +70,48 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
+fn gcd(a: usize, b: usize) -> usize {
+    if b > a {
+        return gcd(b, a);
     }
-    false
+    if a % b == 0 {
+        return b;
+    }
+    gcd(b, a % b)
 }
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
+        n: usize,
+        m: usize,
+        a: [usize; n],
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
-
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
+    let mut div_count = 0;
+    let mut t = a[0];
+    while t % 2 == 0 {
+        div_count += 1;
+        t /= 2;
+    }
+    for i in 1..n {
+        let mut ai = a[i];
+        let mut div_count2 = 0;
+        while ai % 2 == 0 {
+            div_count2 += 1;
+            ai /= 2;
+        }
+        if div_count != div_count2 {
+            println!("0");
+            return;
         }
     }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
-            }
+    let mut lcm = 1;
+    for i in 0..n {
+        let ai = a[i] / 2;
+        lcm = lcm * ai / gcd(lcm, ai);
+        if lcm > m {
+            println!("0");
+            return;
         }
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
-    }
+    println!("{}", (m - lcm) / (lcm * 2) + 1);
 }

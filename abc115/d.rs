@@ -70,72 +70,39 @@ macro_rules! read_value {
     };
 }
 
-fn check(a: &Vec<usize>, b: &Vec<usize>, c: &Vec<usize>, p: usize, k: usize) -> bool {
-    let mut count = 0;
-    for &ai in a {
-        for &bj in b {
-            for &ck in c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                count += 1;
-                if count >= k {
-                    return true;
-                }
-            }
-        }
+fn solve(level: usize, x: usize, layers: &Vec<usize>, ps: &Vec<usize>) -> usize {
+    if x == 0 {
+        return 0;
     }
-    false
+    if x >= layers[level] {
+        return ps[level];
+    }
+    if level == 0 {
+        return 1;
+    }
+    let mut s = 0;
+    s += solve(level - 1, x - 1, layers, ps);
+    if x >= layers[level] / 2 + 1 {
+        s += 1;
+        s += solve(level - 1, x - layers[level] / 2 - 1, layers, ps);
+    }
+    s
 }
 
 fn main() {
     input! {
+        n: usize,
         x: usize,
-        y: usize,
-        z: usize,
-        k: usize,
-        a: [usize; x],
-        b: [usize; y],
-        c: [usize; z],
     }
-    let mut a = a;
-    let mut b = b;
-    let mut c = c;
-    a.sort();
-    a.reverse();
-    b.sort();
-    b.reverse();
-    c.sort();
-    c.reverse();
-
-    let max = a[0] + b[0] + c[0];
-    let mut left = 0;
-    let mut right = max;
-    while left != right {
-        let p = (left + right) / 2;
-        if check(&a, &b, &c, p, k) {
-            left = p + 1;
-        } else {
-            right = p;
-        }
+    let mut layers = vec![0; n + 1];
+    layers[0] = 1;
+    for i in 1..n + 1 {
+        layers[i] = 2 * layers[i - 1] + 3;
     }
-    let p = left - 1;
-    // println!("{}", p);
-
-    let mut items = Vec::new();
-    for &ai in &a {
-        for &bj in &b {
-            for &ck in &c {
-                if ai + bj + ck < p {
-                    break;
-                }
-                items.push(ai + bj + ck);
-            }
-        }
+    let mut ps = vec![0; n + 1];
+    ps[0] = 1;
+    for i in 1..n + 1 {
+        ps[i] = 2 * ps[i - 1] + 1;
     }
-    items.sort();
-    items.reverse();
-    for i in 0..k {
-        println!("{}", items[i]);
-    }
+    println!("{}", solve(n, x, &layers, &ps));
 }
