@@ -85,7 +85,7 @@ fn main() {
     for i in 1..n + 1 {
         s[i] = (s[i] + k - (i % k)) % k;
     }
-    println!("{:?}", s);
+    // println!("{:?}", s);
     let mut result = 0u64;
     let mut count = HashMap::new();
     for i in 0..n + 1{
@@ -98,7 +98,7 @@ fn main() {
         if k <= i + 1 {
             *count.get_mut(&s[i + 1 - k]).unwrap() -= 1;
         }
-        println!("{:?}", count);
+        // println!("{:?}", count);
     }
     println!("{}", result);
 }
