@@ -15,8 +15,8 @@ panic = 'abort'
 
 # dependencies added to new project
 [dependencies]
+num = '*'
 proconio = "*"
-# competitive = { git = "https://github.com/tanakh/competitive-rs.git" }
 permutohedron = "*"
 proconio = "*"
 superslice = "*"
