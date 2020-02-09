@@ -37,21 +37,34 @@ fn main() {
     input! {
       n: usize,
       m: usize,
-      uv: [(Usize1, Usize1); m],
       s: Usize1,
       t: Usize1,
+      uvab: [(Usize1, Usize1, usize, usize); m],
     }
-    let mut graph = vec![vec![]; n * 3];
-    for &(u, v) in &uv {
-        graph[u].push((n + v, 1));
-        graph[n + u].push((2 * n + v, 1));
-        graph[2 * n + u].push((v, 1));
+
+    let mut graph_a = vec![vec![]; n];
+    let mut graph_b = vec![vec![]; n];
+    for &(u, v, ai, bi) in &uvab {
+        graph_a[u].push((v, ai));
+        graph_a[v].push((u, ai));
+        graph_b[u].push((v, bi));
+        graph_b[v].push((u, bi));
     }
-    let distance = dijkstra(&graph, s);
-    let result = distance[t];
-    if result == INF {
-        println!("-1");
-    } else {
-        println!("{}", result / 3);
+
+    let initial = 1000000000000000;
+    let d1 = dijkstra(&graph_a, s);
+    let d2 = dijkstra(&graph_b, t);
+    // println!("{:?}", d1);
+    // println!("{:?}", d2);
+    let mut result = vec![0; n];
+    let mut heap = BinaryHeap::new();
+    for i in (0..n).rev() {
+        // println!("{} {}", d1[i], d2[i]);
+        heap.push(Reverse(d1[i] + d2[i]));
+        let Reverse(r) = heap.peek().unwrap();
+        result[i] = initial - *r;
+    }
+    for &r in &result {
+        println!("{}", r);
     }
 }
