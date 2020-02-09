@@ -51,17 +51,64 @@ macro_rules! read_value {
     };
 }
 
+pub trait LexicalPermutation {
+    fn next_permutation(&mut self) -> bool;
+    fn prev_permutation(&mut self) -> bool;
+}
+
+impl<T> LexicalPermutation for [T]
+where
+    T: Ord,
+{
+    fn next_permutation(&mut self) -> bool {
+        if self.len() < 2 {
+            return false;
+        }
+        let mut i = self.len() - 1;
+        while i > 0 && self[i - 1] >= self[i] {
+            i -= 1;
+        }
+        if i == 0 {
+            return false;
+        }
+        let mut j = self.len() - 1;
+        while j >= i && self[j] <= self[i - 1] {
+            j -= 1;
+        }
+        self.swap(j, i - 1);
+        self[i..].reverse();
+        true
+    }
+
+    fn prev_permutation(&mut self) -> bool {
+        if self.len() < 2 {
+            return false;
+        }
+        let mut i = self.len() - 1;
+        while i > 0 && self[i - 1] <= self[i] {
+            i -= 1;
+        }
+        if i == 0 {
+            return false;
+        }
+        self[i..].reverse();
+        let mut j = self.len() - 1;
+        while j >= i && self[j - 1] < self[i - 1] {
+            j -= 1;
+        }
+        self.swap(i - 1, j);
+        true
+    }
+}
+
 fn main() {
     input! {
-        n: usize,
-        restaurants: [(String, i32); n],
+        a: usize,
+        b: usize,
     }
-    let mut restaurants = restaurants.iter().enumerate().collect::<Vec<_>>();
-    restaurants.sort_by_key(|row| {
-        let row = row.1;
-        (row.0.clone(), -row.1)
-    });
-    for (i, _) in restaurants {
-        println!("{}", i + 1);
+    if a <= 8 && b <= 8 {
+        println!("Yay!");
+    } else {
+        println!(":(");
     }
 }

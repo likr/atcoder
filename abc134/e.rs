@@ -1,3 +1,5 @@
+use std::cmp::Ordering;
+
 #[allow(unused_macros)]
 macro_rules! input {
     (source = $s:expr, $($r:tt)*) => {
@@ -70,32 +72,68 @@ macro_rules! read_value {
     };
 }
 
-#[allow(unused_imports)]
-use std::cmp::{max, min};
-#[allow(unused_imports)]
-use std::collections::BTreeMap;
+pub trait BinarySearch<T> {
+    fn lower_bound(&self, x: &T) -> usize;
+    fn upper_bound(&self, x: &T) -> usize;
+}
 
-fn main() {
-    input! (
-        n: usize,
-        m: usize,
-        s: [[usize1]; m],
-        p: [usize; m]
-    );
-    let mut count = 0;
-    let mut x = vec![0; n];
-    'out: for k in 0..1 << n {
-        let mut k = k;
-        for i in 0..n {
-            x[i] = k % 2;
-            k /= 2;
-        }
-        for i in 0..m {
-            if s[i].iter().map(|&j| x[j]).sum::<usize>() % 2 != p[i] {
-                continue 'out;
+impl<T: Ord> BinarySearch<T> for [T] {
+    fn lower_bound(&self, x: &T) -> usize {
+        let mut low = 0;
+        let mut high = self.len();
+
+        while low != high {
+            let mid = (low + high) / 2;
+            match self[mid].cmp(x) {
+                Ordering::Less => {
+                    low = mid + 1;
+                }
+                Ordering::Equal | Ordering::Greater => {
+                    high = mid;
+                }
             }
         }
-        count += 1;
+        low
     }
-    println!("{}", count);
+
+    fn upper_bound(&self, x: &T) -> usize {
+        let mut low = 0;
+        let mut high = self.len();
+
+        while low != high {
+            let mid = (low + high) / 2;
+            match self[mid].cmp(x) {
+                Ordering::Less | Ordering::Equal => {
+                    low = mid + 1;
+                }
+                Ordering::Greater => {
+                    high = mid;
+                }
+            }
+        }
+        low
+    }
+}
+
+fn main() {
+    input! {
+        n: usize,
+        a: [usize; n],
+    }
+    let inf = 10000000000;
+    let mut s = vec![inf; n];
+    s[0] = a[n - 1];
+    for i in (0..n - 1).rev() {
+        let k = s.upper_bound(&a[i]);
+        s[k] = a[i];
+    }
+    // println!("{:?}", s);
+    let mut result = 0;
+    for i in 0..n {
+        if s[i] == inf {
+            break;
+        }
+        result = i + 1;
+    }
+    println!("{}", result);
 }
