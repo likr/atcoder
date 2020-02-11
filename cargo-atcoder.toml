@@ -16,7 +16,6 @@ panic = 'abort'
 # dependencies added to new project
 [dependencies]
 num = '*'
-proconio = "*"
 permutohedron = "*"
 proconio = "*"
 superslice = "*"
