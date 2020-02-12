@@ -13,40 +13,38 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+fn sum(ab: &Vec<(usize, u64)>, mask: usize) -> u64 {
+    ab.iter()
+        .filter(|&(ai, _)| ai | mask == mask)
+        .map(|&(_, bi)| bi)
+        .sum()
+}
+
 fn main() {
     input! {
         n: usize,
         k: usize,
         ab: [(usize, u64); n],
     }
-    let ab = ab.iter().filter(|&(ai, _)| *ai <= k).collect::<Vec<_>>();
+    let ab = ab
+        .into_iter()
+        .filter(|&(ai, _)| ai <= k)
+        .collect::<Vec<_>>();
     let mut m = 0;
     let mut k2 = k;
     while k2 > 0 {
         m += 1;
         k2 /= 2;
     }
-    let mut result = 0u64;
-    let x = 2usize.pow(m as u32) - 1;
-    if x == k {
-        let mut s = 0;
-        for &(_, bi) in &ab {
-            s += bi;
-        }
-        result = s;
-    }
-    eprintln!("{} {:b}", m, x);
+    let mut result = sum(&ab, k);
     for i in 0..m {
-        let y = x ^ (1 << i);
-        let mut s = 0;
-        let mut z = 0;
-        for &(ai, bi) in &ab {
-            if y | ai == y {
-                z |= ai;
-                s += bi;
-            }
+        if k & (1 << i) > 0 {
+            let x = k & !(1 << i);
+            let x = x | ((1 << i) - 1);
+            let s = sum(&ab, x);
+            result = max(s, result);
+            // eprintln!("{:b} {}", x, s);
         }
-        eprintln!("{:b} {}", y, s);
     }
     println!("{}", result);
 }
