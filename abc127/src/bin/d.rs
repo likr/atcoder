@@ -86,7 +86,7 @@ fn main() {
     }
     let mut count = 0;
     'outer: for (b, c) in bc {
-        for j in 0..b {
+        for _ in 0..b {
             nums.push(c);
             count += 1;
             if count >= n {

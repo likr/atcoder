@@ -77,16 +77,6 @@ fn main() {
         s: chars,
     }
     let mut k = k;
-    if s[0] == 'R' {
-        for i in 0..n {
-            if s[i] == 'L' {
-                s[i] == 'R';
-            } else {
-                s[i] == 'L';
-            }
-        }
-    }
-
     let mut result = 0;
     for i in 1..n {
         if s[i - 1] == s[i] {

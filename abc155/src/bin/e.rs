@@ -15,11 +15,30 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: Chars,
+        mut n: Chars,
     }
     let m = n.len();
+    n.reverse();
+    n.push('0');
     let n = n
         .into_iter()
         .map(|d| d as usize - '0' as usize)
         .collect::<Vec<_>>();
+    let mut s = 0;
+    let mut carry = false;
+    for i in 0..m {
+        let d = if carry { n[i] + 1 } else { n[i] };
+        if d > 5 || (d == 5 && (n[i + 1] >= 5)) {
+            s += 10 - d;
+            carry = true;
+        } else {
+            s += d;
+            carry = false;
+        }
+        // eprintln!("{} {}", d, s);
+    }
+    if carry {
+        s += 1;
+    }
+    println!("{}", s);
 }

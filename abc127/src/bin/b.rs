@@ -72,15 +72,13 @@ macro_rules! read_value {
 
 fn main() {
     input! {
-        n: usize,
-        m: usize,
-        lr: [(usize, usize); m],
+        r: usize,
+        d: usize,
+        x0: usize,
     }
-    let l = lr.iter().map(|item| item.0).max().unwrap();
-    let r = lr.iter().map(|item| item.1).min().unwrap();
-    if l > r {
-        println!("0");
-    } else {
-        println!("{}", r - l + 1);
+    let mut x = x0;
+    for _ in 0..10 {
+        x = r * x - d;
+        println!("{}", x);
     }
 }

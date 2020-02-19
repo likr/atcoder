@@ -2,7 +2,7 @@ use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
-use std::cmp::{max, min, Reverse};
+use std::cmp::{max, min};
 #[allow(unused_imports)]
 use std::collections::*;
 #[allow(unused_imports)]
@@ -18,56 +18,36 @@ fn main() {
       n: usize,
       p: [usize; n],
     }
-    let mut left = vec![None; n];
-    let mut heap = BinaryHeap::new();
-    for i in 0..n {
-        while let Some(&Reverse((q, _))) = heap.peek() {
-            if q > p[i] {
-                break;
-            }
-            heap.pop();
+    let mut indices = BTreeSet::new();
+    indices.insert(0);
+    indices.insert(1);
+    indices.insert(n + 2);
+    indices.insert(n + 3);
+
+    let mut p = p
+        .into_iter()
+        .enumerate()
+        .map(|(i, pi)| (pi, i + 2))
+        .collect::<BinaryHeap<_>>();
+
+    let mut s = 0;
+    while let Some((pi, i)) = p.pop() {
+        let mut left = indices.range(..i).rev();
+        let mut right = indices.range(i..);
+        let &l1 = left.next().unwrap();
+        let &l2 = left.next().unwrap();
+        let &r1 = right.next().unwrap();
+        let &r2 = right.next().unwrap();
+        // eprintln!("{}", pi);
+        // eprintln!("{} {} {} {} {}", l2, l1, i, r1, r2);
+        if 1 < l1 {
+            s += pi * (l1 - l2) * (r1 - i);
         }
-        if let Some(&Reverse((_, j))) = heap.peek() {
-            left[i] = Some(j);
+        if r1 < n + 2 {
+            s += pi * (r2 - r1) * (i - l1);
         }
-        heap.push(Reverse((p[i], i)));
+        // eprintln!(" {}", s);
+        indices.insert(i);
     }
-    let mut right = vec![None; n];
-    let mut heap = BinaryHeap::new();
-    for i in (0..n).rev() {
-        while let Some(&Reverse((q, _))) = heap.peek() {
-            if q > p[i] {
-                break;
-            }
-            heap.pop();
-        }
-        if let Some(&Reverse((_, j))) = heap.peek() {
-            right[i] = Some(j);
-        }
-        heap.push(Reverse((p[i], i)));
-    }
-    eprintln!("{:?}", left);
-    eprintln!("{:?}", right);
-    let mut left_count = vec![0; n];
-    let mut right_count = vec![0; n];
-    for i in 0..n {
-        left_count[i] = if let Some(j) = left[i] { i - j - 1 } else { i };
-        right_count[i] = if let Some(j) = right[i] {
-            j - i - 1
-        } else {
-            n - i - 1
-        };
-    }
-    eprintln!("{:?}", left_count);
-    eprintln!("{:?}", right_count);
-    let mut result = 0;
-    for i in 0..n {
-        if let Some(j) = left[i] {
-            result += p[i] * (left_count[j] + 1) * (right_count[i] + 1);
-        }
-        if let Some(j) = right[i] {
-            result += p[i] * (left_count[i] + 1) * (right_count[j] + 1);
-        }
-    }
-    println!("{}", result);
+    println!("{}", s);
 }
