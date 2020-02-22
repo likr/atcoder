@@ -1,0 +1,14 @@
+[dependencies]
+num = '*'
+permutohedron = '*'
+proconio = '*'
+superslice = '*'
+
+[package]
+authors = ['Yosuke Onoue <onoue@likr-lab.com>']
+edition = '2018'
+name = 'abc133'
+version = '0.1.0'
+[profile.release]
+lto = true
+panic = 'abort'

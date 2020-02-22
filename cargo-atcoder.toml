@@ -19,6 +19,7 @@ num = '*'
 permutohedron = "*"
 proconio = "*"
 superslice = "*"
+union-find = "*"
 
 [project]
 # source code template
