@@ -15,16 +15,7 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-      x: usize,
-      y: usize,
+        n: usize,
     }
-    if x % y == 0 {
-        println!("-1");
-        return;
-    }
-    let mut k = 1;
-    while x * k % y == 0 {
-        k += 1;
-    }
-    println!("{}", x * k);
+    println!("{}", n);
 }

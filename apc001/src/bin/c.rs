@@ -15,7 +15,38 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-      n: usize,
+        n: usize,
     }
-    println!("{}", n);
+    let vacant = "Vacant";
+    println!("0");
+    input! {
+        s0: String,
+    }
+    if s0 == vacant {
+        return;
+    }
+    println!("{}", n - 1);
+    input! {
+        sn: String,
+    }
+    if sn == vacant {
+        return;
+    }
+    let mut l = 0;
+    let mut r = n - 1;
+    while l + 1 < r {
+        let m = (l + r) / 2;
+        println!("{}", m);
+        input! {
+            sm: String,
+        }
+        if sm == vacant {
+            return;
+        }
+        if (m % 2 == 0 && sm == s0) || (m % 2 == 1 && sm == sn) {
+            l = m;
+        } else {
+            r = m;
+        }
+    }
 }

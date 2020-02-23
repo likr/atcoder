@@ -15,16 +15,9 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-      x: usize,
-      y: usize,
+        n: usize,
+        a: [Usize1; n],
     }
-    if x % y == 0 {
-        println!("-1");
-        return;
-    }
-    let mut k = 1;
-    while x * k % y == 0 {
-        k += 1;
-    }
-    println!("{}", x * k);
+    let result = (0..n).filter(|&i| i == a[a[i]]).count() / 2;
+    println!("{}", result);
 }

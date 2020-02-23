@@ -15,16 +15,15 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-      x: usize,
-      y: usize,
+        h: usize,
+        w: usize,
+        s: [[String; w]; h],
     }
-    if x % y == 0 {
-        println!("-1");
-        return;
+    for i in 0..h {
+        for j in 0..w {
+            if s[i][j] == "snuke" {
+                println!("{}{}", ('A' as usize + j) as u8 as char, i + 1);
+            }
+        }
     }
-    let mut k = 1;
-    while x * k % y == 0 {
-        k += 1;
-    }
-    println!("{}", x * k);
 }

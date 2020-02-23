@@ -15,16 +15,13 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-      x: usize,
-      y: usize,
+        s: Chars,
     }
-    if x % y == 0 {
-        println!("-1");
-        return;
+    for i in 1..s.len() {
+        if s[i - 1] == 'A' && s[i] == 'C' {
+            println!("Yes");
+            return;
+        }
     }
-    let mut k = 1;
-    while x * k % y == 0 {
-        k += 1;
-    }
-    println!("{}", x * k);
+    println!("No");
 }
