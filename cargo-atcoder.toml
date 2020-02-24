@@ -15,7 +15,8 @@ panic = 'abort'
 
 # dependencies added to new project
 [dependencies]
-num = '*'
+itertools = "*"
+num = "*"
 permutohedron = "*"
 proconio = "*"
 superslice = "*"
@@ -28,7 +29,7 @@ use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
-use std::cmp::{max, min};
+use std::cmp::*;
 #[allow(unused_imports)]
 use std::collections::*;
 #[allow(unused_imports)]
