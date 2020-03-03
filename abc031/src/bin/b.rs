@@ -15,17 +15,18 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
+        l: usize,
+        h: usize,
         n: usize,
-        k: usize,
-        x: [usize; n],
+        a: [usize; n],
     }
-    let mut s = 0;
-    for i in 0..n {
-        if x[i] < k - x[i] {
-            s += x[i];
+    for &ai in &a {
+        if ai < l {
+            println!("{}", l - ai);
+        } else if ai <= h {
+            println!("0");
         } else {
-            s += k - x[i];
+            println!("-1");
         }
     }
-    println!("{}", 2 * s);
 }

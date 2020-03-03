@@ -16,16 +16,19 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        k: usize,
-        x: [usize; n],
+        s: Chars,
     }
-    let mut s = 0;
+    let mut result = 0;
     for i in 0..n {
-        if x[i] < k - x[i] {
-            s += x[i];
-        } else {
-            s += k - x[i];
+        let mut s1 = HashSet::new();
+        let mut s2 = HashSet::new();
+        for j in 0..i {
+            s1.insert(s[j]);
         }
+        for j in i..n {
+            s2.insert(s[j]);
+        }
+        result = max(result, s1.intersection(&s2).count());
     }
-    println!("{}", 2 * s);
+    println!("{}", result);
 }

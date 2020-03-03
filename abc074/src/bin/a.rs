@@ -16,25 +16,7 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        a: [[usize; n]; n],
+        a: usize,
     }
-    let mut b = vec![vec![true; n]; n];
-    for k in 0..n {
-        for i in 0..n {
-            for j in 0..n {
-                if a[i][j] <= a[i][k] + a[k][j] {
-                    b[i][j] = false;
-                }
-            }
-        }
-    }
-    let mut s = 0;
-    for i in 0..n {
-        for j in 0..n {
-            if b[i][j] {
-                s += a[i][j];
-            }
-        }
-    }
-    println!("{}", s);
+    println!("{}", n * n - a);
 }

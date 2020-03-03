@@ -15,17 +15,12 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
-        k: usize,
-        x: [usize; n],
+        w: usize,
+        h: usize,
     }
-    let mut s = 0;
-    for i in 0..n {
-        if x[i] < k - x[i] {
-            s += x[i];
-        } else {
-            s += k - x[i];
-        }
+    if w * 3 == h * 4 {
+        println!("4:3");
+    } else {
+        println!("16:9");
     }
-    println!("{}", 2 * s);
 }

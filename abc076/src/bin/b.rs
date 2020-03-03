@@ -17,15 +17,14 @@ fn main() {
     input! {
         n: usize,
         k: usize,
-        x: [usize; n],
     }
-    let mut s = 0;
-    for i in 0..n {
-        if x[i] < k - x[i] {
-            s += x[i];
+    let mut s = 1;
+    for _ in 0..n {
+        if s < k {
+            s *= 2;
         } else {
-            s += k - x[i];
+            s += k;
         }
     }
-    println!("{}", 2 * s);
+    println!("{}", s);
 }

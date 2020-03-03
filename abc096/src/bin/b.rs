@@ -15,17 +15,12 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
+        mut a: [usize; 3],
         k: usize,
-        x: [usize; n],
     }
-    let mut s = 0;
-    for i in 0..n {
-        if x[i] < k - x[i] {
-            s += x[i];
-        } else {
-            s += k - x[i];
-        }
+    a.sort();
+    for _ in 0..k {
+        a[2] *= 2;
     }
-    println!("{}", 2 * s);
+    println!("{}", a.iter().sum::<usize>());
 }

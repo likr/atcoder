@@ -16,16 +16,11 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        k: usize,
-        x: [usize; n],
+        k:usize,
     }
-    let mut s = 0;
-    for i in 0..n {
-        if x[i] < k - x[i] {
-            s += x[i];
-        } else {
-            s += k - x[i];
-        }
+    if n % k == 0 {
+        println!("0");
+    } else {
+        println!("1");
     }
-    println!("{}", 2 * s);
 }

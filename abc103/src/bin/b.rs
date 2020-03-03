@@ -15,17 +15,15 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
-        k: usize,
-        x: [usize; n],
+        s: Chars,
+        t: Chars,
     }
-    let mut s = 0;
+    let n = s.len();
     for i in 0..n {
-        if x[i] < k - x[i] {
-            s += x[i];
-        } else {
-            s += k - x[i];
+        if (0..n).all(|j| s[j] == t[(i + j) % n]) {
+            println!("Yes");
+            return;
         }
     }
-    println!("{}", 2 * s);
+    println!("No");
 }

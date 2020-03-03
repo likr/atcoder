@@ -17,15 +17,15 @@ fn main() {
     input! {
         n: usize,
         k: usize,
-        x: [usize; n],
+        mut ab: [(usize, usize); n],
     }
-    let mut s = 0;
-    for i in 0..n {
-        if x[i] < k - x[i] {
-            s += x[i];
-        } else {
-            s += k - x[i];
+    ab.sort();
+    let mut c = 0;
+    for &(ai, bi) in &ab {
+        c += bi;
+        if c >= k {
+            println!("{}", ai);
+            return;
         }
     }
-    println!("{}", 2 * s);
 }
