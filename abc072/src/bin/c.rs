@@ -15,22 +15,16 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        mut s: Chars,
+        n: usize,
+        a: [usize; n],
     }
-    let n = s.len();
-    let mut result = 0usize;
-    let mut i = 0;
-    let mut a = 0;
-    while i < n {
-        if s[i] == 'A' {
-            a += 1;
-        } else if i + 1 < n && s[i] == 'B' && s[i + 1] == 'C' {
-            result += a;
-            i += 1;
-        } else {
-            a = 0;
-        }
-        i += 1;
+    let mut b = vec![0usize; 100000];
+    for &ai in &a {
+        b[ai] += 1;
+    }
+    let mut result = 0;
+    for i in 2..b.len() {
+        result = max(result, b[i - 2] + b[i - 1] + b[i]);
     }
     println!("{}", result);
 }

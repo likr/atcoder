@@ -15,7 +15,7 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
-        _b: [usize; n],
+        s: Chars,
     }
+    println!("{}", s.iter().step_by(2).collect::<String>());
 }

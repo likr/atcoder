@@ -16,6 +16,17 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        _b: [usize; n],
+        m: usize,
+        ab: [(Usize1, Usize1); m],
+    }
+    let mut count = vec![0; n];
+    for &(ai, bi) in &ab {
+        count[ai] += 1;
+        count[bi] += 1;
+    }
+    if (0..n).all(|i| count[i] % 2 == 0) {
+        println!("YES");
+    } else {
+        println!("NO");
     }
 }

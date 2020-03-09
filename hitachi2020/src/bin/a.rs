@@ -15,7 +15,15 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
-        _b: [usize; n],
+        s: Chars,
+    }
+    if s.len() % 2 == 0
+        && (0..s.len())
+            .step_by(2)
+            .all(|i| s[i] == 'h' && s[i + 1] == 'i')
+    {
+        println!("Yes");
+    } else {
+        println!("No");
     }
 }

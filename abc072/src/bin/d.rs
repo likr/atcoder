@@ -15,22 +15,18 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        mut s: Chars,
+        n: usize,
+        mut p: [Usize1; n],
     }
-    let n = s.len();
-    let mut result = 0usize;
-    let mut i = 0;
-    let mut a = 0;
-    while i < n {
-        if s[i] == 'A' {
-            a += 1;
-        } else if i + 1 < n && s[i] == 'B' && s[i + 1] == 'C' {
-            result += a;
-            i += 1;
-        } else {
-            a = 0;
+    let mut count = 0;
+    for i in 1..n {
+        if p[i - 1] == i - 1 {
+            p.swap(i - 1, i);
+            count += 1;
         }
-        i += 1;
     }
-    println!("{}", result);
+    if p[n - 1] == n - 1 {
+        count += 1;
+    }
+    println!("{}", count);
 }

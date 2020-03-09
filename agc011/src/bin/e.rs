@@ -16,6 +16,6 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        _b: [usize; n],
     }
+    println!("{}", n);
 }

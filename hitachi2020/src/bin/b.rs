@@ -15,22 +15,19 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        mut s: Chars,
+        na: usize,
+        nb: usize,
+        m: usize,
+        a: [usize; na],
+        b: [usize; nb],
+        xyc: [(Usize1, Usize1, usize); m],
     }
-    let n = s.len();
-    let mut result = 0usize;
-    let mut i = 0;
-    let mut a = 0;
-    while i < n {
-        if s[i] == 'A' {
-            a += 1;
-        } else if i + 1 < n && s[i] == 'B' && s[i + 1] == 'C' {
-            result += a;
-            i += 1;
-        } else {
-            a = 0;
-        }
-        i += 1;
+    let a_min = *a.iter().min().unwrap();
+    let b_min = *b.iter().min().unwrap();
+    let mut result = a_min + b_min;
+    for i in 0..m {
+        let (xi, yi, ci) = xyc[i];
+        result = min(result, a[xi] + b[yi] - ci);
     }
     println!("{}", result);
 }

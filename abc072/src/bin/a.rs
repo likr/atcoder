@@ -15,7 +15,8 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
-        _b: [usize; n],
+        x: isize,
+        t: isize,
     }
+    println!("{}", max(0, x - t));
 }

@@ -15,7 +15,13 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
-        _b: [usize; n],
+        a: usize,
+        b: usize,
+        c: usize,
+    }
+    if a + b >= c {
+        println!("{}", b + c);
+    } else {
+        println!("{}", a + 2 * b + 1);
     }
 }
