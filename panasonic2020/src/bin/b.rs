@@ -15,17 +15,14 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        mut s: Chars,
-        mut t: Chars,
+        h: usize,
+        w: usize,
     }
-    s.sort();
-    t.sort();
-    t.reverse();
-    let s = s.into_iter().collect::<String>();
-    let t = t.into_iter().collect::<String>();
-    if s < t {
-        println!("Yes");
+    if h == 1 || w == 1 {
+        println!("1");
+    } else if h % 2 == 0 || w % 2 == 0 {
+        println!("{}", h * w / 2);
     } else {
-        println!("No");
+        println!("{}", (h / 2) * w + w / 2 + 1);
     }
 }

@@ -2,7 +2,7 @@ use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
-use std::cmp::{max, min};
+use std::cmp::*;
 #[allow(unused_imports)]
 use std::collections::*;
 #[allow(unused_imports)]
@@ -15,20 +15,16 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        a: usize,
-        b: usize,
-        c: usize,
-        x: usize,
+        s: Chars,
     }
-    let mut count = 0;
-    for i in 0..=a {
-        for j in 0..=b {
-            for k in 0..=c {
-                if x == 500 * i + 100 * j + 50 * k {
-                    count += 1;
-                }
-            }
+    let n = s.len();
+    let mut result = 0;
+    let mut w_count = 0;
+    for i in 0..n {
+        if s[i] == 'W' {
+            result += i - w_count;
+            w_count += 1;
         }
     }
-    println!("{}", count);
+    println!("{}", result);
 }

@@ -15,17 +15,12 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        mut s: Chars,
-        mut t: Chars,
+        a: String,
+        b: String,
     }
-    s.sort();
-    t.sort();
-    t.reverse();
-    let s = s.into_iter().collect::<String>();
-    let t = t.into_iter().collect::<String>();
-    if s < t {
-        println!("Yes");
+    if a.len() > b.len() {
+        println!("{}", a);
     } else {
-        println!("No");
+        println!("{}", b);
     }
 }

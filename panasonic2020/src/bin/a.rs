@@ -15,17 +15,11 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        mut s: Chars,
-        mut t: Chars,
+        k: usize,
     }
-    s.sort();
-    t.sort();
-    t.reverse();
-    let s = s.into_iter().collect::<String>();
-    let t = t.into_iter().collect::<String>();
-    if s < t {
-        println!("Yes");
-    } else {
-        println!("No");
-    }
+    let v = [
+        1, 1, 1, 2, 1, 2, 1, 5, 2, 2, 1, 5, 1, 2, 1, 14, 1, 5, 1, 5, 2, 2, 1, 15, 2, 2, 5, 4, 1, 4,
+        1, 51,
+    ];
+    println!("{}", v[k - 1]);
 }

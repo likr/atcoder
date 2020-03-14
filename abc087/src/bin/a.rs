@@ -15,7 +15,9 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-      n: usize,
+      x: usize,
+      a: usize,
+      b: usize,
     }
-    println!("{}", n);
+    println!("{}", x - a - (x - a) / b * b);
 }

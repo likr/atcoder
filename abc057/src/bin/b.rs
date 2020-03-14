@@ -15,17 +15,18 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        mut s: Chars,
-        mut t: Chars,
+        n: usize,
+        m: usize,
+        ab: [(isize, isize); n],
+        cd: [(isize, isize); m],
     }
-    s.sort();
-    t.sort();
-    t.reverse();
-    let s = s.into_iter().collect::<String>();
-    let t = t.into_iter().collect::<String>();
-    if s < t {
-        println!("Yes");
-    } else {
-        println!("No");
+    for &(ai, bi) in &ab {
+        let k = (0..m)
+            .min_by_key(|&j| {
+                let (cj, dj) = cd[j];
+                (ai - cj).abs() + (bi - dj).abs()
+            })
+            .unwrap();
+        println!("{}", k + 1);
     }
 }

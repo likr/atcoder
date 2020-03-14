@@ -15,17 +15,7 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        mut s: Chars,
-        mut t: Chars,
+        n: usize,
     }
-    s.sort();
-    t.sort();
-    t.reverse();
-    let s = s.into_iter().collect::<String>();
-    let t = t.into_iter().collect::<String>();
-    if s < t {
-        println!("Yes");
-    } else {
-        println!("No");
-    }
+    println!("{}", n);
 }

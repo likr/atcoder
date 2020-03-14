@@ -13,21 +13,27 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+fn digit(mut n: usize) -> usize {
+    let mut c = 0;
+    while n > 0 {
+        n /= 10;
+        c += 1;
+    }
+    c
+}
+
 fn main() {
     input! {
         n: usize,
-        a: [usize; n],
     }
-    let mut count = HashMap::new();
-    for &ai in &a {
-        *count.entry(ai).or_insert(0) += 1;
-    }
-    let mut result = 0;
-    for (x, c) in count.iter() {
-        if x <= c {
-            result += c - x;
-        } else {
-            result += c;
+    let mut result = INF;
+    for a in 1.. {
+        if a * a > n {
+            break;
+        }
+        if n % a == 0 {
+            let b = n / a;
+            result = min(result, max(digit(a), digit(b)));
         }
     }
     println!("{}", result);

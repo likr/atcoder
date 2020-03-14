@@ -2,7 +2,7 @@ use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
-use std::cmp::{max, min};
+use std::cmp::*;
 #[allow(unused_imports)]
 use std::collections::*;
 #[allow(unused_imports)]
@@ -18,17 +18,10 @@ fn main() {
         a: usize,
         b: usize,
         c: usize,
-        x: usize,
     }
-    let mut count = 0;
-    for i in 0..=a {
-        for j in 0..=b {
-            for k in 0..=c {
-                if x == 500 * i + 100 * j + 50 * k {
-                    count += 1;
-                }
-            }
-        }
+    if a + b >= c || 4 * a * b >= (c - a - b) * (c - a - b) {
+        println!("No");
+    } else {
+        println!("Yes");
     }
-    println!("{}", count);
 }
