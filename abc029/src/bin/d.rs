@@ -18,24 +18,39 @@ fn main() {
         mut n: Chars,
     }
     n.reverse();
+    n.push('0');
     let n = n
         .into_iter()
         .map(|c| c as usize - '0' as usize)
         .collect::<Vec<_>>();
     let m = n.len();
-    let mut a = if n[0] == 0 { 0 } else { 1 };
-    let mut b = 1;
-    let mut c = n[0] + 1;
+    let mut dp = vec![vec![(0, 0); 10]; m];
+    dp[0][1] = (1, 1);
     for i in 1..m {
-        let d = 10usize.pow(i as u32);
-        eprintln!("{} {} {} {} {}", n[i], a, b, c, d);
-        if n[i] == 1 {
-            a = a + b + c;
-        } else if n[i] != 0 {
-            a = b * n[i] + d + a;
+        for j in 0..10 {
+            if j == 1 {
+                dp[i][j].0 += 10usize.pow(i as u32);
+            }
+            for k in 0..10 {
+                dp[i][j].0 += dp[i - 1][k].0;
+            }
+
+            if j == 1 {
+                let mut s = 1;
+                for k in 0..i {
+                    s += n[k] * 10usize.pow(k as u32);
+                }
+                dp[i][j].1 += s;
+            }
+            if j < n[i] {
+                dp[i][j].1 = dp[i][j].0;
+            } else if j == n[i] {
+                for k in 0..=n[i - 1] {
+                    dp[i][j].1 += dp[i - 1][k].1;
+                }
+            }
         }
-        b = 10 * b + d;
-        c += (n[i] + 1) * d;
+        eprintln!("{:?}", dp[i]);
     }
-    println!("{}", a);
+    println!("{}", dp[m - 1][0].1);
 }

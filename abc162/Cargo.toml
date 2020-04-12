@@ -1,0 +1,18 @@
+[package]
+name = "abc162"
+version = "0.1.0"
+authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
+edition = "2018"
+
+# dependencies added to new project
+[dependencies]
+itertools = "*"
+num = "*"
+permutohedron = "*"
+proconio = "*"
+superslice = "*"
+union-find = "*"
+
+[profile.release]
+lto = true
+panic = 'abort'

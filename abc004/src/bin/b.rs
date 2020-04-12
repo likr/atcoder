@@ -15,7 +15,13 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
+        c: [[char; 4]; 4],
     }
-    println!("{}", n);
+    for i in 0..4 {
+        let mut chars = vec![];
+        for j in 0..4 {
+            chars.push(format!("{}", c[3 - i][3 - j]));
+        }
+        println!("{}", chars.join(" "));
+    }
 }

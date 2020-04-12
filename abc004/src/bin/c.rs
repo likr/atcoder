@@ -17,5 +17,12 @@ fn main() {
     input! {
         n: usize,
     }
-    println!("{}", n);
+    let mut nums = (1..=6).collect::<Vec<usize>>();
+    for i in 0..(n % 30) {
+        nums.swap(i % 5, (i % 5) + 1);
+    }
+    for i in 0..6 {
+        print!("{}", nums[i]);
+    }
+    println!("");
 }

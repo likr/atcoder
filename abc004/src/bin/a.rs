@@ -17,5 +17,5 @@ fn main() {
     input! {
         n: usize,
     }
-    println!("{}", n);
+    println!("{}", 2 * n);
 }
