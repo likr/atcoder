@@ -15,21 +15,14 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
-        a: usize,
-        b: usize,
+        m1: usize,
+        _d1: usize,
+        m2: usize,
+        _d2: usize,
     }
-    let mut total = 0;
-    for i in 1..=n {
-        let mut x = i;
-        let mut s = 0;
-        while x > 0 {
-            s += x % 10;
-            x /= 10;
-        }
-        if a <= s && s <= b {
-            total += i;
-        }
+    if m1 == m2 {
+        println!("0");
+    } else {
+        println!("1");
     }
-    println!("{}", total);
 }

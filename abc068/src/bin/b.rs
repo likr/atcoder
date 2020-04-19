@@ -17,5 +17,19 @@ fn main() {
     input! {
         n: usize,
     }
-    println!("{}", n);
+    let mut result = 0;
+    let mut max_count = 0;
+    for i in 1..=n {
+        let mut count = 0;
+        let mut x = i;
+        while x % 2 == 0 {
+            count += 1;
+            x /= 2;
+        }
+        if count >= max_count {
+            result = i;
+            max_count = count;
+        }
+    }
+    println!("{}", result);
 }

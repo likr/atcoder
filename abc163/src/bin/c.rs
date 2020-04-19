@@ -16,20 +16,13 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        a: usize,
-        b: usize,
+        a: [Usize1; n - 1],
     }
-    let mut total = 0;
-    for i in 1..=n {
-        let mut x = i;
-        let mut s = 0;
-        while x > 0 {
-            s += x % 10;
-            x /= 10;
-        }
-        if a <= s && s <= b {
-            total += i;
-        }
+    let mut count = vec![0; n];
+    for i in 1..n {
+        count[a[i - 1]] += 1;
     }
-    println!("{}", total);
+    for i in 0..n {
+        println!("{}", count[i]);
+    }
 }

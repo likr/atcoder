@@ -15,7 +15,16 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
+        a: usize,
+        b: usize,
+        c: usize,
+        d: usize,
     }
-    println!("{}", n);
+    if a + b > c + d {
+        println!("Left");
+    } else if a + b < c + d {
+        println!("Right");
+    } else {
+        println!("Balanced");
+    }
 }

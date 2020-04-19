@@ -17,5 +17,5 @@ fn main() {
     input! {
         n: usize,
     }
-    println!("{}", n);
+    println!("ABC{:03}", n);
 }

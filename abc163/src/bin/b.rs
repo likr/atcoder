@@ -16,20 +16,13 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        a: usize,
-        b: usize,
+        m: usize,
+        a: [usize; m],
     }
-    let mut total = 0;
-    for i in 1..=n {
-        let mut x = i;
-        let mut s = 0;
-        while x > 0 {
-            s += x % 10;
-            x /= 10;
-        }
-        if a <= s && s <= b {
-            total += i;
-        }
+    let s = a.iter().sum::<usize>();
+    if s > n {
+        println!("-1");
+    } else {
+        println!("{}", n - s);
     }
-    println!("{}", total);
 }

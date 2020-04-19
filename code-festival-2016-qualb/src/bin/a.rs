@@ -15,21 +15,14 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
-        a: usize,
-        b: usize,
+        s: Chars,
     }
-    let mut total = 0;
-    for i in 1..=n {
-        let mut x = i;
-        let mut s = 0;
-        while x > 0 {
-            s += x % 10;
-            x /= 10;
-        }
-        if a <= s && s <= b {
-            total += i;
+    let t = "CODEFESTIVAL2016".chars().collect::<Vec<_>>();
+    let mut count = 0;
+    for i in 0..16 {
+        if s[i] != t[i] {
+            count += 1;
         }
     }
-    println!("{}", total);
+    println!("{}", count);
 }

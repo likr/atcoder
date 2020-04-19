@@ -15,7 +15,14 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
+        x: usize,
+        y: usize,
     }
-    println!("{}", n);
+    let mut count = 0;
+    let mut z = x;
+    while z <= y {
+        count += 1;
+        z *= x;
+    }
+    println!("{}", count);
 }

@@ -16,20 +16,18 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        a: usize,
-        b: usize,
+        k: usize,
     }
-    let mut total = 0;
-    for i in 1..=n {
-        let mut x = i;
-        let mut s = 0;
-        while x > 0 {
-            s += x % 10;
-            x /= 10;
-        }
-        if a <= s && s <= b {
-            total += i;
-        }
+    let mut count = 0;
+    for i in k..=n + 1 {
+        let min_s = i * (i - 1) / 2;
+        let max_s = if i >= n {
+            n * (n + 1) / 2
+        } else {
+            n * (n + 1) / 2 - (n - i) * (n - i + 1) / 2
+        };
+        // eprintln!("{} {}", max_s, min_s);
+        count = (count + (max_s - min_s + 1)) % M;
     }
-    println!("{}", total);
+    println!("{}", count);
 }

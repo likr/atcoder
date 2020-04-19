@@ -15,21 +15,7 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
-        a: usize,
-        b: usize,
+        r: f64,
     }
-    let mut total = 0;
-    for i in 1..=n {
-        let mut x = i;
-        let mut s = 0;
-        while x > 0 {
-            s += x % 10;
-            x /= 10;
-        }
-        if a <= s && s <= b {
-            total += i;
-        }
-    }
-    println!("{}", total);
+    println!("{}", 2. * r * PI);
 }

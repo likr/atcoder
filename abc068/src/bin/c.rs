@@ -16,6 +16,19 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
+        m: usize,
+        ab: [(Usize1, Usize1); m],
     }
-    println!("{}", n);
+    let mut graph = vec![HashSet::new(); n];
+    for &(ai, bi) in &ab {
+        graph[ai].insert(bi);
+        graph[bi].insert(ai);
+    }
+    for i in 0..n {
+        if graph[i].contains(&0) && graph[i].contains(&(n - 1)) {
+            println!("POSSIBLE");
+            return;
+        }
+    }
+    println!("IMPOSSIBLE");
 }
