@@ -15,14 +15,20 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
+        k: usize,
+        d: [usize; k],
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let d = d.into_iter().collect::<HashSet<_>>();
+    'outer: for y in n.. {
+        let mut x = y;
+        while x > 0 {
+            if d.contains(&(x % 10)) {
+                continue 'outer;
+            }
+            x /= 10;
+        }
+        println!("{}", y);
+        return;
     }
-    println!("{}", count);
 }

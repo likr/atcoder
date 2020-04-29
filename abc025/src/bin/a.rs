@@ -15,14 +15,15 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        s: Chars,
+        n: Usize1,
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let mut words = vec![];
+    for i in 0..s.len() {
+        for j in 0..s.len() {
+            words.push(format!("{}{}", s[i], s[j]));
+        }
     }
-    println!("{}", count);
+    words.sort();
+    println!("{}", words[n]);
 }

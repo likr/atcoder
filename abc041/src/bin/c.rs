@@ -15,14 +15,13 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
+        a: [usize; n],
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let mut a = a.into_iter().enumerate().collect::<Vec<_>>();
+    a.sort_by_key(|&(_, v)| v);
+    a.reverse();
+    for &(i, _) in &a {
+        println!("{}", i + 1);
     }
-    println!("{}", count);
 }

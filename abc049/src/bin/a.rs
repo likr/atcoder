@@ -15,14 +15,12 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        c: char,
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let s = "aeiou".chars().collect::<HashSet<_>>();
+    if s.contains(&c) {
+        println!("vowel");
+    } else {
+        println!("consonant");
     }
-    println!("{}", count);
 }

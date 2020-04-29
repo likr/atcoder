@@ -15,14 +15,18 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
+        a: [usize; n],
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let s = a.iter().map(|&ai| ai).collect::<HashSet<_>>();
+    let mut s = s.into_iter().collect::<Vec<_>>();
+    s.sort();
+    let mut b = HashMap::new();
+    for i in 0..s.len() {
+        let ai = s[i];
+        b.insert(ai, i);
     }
-    println!("{}", count);
+    for &ai in &a {
+        println!("{}", b[&ai]);
+    }
 }

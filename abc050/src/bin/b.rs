@@ -15,14 +15,13 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
+        t: [usize; n],
+        m: usize,
+        px: [(Usize1, usize); m],
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let s = t.iter().sum::<usize>();
+    for &(pi, xi) in &px {
+        println!("{}", s - t[pi] + xi);
     }
-    println!("{}", count);
 }

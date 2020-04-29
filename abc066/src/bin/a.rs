@@ -15,14 +15,8 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        mut abc: [usize; 3],
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
-    }
-    println!("{}", count);
+    abc.sort();
+    println!("{}", abc[0] + abc[1]);
 }

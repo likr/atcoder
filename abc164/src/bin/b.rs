@@ -15,14 +15,24 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        mut a: isize,
+        b: isize,
+        mut c: isize,
+        d: isize,
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let mut i = 0;
+    while a > 0 && c > 0 {
+        eprintln!("{} {}", a, c);
+        if i % 2 == 0 {
+            c -= b;
+        } else {
+            a -= d;
+        }
+        i += 1;
     }
-    println!("{}", count);
+    if a <= 0 {
+        println!("No");
+    } else {
+        println!("Yes");
+    }
 }

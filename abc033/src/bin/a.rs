@@ -15,14 +15,16 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        mut n: usize,
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let mut nums = HashSet::new();
+    for _ in 0..4 {
+        nums.insert(n % 10);
+        n /= 10;
     }
-    println!("{}", count);
+    if nums.len() == 1 {
+        println!("SAME");
+    } else {
+        println!("DIFFERENT");
+    }
 }

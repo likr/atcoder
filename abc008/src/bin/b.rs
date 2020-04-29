@@ -15,14 +15,12 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
+        s: [String; n],
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let mut count = HashMap::new();
+    for si in s.iter() {
+        *count.entry(si).or_insert(0) += 1;
     }
-    println!("{}", count);
+    println!("{}", s.iter().max_by_key(|s| count[s]).unwrap());
 }

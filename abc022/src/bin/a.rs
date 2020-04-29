@@ -15,14 +15,13 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
+        s: isize,
+        t: isize,
+        mut a: [isize; n],
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    for i in 1..n {
+        a[i] += a[i - 1];
     }
-    println!("{}", count);
+    println!("{}", a.iter().filter(|&&ai| s <= ai && ai <= t).count());
 }

@@ -16,18 +16,23 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        k: usize,
+        a: [usize; n],
     }
-    if k == 0 {
-        println!("{}", n * n);
-        return;
-    }
-    let mut count = 0;
-    for b in k + 1..=n {
-        count += (b - k) * (n / b);
-        if n % b + 1 > k {
-            count += n % b + 1 - k;
+    let mut b = VecDeque::new();
+    for i in 0..n {
+        if i % 2 == 0 {
+            b.push_back(a[i]);
+        } else {
+            b.push_front(a[i]);
         }
     }
-    println!("{}", count);
+    if n % 2 == 0 {
+        while let Some(bi) = b.pop_front() {
+            print!("{} ", bi);
+        }
+    } else {
+        while let Some(bi) = b.pop_back() {
+            print!("{} ", bi);
+        }
+    }
 }

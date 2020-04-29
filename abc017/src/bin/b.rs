@@ -15,14 +15,19 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        x: Chars,
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let n = x.len();
+    let mut i = 0;
+    while i < n {
+        if i + 1 < n && x[i] == 'c' && x[i + 1] == 'h' {
+            i += 2;
+        } else if x[i] == 'o' || x[i] == 'k' || x[i] == 'u' {
+            i += 1;
+        } else {
+            println!("NO");
+            return;
+        }
     }
-    println!("{}", count);
+    println!("YES");
 }

@@ -15,14 +15,15 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        mut s: Chars,
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    if s[0] >= 'a' {
+        s[0] = (s[0] as usize - 'a' as usize + 'A' as usize) as u8 as char;
     }
-    println!("{}", count);
+    for i in 1..s.len() {
+        if s[i] < 'a' {
+            s[i] = (s[i] as usize - 'A' as usize + 'a' as usize) as u8 as char;
+        }
+    }
+    println!("{}", s.iter().collect::<String>());
 }

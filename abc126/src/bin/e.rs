@@ -7,6 +7,7 @@ use std::cmp::*;
 use std::collections::*;
 #[allow(unused_imports)]
 use std::f64::consts::*;
+use union_find::{QuickFindUf, UnionBySize, UnionFind};
 
 #[allow(unused)]
 const INF: usize = std::usize::MAX / 4;
@@ -16,18 +17,19 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        k: usize,
+        m: usize,
+        xyz: [(Usize1, Usize1, usize); m],
     }
-    if k == 0 {
-        println!("{}", n * n);
-        return;
+
+    let mut components: QuickFindUf<UnionBySize> = QuickFindUf::new(n);
+    for &(xi, yi, _) in &xyz {
+        components.union(xi, yi);
     }
-    let mut count = 0;
-    for b in k + 1..=n {
-        count += (b - k) * (n / b);
-        if n % b + 1 > k {
-            count += n % b + 1 - k;
+    let mut result = 0;
+    for u in 0..n {
+        if u == components.find(u) {
+            result += 1;
         }
     }
-    println!("{}", count);
+    println!("{}", result);
 }

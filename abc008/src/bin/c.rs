@@ -16,18 +16,21 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        k: usize,
+        c: [usize; n],
     }
-    if k == 0 {
-        println!("{}", n * n);
-        return;
-    }
-    let mut count = 0;
-    for b in k + 1..=n {
-        count += (b - k) * (n / b);
-        if n % b + 1 > k {
-            count += n % b + 1 - k;
+    let mut factors = vec![0; n];
+    for i in 0..n {
+        for j in 0..n {
+            if c[i] % c[j] == 0 {
+                factors[i] += 1;
+            }
         }
     }
-    println!("{}", count);
+    let mut s = 0f64;
+    for i in 0..n {
+        let b = factors[i];
+        let a = (b + 1) / 2;
+        s += a as f64 / b as f64;
+    }
+    println!("{}", s);
 }

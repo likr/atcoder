@@ -15,14 +15,16 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
+        a: [usize; n],
     }
+    let mut visited = HashSet::new();
     let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    for i in 0..n {
+        if visited.contains(&a[i]) {
+            count += 1;
+        }
+        visited.insert(a[i]);
     }
     println!("{}", count);
 }

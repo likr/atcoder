@@ -15,14 +15,15 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
+        mut sp: [(String, usize); n],
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    sp.sort_by_key(|&(_, pi)| pi);
+    sp.reverse();
+    let s = sp.iter().map(|&(_, pi)| pi).sum::<usize>();
+    if sp[0].1 > s / 2 {
+        println!("{}", sp[0].0);
+    } else {
+        println!("atcoder");
     }
-    println!("{}", count);
 }

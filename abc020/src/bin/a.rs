@@ -15,14 +15,11 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        q: usize,
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    if q == 1 {
+        println!("ABC");
+    } else {
+        println!("chokudai");
     }
-    println!("{}", count);
 }

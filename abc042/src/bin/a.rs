@@ -15,14 +15,12 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        mut abc: [usize; 3],
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    abc.sort();
+    if abc[0] == 5 && abc[1] == 5 && abc[2] == 7 {
+        println!("YES");
+    } else {
+        println!("NO");
     }
-    println!("{}", count);
 }

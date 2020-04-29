@@ -15,14 +15,10 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        a: usize,
+        b: usize,
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
-    }
-    println!("{}", count);
+    let x = min(a, b);
+    let y = max(a, b);
+    println!("{}", min(y - x, x + 10 - y));
 }

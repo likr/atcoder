@@ -15,14 +15,27 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
     }
+    let mut m = n / 2;
+    let mut height = 0;
+    while m > 0 {
+        m /= 2;
+        height += 1;
+    }
+    let mut x = 1;
     let mut count = 0;
-    let mut z = x;
-    while z <= y {
+    while x <= n {
+        if height % 2 == count % 2 {
+            x = x * 2 + 1;
+        } else {
+            x = x * 2;
+        }
         count += 1;
-        z *= 2;
     }
-    println!("{}", count);
+    if count % 2 == 0 {
+        println!("Takahashi");
+    } else {
+        println!("Aoki");
+    }
 }

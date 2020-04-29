@@ -15,14 +15,14 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        s: String,
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let mut result = 0;
+    for t in s.split('+') {
+        let nums = t.split('*').collect::<HashSet<_>>();
+        if !nums.contains(&"0") {
+            result += 1;
+        }
     }
-    println!("{}", count);
+    println!("{}", result);
 }

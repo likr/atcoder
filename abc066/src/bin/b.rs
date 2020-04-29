@@ -15,14 +15,14 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        s: Chars,
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let n = s.len();
+    for l in (2..n).step_by(2) {
+        let m = (n - l) / 2;
+        if (0..m).all(|i| s[i] == s[i + m]) {
+            println!("{}", m * 2);
+            return;
+        }
     }
-    println!("{}", count);
 }

@@ -16,18 +16,18 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        k: usize,
+        x: isize,
+        a: [isize; n],
     }
-    if k == 0 {
-        println!("{}", n * n);
-        return;
+    let mut b = vec![0; n];
+    for i in 1..n {
+        b[i] = max(0, a[i - 1] + a[i] - x);
     }
-    let mut count = 0;
-    for b in k + 1..=n {
-        count += (b - k) * (n / b);
-        if n % b + 1 > k {
-            count += n % b + 1 - k;
-        }
+    let mut c = vec![0; n];
+    for i in 1..n {
+        c[i] = max(0, b[i] - min(a[i - 1], c[i - 1]));
     }
-    println!("{}", count);
+    // eprintln!("{:?}", b);
+    // eprintln!("{:?}", c);
+    println!("{}", c.iter().sum::<isize>());
 }

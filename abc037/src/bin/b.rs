@@ -15,14 +15,17 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
+        q: usize,
+        lrt: [(Usize1, Usize1, usize); q],
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let mut a = vec![0; n];
+    for &(li, ri, ti) in &lrt {
+        for j in li..=ri {
+            a[j] = ti;
+        }
     }
-    println!("{}", count);
+    for j in 0..n {
+        println!("{}", a[j]);
+    }
 }

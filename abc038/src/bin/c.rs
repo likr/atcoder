@@ -15,14 +15,19 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
+        a: [usize; n],
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let mut l = 0;
+    let mut s = 0usize;
+    while l < n {
+        let mut r = l + 1;
+        while r < n && a[r - 1] < a[r] {
+            r += 1;
+        }
+        let m = r - l;
+        s += m * (m + 1) / 2;
+        l = r;
     }
-    println!("{}", count);
+    println!("{}", s);
 }

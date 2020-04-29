@@ -15,14 +15,18 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
+        k: usize,
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let mut s = 0f64;
+    for i in 1..=n {
+        let mut b = 1;
+        let mut c = 0;
+        while i * b < k {
+            b *= 2;
+            c += 1;
+        }
+        s += 1. / n as f64 / 2f64.powi(c as i32);
     }
-    println!("{}", count);
+    println!("{}", s);
 }

@@ -15,14 +15,18 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        h: usize,
+        w: usize,
+        c: [Chars; h],
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    for i in 0..h {
+        for j in 0..w {
+            print!("{}", c[i][j]);
+        }
+        println!("");
+        for j in 0..w {
+            print!("{}", c[i][j]);
+        }
+        println!("");
     }
-    println!("{}", count);
 }

@@ -15,14 +15,17 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
+        k: usize,
+        a: [usize; n],
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    let mut acc = vec![0usize; n + 1];
+    for i in 0..n {
+        acc[i + 1] = acc[i] + a[i];
     }
-    println!("{}", count);
+    let mut result = 0usize;
+    for i in k..=n {
+        result += acc[i] - acc[i - k];
+    }
+    println!("{}", result);
 }

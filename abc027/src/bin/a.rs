@@ -15,14 +15,12 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        mut l: [usize; 3],
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    l.sort();
+    if l[0] == l[1] {
+        println!("{}", l[2]);
+    } else {
+        println!("{}", l[0]);
     }
-    println!("{}", count);
 }

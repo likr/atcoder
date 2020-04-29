@@ -15,14 +15,11 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        s: Chars,
     }
-    let mut count = 0;
-    let mut z = x;
-    while z <= y {
-        count += 1;
-        z *= 2;
+    if s[s.len() - 1] == 'T' {
+        println!("YES");
+    } else {
+        println!("NO");
     }
-    println!("{}", count);
 }
