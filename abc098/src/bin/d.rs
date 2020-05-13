@@ -18,9 +18,9 @@ fn main() {
         n: usize,
         a: [usize; n],
     }
-    for &ai in &a {
-        eprintln!("{:24b}", ai);
-    }
+    // for &ai in &a {
+    //     eprintln!("{:024b}", ai);
+    // }
     let m = 20;
     let mut bits = vec![vec![0; m]; n];
     for i in 0..n {
@@ -28,24 +28,24 @@ fn main() {
             bits[i][j] = a[i] >> j & 1;
         }
     }
-    let mut result = 0;
-    let mut s = HashSet::new();
-    let mut l = 0;
-    for r in 0..n {
-        if (0..m).any(|j| bits[r][j] == 1 && s.contains(&j)) {
-            let k = r - l;
-            result += k * (k + 1) / 2;
-            s.clear();
-            l = r;
-        }
+
+    let mut acc = vec![vec![0; m]; n + 1];
+    for i in 0..n {
         for j in 0..m {
-            if bits[r][j] == 1 {
-                s.insert(j);
-            }
+            acc[i + 1][j] += acc[i][j] + bits[i][j];
         }
-        eprintln!("{}", result);
     }
-    let k = n - l;
-    result += k * (k + 1) / 2;
+
+    let mut result = 0usize;
+    let mut l = 1;
+    let mut r = 1;
+    while l <= n {
+        while r <= n && (0..m).all(|j| acc[r][j] - acc[l - 1][j] <= 1) {
+            r += 1;
+        }
+        result += r - l;
+        l += 1;
+    }
+
     println!("{}", result);
 }

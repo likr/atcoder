@@ -1,3 +1,4 @@
+#[allow(unused_imports)]
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -7,28 +8,31 @@ use std::cmp::{max, min};
 use std::collections::*;
 #[allow(unused_imports)]
 use std::f64::consts::*;
+use std::io::*;
 
 #[allow(unused)]
 const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+fn read() -> String {
+    let mut s = String::new();
+    std::io::stdin().read_line(&mut s).ok();
+    s.trim().to_string()
+}
+
 fn main() {
-    input! {
-        n: usize,
-    }
+    let n = read().parse::<usize>().unwrap();
     let vacant = "Vacant";
     println!("0");
-    input! {
-        s0: String,
-    }
+    stdout().flush().ok();
+    let s0 = read();
     if s0 == vacant {
         return;
     }
     println!("{}", n - 1);
-    input! {
-        sn: String,
-    }
+    stdout().flush().ok();
+    let sn = read();
     if sn == vacant {
         return;
     }
@@ -37,9 +41,8 @@ fn main() {
     while l + 1 < r {
         let m = (l + r) / 2;
         println!("{}", m);
-        input! {
-            sm: String,
-        }
+        stdout().flush().ok();
+        let sm = read();
         if sm == vacant {
             return;
         }

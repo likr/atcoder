@@ -15,7 +15,13 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
+        x: usize,
     }
-    println!("{}", n);
+    let n = (x + 104) / 105;
+    let r = 105 * n - x;
+    if 5 * n >= r {
+        println!("1");
+    } else {
+        println!("0");
+    }
 }

@@ -2,7 +2,7 @@ use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
-use std::cmp::{max, min};
+use std::cmp::*;
 #[allow(unused_imports)]
 use std::collections::*;
 #[allow(unused_imports)]
@@ -15,7 +15,18 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-      n: usize,
+        mut a: usize,
+        mut b: usize,
+        k: usize,
     }
-    println!("{}", n);
+    for i in 0..k {
+        if i % 2 == 0 {
+            b += a / 2;
+            a /= 2;
+        } else {
+            a += b / 2;
+            b /= 2;
+        }
+    }
+    println!("{} {}", a, b);
 }

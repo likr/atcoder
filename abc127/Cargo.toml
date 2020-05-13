@@ -6,10 +6,12 @@ edition = "2018"
 
 # dependencies added to new project
 [dependencies]
-num = '*'
+itertools = "*"
+num = "*"
 permutohedron = "*"
 proconio = "*"
 superslice = "*"
+union-find = "*"
 
 [profile.release]
 lto = true

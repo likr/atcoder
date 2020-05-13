@@ -3,6 +3,7 @@ num = '*'
 permutohedron = '*'
 proconio = '*'
 superslice = '*'
+union-find = '*'
 
 [package]
 authors = ['Yosuke Onoue <onoue@likr-lab.com>']

@@ -19,9 +19,9 @@ fn main() {
         l: isize,
         r: isize,
     }
-    if s < l {
+    if s <= l {
         println!("{}", l);
-    } else if r < s {
+    } else if r <= s {
         println!("{}", r);
     } else {
         println!("{}", s);

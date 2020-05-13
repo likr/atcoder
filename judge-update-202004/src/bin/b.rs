@@ -16,14 +16,17 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        xc: [(usize, char); n],
+        mut xc: [(usize, char); n],
     }
-    let mut xc = xc
-        .into_iter()
-        .map(|(xi, ci)| (if ci == 'R' { 0 } else { 1 }, xi))
-        .collect::<Vec<_>>();
     xc.sort();
-    for &(_, xi) in &xc {
-        println!("{}", xi);
+    for i in 0..n {
+        if xc[i].1 == 'R' {
+            println!("{}", xc[i].0);
+        }
+    }
+    for i in 0..n {
+        if xc[i].1 == 'B' {
+            println!("{}", xc[i].0);
+        }
     }
 }

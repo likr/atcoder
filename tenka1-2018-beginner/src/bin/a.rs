@@ -15,7 +15,10 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-      n: usize,
+        mut s: Chars,
     }
-    println!("{}", n);
+    if s.len() == 3 {
+        s.reverse();
+    }
+    println!("{}", s.iter().collect::<String>());
 }

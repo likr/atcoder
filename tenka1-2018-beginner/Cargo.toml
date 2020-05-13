@@ -1,14 +1,18 @@
-[dependencies]
-num = '*'
-permutohedron = '*'
-proconio = '*'
-superslice = '*'
-
 [package]
-authors = ['Yosuke Onoue <onoue@likr-lab.com>']
-edition = '2018'
-name = 'tenka1-2018-beginner'
-version = '0.1.0'
+name = "tenka1-2018-beginner"
+version = "0.1.0"
+authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
+edition = "2018"
+
+# dependencies added to new project
+[dependencies]
+itertools = "*"
+num = "*"
+permutohedron = "*"
+proconio = "*"
+superslice = "*"
+union-find = "*"
+
 [profile.release]
 lto = true
 panic = 'abort'

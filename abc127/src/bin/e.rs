@@ -2,7 +2,7 @@ use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
-use std::cmp::{max, min};
+use std::cmp::*;
 #[allow(unused_imports)]
 use std::collections::*;
 #[allow(unused_imports)]
@@ -44,35 +44,27 @@ fn main() {
         m: usize,
         k: usize,
     }
-
     let mut f = vec![1; n * m + 1];
     let mut g = vec![1; n * m + 1];
-    for i in 1..n * m + 1 {
+    for i in 1..=n * m {
         f[i] = i * f[i - 1] % M;
         g[i] = inv(f[i]);
     }
 
-    let mut s = 0;
-    for i in 1..=(n - 1) + (m - 1) {
-        let fi = (f[n * m - 2] * g[k - 2] % M) * g[n * m - k] % M;
-        let fi = i * fi % M;
-        if n > i {
-            let c = (n - i) * m % M;
-            let si = c * fi % M;
-            s = (s + si) % M;
-        }
-        if m > i {
-            let c = n * (m - i) % M;
-            let si = c * fi % M;
-            s = (s + si) % M;
-        }
-        for j in if i > n { i - n } else { 0 } + 1..min(i, m) {
-            if n + j > i && m > j {
-                let c = 2 * (n + j - i) * (m - j) % M;
-                let si = c * fi % M;
-                s = (s + si) % M;
-            }
-        }
+    let mut result = 0usize;
+    for d in 1..m {
+        let md = d * (m - d) % M;
+        let n2 = n * n % M;
+        let h = f[n * m - 2] * g[k - 2] % M * g[n * m - k] % M;
+        // eprintln!("{} {} {} {}", md, n2, h, md * n2 * h);
+        result = (result + md * n2 % M * h % M) % M;
     }
-    println!("{}", s);
+    for d in 1..n {
+        let nd = d * (n - d) % M;
+        let m2 = m * m % M;
+        let h = f[n * m - 2] * g[k - 2] % M * g[n * m - k] % M;
+        // eprintln!("{} {} {} {}", nd, m2, h, nd * m2 * h);
+        result = (result + nd * m2 % M * h % M) % M;
+    }
+    println!("{}", result);
 }
