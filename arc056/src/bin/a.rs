@@ -15,7 +15,12 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
+        a: usize,
+        b: usize,
+        k: usize,
+        l: usize,
     }
-    println!("{}", n);
+    let c = k / l;
+    let d = k % l;
+    println!("{}", min(a * d + b * c, b * (c + 1)));
 }

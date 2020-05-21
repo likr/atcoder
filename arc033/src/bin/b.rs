@@ -15,7 +15,17 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
+        na: usize,
+        nb: usize,
+        a: [usize; na],
+        b: [usize; nb],
     }
-    println!("{}", n);
+    let a = a.iter().collect::<HashSet<_>>();
+    let mut s = 0;
+    for &bi in &b {
+        if a.contains(&bi) {
+            s += 1;
+        }
+    }
+    println!("{}", s as f64 / (na + nb - s) as f64);
 }
