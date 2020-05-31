@@ -21,11 +21,11 @@ fn main() {
     let mut l = HashMap::new();
     let mut r = HashMap::new();
     for i in 0..n {
-        *l.entry(i as isize + a[i]).or_insert(0) += 1;
-        *r.entry(i as isize - a[i]).or_insert(0) += 1;
+        *l.entry(i as isize + a[i]).or_insert(0) += 1isize;
+        *r.entry(i as isize - a[i]).or_insert(0) += 1isize;
     }
 
-    let mut result = 0usize;
+    let mut result = 0;
     for (v, c) in l.iter() {
         if let Some(&d) = r.get(&v) {
             result += c * d;

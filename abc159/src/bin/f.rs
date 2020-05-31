@@ -13,4 +13,10 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 998244353;
 
-fn main() {}
+fn main() {
+    input! {
+        n: usize,
+        s: usize,
+        a: [usize; n],
+    }
+}

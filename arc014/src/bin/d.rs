@@ -27,7 +27,7 @@ fn main() {
         .collect::<Vec<(usize, (isize, isize))>>();
     xy.sort_by_key(|(_, (x, y))| x + y);
 
-    for &(i, (x, y)) in &xy {
+    for &(_, (x, y)) in &xy {
         let mut s = 0;
         let mut i = 0;
         while i < n {

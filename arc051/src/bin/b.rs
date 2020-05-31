@@ -15,7 +15,15 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
+        k: usize,
     }
-    println!("{}", n);
+    let mut f0;
+    let mut f1 = 1usize;
+    let mut f2 = 1usize;
+    for _ in 0..k {
+        f0 = f1;
+        f1 = f2;
+        f2 = f0 + f1;
+    }
+    println!("{} {}", f2, f1);
 }

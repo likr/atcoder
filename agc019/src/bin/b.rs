@@ -18,32 +18,16 @@ fn main() {
         a: Chars,
     }
     let n = a.len();
-    let mut palindrome = vec![];
+    let mut c = vec![0usize; 26];
     for i in 0..n {
-        let l = min(i, n - 1 - i);
-        let mut j = 0;
-        while j <= l && a[i - j] == a[i + j] {
-            j += 1;
-        }
-        if j > 1 {
-            palindrome.push((i + 1 - j, i + j - 1));
-        }
+        c[a[i] as usize - 'a' as usize] += 1;
     }
-    for i in 1..n {
-        let l = min(i, n - i);
-        let mut j = 0;
-        while j < l && a[i - j - 1] == a[i + j] {
-            j += 1;
-        }
-        if j > 0 {
-            palindrome.push((i - j, i + j - 1));
-        }
-    }
-    eprintln!("{:?}", palindrome);
-
+    // eprintln!("{:?}", c);
     let mut result = n * (n - 1) / 2 + 1;
-    for &(i, j) in &palindrome {
-        result -= (j - i + 1) / 2;
+    for i in 0..26 {
+        if c[i] > 0 {
+            result -= c[i] * (c[i] - 1) / 2;
+        }
     }
     println!("{}", result);
 }

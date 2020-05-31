@@ -74,7 +74,7 @@ fn main() {
     input! {
         a: i64,
         b: i64,
-        c: i64,
+        _c: i64,
         k: usize,
     }
     if (a - b).abs() > 1000000000000000000 {

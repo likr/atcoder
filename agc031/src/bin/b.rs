@@ -16,6 +16,25 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
+        c: [usize; n],
     }
-    println!("{}", n);
+    let mut dp = vec![0usize; n + 1];
+    dp[0] = 1;
+    let mut last_index = HashMap::new();
+    for i in 1..=n {
+        let ci = c[i - 1];
+        if let Some(&j) = last_index.get(&ci) {
+            if j < i - 1 {
+                dp[i] = (dp[i - 1] + dp[j]) % M;
+            } else {
+                dp[i] = dp[i - 1];
+            }
+        } else {
+            dp[i] = dp[i - 1];
+        }
+        last_index.insert(ci, i);
+    }
+    // eprintln!("{:?}", dp);
+    // eprintln!("{:?}", last_index);
+    println!("{}", dp[n]);
 }
