@@ -82,7 +82,7 @@ fn main() {
     let q = iter.next().unwrap().parse::<usize>().unwrap();
 
     let mut matrix = vec![vec![0; n + 1]; n + 1];
-    for i in 0..q {
+    for _ in 0..q {
         let t = iter.next().unwrap().parse::<usize>().unwrap();
         if t == 1 {
             let x = iter.next().unwrap().parse::<usize>().unwrap();

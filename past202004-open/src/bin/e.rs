@@ -1,3 +1,4 @@
+use petgraph::unionfind::*;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -16,13 +17,17 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        mut w: [isize; n],
+        a: [Usize1; n],
     }
-    let mut result = INF as isize;
-    for i in 1..n {
-        let s1 = (0..i).map(|j| w[j]).sum::<isize>();
-        let s2 = (i..n).map(|j| w[j]).sum::<isize>();
-        result = min(result, (s1 - s2).abs());
+    let mut components = UnionFind::new(n);
+    for i in 0..n {
+        components.union(i, a[i]);
     }
-    println!("{}", result);
+    let mut count = vec![0; n];
+    for i in 0..n {
+        count[components.find(i)] += 1;
+    }
+    for i in 0..n {
+        println!("{}", count[components.find(i)]);
+    }
 }

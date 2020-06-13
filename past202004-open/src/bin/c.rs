@@ -16,19 +16,21 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        m: usize,
-        a: [usize; m],
+        mut s: [Chars; n],
     }
-    let a = a.into_iter().collect::<HashSet<_>>();
-    let mut dp = vec![0; n + 1];
-    dp[0] = 1;
+    for i in (0..n - 1).rev() {
+        for j in 1..2 * n - 1 {
+            if s[i][j] == '#'
+                && (s[i + 1][j - 1] == 'X' || s[i + 1][j] == 'X' || s[i + 1][j + 1] == 'X')
+            {
+                s[i][j] = 'X';
+            }
+        }
+    }
     for i in 0..n {
-        if !a.contains(&(i + 1)) {
-            dp[i + 1] = (dp[i + 1] + dp[i]) % M;
+        for j in 0..2 * n - 1 {
+            print!("{}", s[i][j]);
         }
-        if i + 2 <= n && !a.contains(&(i + 2)) {
-            dp[i + 2] = (dp[i + 2] + dp[i]) % M;
-        }
+        println!("");
     }
-    println!("{}", dp[n]);
 }

@@ -15,9 +15,14 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        p: usize,
-        q: usize,
-        r: usize,
+        s: String,
+        t: String,
     }
-    println!("{}", min(p + q, min(p + r, q + r)));
+    let floor = [
+        "B9", "B8", "B7", "B6", "B5", "B4", "B3", "B2", "B1", "1F", "2F", "3F", "4F", "5F", "6F",
+        "7F", "8F", "9F",
+    ];
+    let a = floor.iter().position(|&u| u == s).unwrap();
+    let b = floor.iter().position(|&u| u == t).unwrap();
+    println!("{}", max(a, b) - min(a, b));
 }

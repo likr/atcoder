@@ -2,7 +2,7 @@ use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
-use std::cmp::{max, min};
+use std::cmp::*;
 #[allow(unused_imports)]
 use std::collections::*;
 #[allow(unused_imports)]
@@ -15,24 +15,27 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-      l: Chars,
+        mut l: Chars,
     }
+    l.reverse();
+    let l = l
+        .into_iter()
+        .map(|c| c as usize - '0' as usize)
+        .collect::<Vec<_>>();
     let n = l.len();
-    let mut result = 0;
-    let mut ones = 0;
-    let mut pow2 = vec![1; n + 1];
-    let mut pow3 = vec![1; n + 1];
-    for i in 1..=n {
-        pow2[i] = 2 * pow2[i - 1] % M;
-        pow3[i] = 3 * pow3[i - 1] % M;
+    let mut dp = vec![(0, 0); n];
+    if l[0] == 0 {
+        dp[0] = (3, 1);
+    } else {
+        dp[0] = (3, 3);
     }
-    for i in 0..n {
-        if l[i] == '1' {
-            let d = n - i - 1;
-            result = (result + pow2[ones] * pow3[d] % M) % M;
-            ones += 1;
+    for i in 1..n {
+        dp[i].0 = (dp[i - 1].0 * 3) % M;
+        if l[i] == 0 {
+            dp[i].1 = dp[i - 1].1;
+        } else {
+            dp[i].1 = (dp[i - 1].0 + dp[i - 1].1 * 2) % M;
         }
     }
-    result = (result + pow2[ones]) % M;
-    println!("{}", result);
+    println!("{}", dp[n - 1].1);
 }
