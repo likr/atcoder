@@ -2,7 +2,7 @@ use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
-use std::cmp::{max, min};
+use std::cmp::*;
 #[allow(unused_imports)]
 use std::collections::*;
 #[allow(unused_imports)]
@@ -23,11 +23,11 @@ fn main() {
     let mut dp = vec![vec![1; m + 1]; n + 1];
     for i in 1..=n {
         for j in 1..=m {
-            dp[i][j] = if s[i - 1] == t[j - 1] {
-                (dp[i - 1][j] + dp[i][j - 1]) % M
+            if s[i - 1] == t[j - 1] {
+                dp[i][j] = (dp[i - 1][j] + dp[i][j - 1]) % M;
             } else {
-                (dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j - 1] + M) % M
-            };
+                dp[i][j] = (dp[i - 1][j] + dp[i][j - 1] + M - dp[i - 1][j - 1]) % M;
+            }
         }
     }
     println!("{}", dp[n][m]);

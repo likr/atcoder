@@ -12,6 +12,7 @@ permutohedron = "*"
 proconio = "*"
 superslice = "*"
 union-find = "*"
+petgraph = "*"
 
 [profile.release]
 lto = true

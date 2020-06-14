@@ -16,6 +16,20 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
+        a: [usize; n],
     }
-    println!("{}", n);
+    if a[0] > 0 {
+        println!("-1");
+        return;
+    }
+    let mut result = 0usize;
+    for i in 1..n {
+        if a[i] > a[i - 1] + 1 {
+            println!("-1");
+            return;
+        } else {
+            result += 1;
+        }
+    }
+    println!("{}", result);
 }
