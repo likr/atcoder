@@ -15,6 +15,10 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+fn ss(n: usize) -> isize {
+    (n * (n + 1) / 2) as isize
+}
+
 fn calc_score(t: &Vec<usize>, c: &Vec<isize>, s: &Vec<Vec<isize>>) -> isize {
     let n = c.len();
     let d = t.len();
@@ -50,28 +54,6 @@ fn initial_guess(c: &Vec<isize>, s: &Vec<Vec<isize>>) -> Vec<usize> {
     t
 }
 
-fn improve_random<R: Rng>(
-    t: &mut Vec<usize>,
-    score: isize,
-    c: &Vec<isize>,
-    s: &Vec<Vec<isize>>,
-    rng: &mut R,
-) -> isize {
-    let n = c.len();
-    let d = s.len();
-    let di = rng.gen_range(0, d);
-    let qi = rng.gen_range(0, n);
-    let old = t[di];
-    t[di] = qi;
-    let new_score = calc_score(&t, &c, &s);
-    if new_score <= score {
-        t[di] = old;
-        score
-    } else {
-        new_score
-    }
-}
-
 fn improve(
     t: &mut Vec<usize>,
     score: isize,
@@ -81,37 +63,26 @@ fn improve(
 ) -> isize {
     let n = c.len();
     let d = s.len();
-    let old = t[di];
 
     let mut last = vec![0; n];
-    for i in 0..=di {
+    for i in 0..di {
         last[t[i]] = i + 1;
     }
-    let mut next = vec![d; n];
-    for i in di + 1..d {
+    let mut next = vec![d + 1; n];
+    for i in (di + 1..d).rev() {
         next[t[i]] = i + 1;
     }
 
-    t[di] = (0..n)
-        .max_by_key(|&j| {
-            s[di][j] + c[j] * (di + 1 - last[j]) as isize
-                - s[di][old]
-                - c[old] * (next[old] + 1 - di) as isize
-        })
-        .unwrap();
+    let f =
+        |j| s[di][j] - c[j] * (ss(di - last[j]) + ss(next[j] - di - 2) - ss(next[j] - last[j] - 1));
+    let remove_score = f(t[di]);
 
-    let new_score = calc_score(&t, &c, &s);
-    if new_score <= score {
-        t[di] = old;
-        score
-    } else {
-        new_score
-    }
+    t[di] = (0..n).max_by_key(|&j| f(j)).unwrap();
+    score + f(t[di]) - remove_score
 }
 
 fn main() {
     let start = SystemTime::now();
-    let limit1 = Duration::from_millis(1500);
     let limit = Duration::from_millis(1950);
     let n = 26;
     input! {
@@ -122,24 +93,36 @@ fn main() {
     let mut t = initial_guess(&c, &s);
     let mut rng = thread_rng();
     let mut score = calc_score(&t, &c, &s);
-    let mut iter = 0;
+    let mut best_score = score;
+    let mut best_t = t.clone();
     eprintln!("{}", score);
+    let mut iter = 0;
     loop {
-        if start.elapsed().unwrap() < limit1 && rng.gen_ratio(1, 2) {
-            for di in 0..d {
-                score = improve(&mut t, score, &c, &s, di);
+        let prev_score = score;
+        for di in 0..d {
+            score = improve(&mut t, score, &c, &s, di);
+        }
+        if prev_score == score {
+            if score > best_score {
+                eprintln!("{}", score);
+                best_score = score;
+                best_t = t.clone()
+            } else {
+                t = best_t.clone();
             }
-        } else {
-            score = improve_random(&mut t, score, &c, &s, &mut rng);
-        };
+            let d1 = rng.gen_range(0, d);
+            let d2 = rng.gen_range(0, d);
+            t.swap(d1, d2);
+            score = calc_score(&t, &c, &s);
+        }
         iter += 1;
         if start.elapsed().unwrap() >= limit {
             break;
         }
     }
     eprintln!("{}", iter);
-    eprintln!("{}", score);
-    for &ti in &t {
+    eprintln!("{}", best_score);
+    for &ti in &best_t {
         println!("{}", ti + 1);
     }
 }
