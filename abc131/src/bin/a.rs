@@ -15,8 +15,12 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
+        s: Chars,
     }
-
-    println!("{}", n);
+    let n = s.len();
+    if (1..n).any(|i| s[i - 1] == s[i]) {
+        println!("Bad");
+    } else {
+        println!("Good");
+    }
 }

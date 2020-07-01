@@ -16,7 +16,22 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
+        a: usize,
+        b: usize,
     }
-
-    println!("{}", n);
+    if a == b {
+        if n % (a + 1) == 0 {
+            println!("Aoki");
+        } else {
+            println!("Takahashi");
+        }
+    } else if n <= a {
+        println!("Takahashi");
+    } else {
+        if a < b {
+            println!("Aoki");
+        } else {
+            println!("Takahashi");
+        }
+    }
 }

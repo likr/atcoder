@@ -63,6 +63,51 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4785bdd1c96b2a846b2bd7cc02e86b6b3dbf14e7e53446c4f54c92a361040822"
 
 [[package]]
+name = "code-festival-2014-qualb"
+version = "0.1.0"
+dependencies = [
+ "alga",
+ "ascii",
+ "bitset-fixed",
+ "either",
+ "fixedbitset",
+ "getrandom",
+ "im-rc",
+ "indexmap",
+ "itertools 0.9.0",
+ "itertools-num",
+ "lazy_static",
+ "libm",
+ "maplit",
+ "nalgebra",
+ "ndarray",
+ "num",
+ "num-bigint",
+ "num-complex",
+ "num-derive",
+ "num-integer",
+ "num-iter",
+ "num-rational",
+ "num-traits",
+ "ordered-float",
+ "permutohedron",
+ "petgraph",
+ "proconio",
+ "rand",
+ "rand_chacha",
+ "rand_core",
+ "rand_distr",
+ "rand_hc",
+ "rand_pcg",
+ "regex",
+ "rustc-hash",
+ "smallvec",
+ "superslice",
+ "text_io",
+ "whiteread",
+]
+
+[[package]]
 name = "either"
 version = "1.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -182,51 +227,6 @@ name = "memchr"
 version = "2.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3728d817d99e5ac407411fa471ff9800a778d88a24685968b36824eaf4bee400"
-
-[[package]]
-name = "mujin-pc-2016"
-version = "0.1.0"
-dependencies = [
- "alga",
- "ascii",
- "bitset-fixed",
- "either",
- "fixedbitset",
- "getrandom",
- "im-rc",
- "indexmap",
- "itertools 0.9.0",
- "itertools-num",
- "lazy_static",
- "libm",
- "maplit",
- "nalgebra",
- "ndarray",
- "num",
- "num-bigint",
- "num-complex",
- "num-derive",
- "num-integer",
- "num-iter",
- "num-rational",
- "num-traits",
- "ordered-float",
- "permutohedron",
- "petgraph",
- "proconio",
- "rand",
- "rand_chacha",
- "rand_core",
- "rand_distr",
- "rand_hc",
- "rand_pcg",
- "regex",
- "rustc-hash",
- "smallvec",
- "superslice",
- "text_io",
- "whiteread",
-]
 
 [[package]]
 name = "nalgebra"

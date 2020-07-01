@@ -16,7 +16,16 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
+        mut ab: [(usize, usize); n],
     }
-
-    println!("{}", n);
+    ab.sort_by_key(|&(_, bi)| bi);
+    let mut t = 0;
+    for &(ai, bi) in &ab {
+        t += ai;
+        if t > bi {
+            println!("No");
+            return;
+        }
+    }
+    println!("Yes");
 }

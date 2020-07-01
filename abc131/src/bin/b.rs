@@ -16,7 +16,9 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
+        l: isize,
     }
-
-    println!("{}", n);
+    let t = (0..n).map(|i| l + i as isize).collect::<Vec<_>>();
+    let e = t.iter().min_by_key(|&ti| (ti.abs(), ti)).unwrap();
+    println!("{}", t.iter().sum::<isize>() - e);
 }
