@@ -18,17 +18,16 @@ fn main() {
         n: usize,
         a: [usize; n],
     }
-    if a[0] > 0 {
+    if a[0] > 0 || (1..n).any(|i| a[i - 1] + 1 < a[i]) {
         println!("-1");
         return;
     }
-    let mut result = 0usize;
-    for i in 1..n {
-        if a[i] > a[i - 1] + 1 {
-            println!("-1");
-            return;
-        } else {
-            result += 1;
+    let mut result = a[n - 1];
+    let mut r = n - 1;
+    for i in (1..n - 1).rev() {
+        if a[i] + (r - i) > a[r] {
+            result += a[i];
+            r = i;
         }
     }
     println!("{}", result);

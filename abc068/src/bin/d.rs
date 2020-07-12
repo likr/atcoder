@@ -18,6 +18,6 @@ fn main() {
         k: usize,
     }
     let n = 50;
-    let mut a = [0; n];
+    let mut a = vec![0; n];
     println!("{}", n);
 }

@@ -1,79 +1,26 @@
-#[allow(unused_macros)]
-macro_rules! input {
-    (source = $s:expr, $($r:tt)*) => {
-        let mut iter = $s.split_whitespace();
-        let mut next = || { iter.next().unwrap() };
-        input_inner!{next, $($r)*}
-    };
-    ($($r:tt)*) => {
-        let stdin = std::io::stdin();
-        let mut bytes = std::io::Read::bytes(std::io::BufReader::new(stdin.lock()));
-        let mut next = move || -> String{
-            bytes
-                .by_ref()
-                .map(|r|r.unwrap() as char)
-                .skip_while(|c|c.is_whitespace())
-                .take_while(|c|!c.is_whitespace())
-                .collect()
-        };
-        input_inner!{next, $($r)*}
-    };
+use proconio::input;
+#[allow(unused_imports)]
+use proconio::marker::*;
+#[allow(unused_imports)]
+use std::cmp::*;
+#[allow(unused_imports)]
+use std::collections::*;
+#[allow(unused_imports)]
+use std::f64::consts::*;
+
+#[allow(unused)]
+const INF: usize = std::usize::MAX / 4;
+#[allow(unused)]
+const M: usize = 1000000007;
+
+pub struct Combination {
+    m: usize,
+    f: Vec<usize>,
+    g: Vec<usize>,
 }
 
-#[allow(unused_macros)]
-macro_rules! input_inner {
-    ($next:expr) => {};
-    ($next:expr, ) => {};
-
-    ($next:expr, $var:ident : $t:tt $($r:tt)*) => {
-        let $var = read_value!($next, $t);
-        input_inner!{$next $($r)*}
-    };
-
-    ($next:expr, mut $var:ident : $t:tt $($r:tt)*) => {
-        let mut $var = read_value!($next, $t);
-        input_inner!{$next $($r)*}
-    };
-}
-
-#[allow(unused_macros)]
-macro_rules! read_value {
-    ($next:expr, ( $($t:tt),* )) => {
-        ( $(read_value!($next, $t)),* )
-    };
-
-    ($next:expr, [ $t:tt ; $len:expr ]) => {
-        (0..$len).map(|_| read_value!($next, $t)).collect::<Vec<_>>()
-    };
-
-    ($next:expr, [ $t:tt ]) => {
-        {
-            let len = read_value!($next, usize);
-            (0..len).map(|_| read_value!($next, $t)).collect::<Vec<_>>()
-        }
-    };
-
-    ($next:expr, chars) => {
-        read_value!($next, String).chars().collect::<Vec<char>>()
-    };
-
-    ($next:expr, bytes) => {
-        read_value!($next, String).into_bytes()
-    };
-
-    ($next:expr, usize1) => {
-        read_value!($next, usize) - 1
-    };
-
-    ($next:expr, $t:ty) => {
-        $next().parse::<$t>().expect("Parse error")
-    };
-}
-
-const M : usize = 1000000007;
-
-fn inv(a: usize) -> usize {
-    let m = M as i64;
+fn inv(a: usize, m: usize) -> usize {
+    let m = m as i64;
     let mut a = a as i64;
     let mut b = m as i64;
     let mut u = 1;
@@ -97,33 +44,51 @@ fn inv(a: usize) -> usize {
     return u as usize;
 }
 
+impl Combination {
+    pub fn new(m: usize) -> Combination {
+        Combination {
+            m,
+            f: vec![1],
+            g: vec![1],
+        }
+    }
+    pub fn combinations(&mut self, n: usize, k: usize) -> usize {
+        for i in self.f.len()..=n {
+            self.f.push(self.f[i - 1] * i % self.m);
+            self.g.push(inv(self.f[i], self.m));
+        }
+        self.f[n] * self.g[k] % self.m * self.g[n - k] % self.m
+    }
+    pub fn permutations(&mut self, n: usize, k: usize) -> usize {
+        for i in self.f.len()..=n {
+            self.f.push(self.f[i - 1] * i % self.m);
+            self.g.push(inv(self.f[i], self.m));
+        }
+        self.f[n] * self.g[n - k] % self.m
+    }
+    pub fn factorial(&mut self, n: usize) -> usize {
+        for i in self.f.len()..=n {
+            self.f.push(self.f[i - 1] * i % self.m);
+            self.g.push(inv(self.f[i], self.m));
+        }
+        self.f[n]
+    }
+}
+
 fn main() {
     input! {
         n: usize,
         k: usize,
     }
-
-    let mut f = vec![0; n + 1];
-    f[0] = 1;
-    for i in 1..n + 1 {
-        f[i] = f[i - 1] * i % M;
-    }
-    let mut g = vec![0; n + 1];
-    for i in 0..n + 1 {
-        g[i] = inv(f[i]);
-    }
-    // println!("{:?}", f);
-    // println!("{:?}", g);
-
-    for i in 1..k + 1 {
-        if i > n - k + 1 {
+    let mut c = Combination::new(M);
+    for i in 1..=k {
+        if n + 1 < k || n + 1 < k + i {
             println!("0");
         } else {
-            let a = (f[n - k + 1] * g[n - k + 1 - i] % M) * g[i] % M;
-            let b = (f[k - 1] * g[k - i] % M) * g[i - 1] % M;
-            // println!("{} {}", a, b);
-            println!("{}", a * b % M);
+            let x = c.combinations(dbg!(n + 1 - k), dbg!(n + 1 - k - i));
+            let y = c.combinations(dbg!(k - 1), dbg!(k - i));
+            eprintln!("{} {}", x, y);
+            println!("{}", x * y % M);
         }
     }
-
 }

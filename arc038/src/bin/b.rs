@@ -15,7 +15,36 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
+        h: usize,
+        w: usize,
+        mut s: [Chars; h],
     }
-    println!("{}", n);
+    for i in 0..h {
+        s[i].push('#');
+    }
+    s.push(vec![]);
+    for _ in 0..=w {
+        s[h].push('#');
+    }
+
+    let mut dp = vec![vec![(false, false); w]; h];
+    for i in (0..h).rev() {
+        for j in (0..w).rev() {
+            if s[i + 1][j] == '#' && s[i][j + 1] == '#' && s[i + 1][j + 1] == '#' {
+                dp[i][j] = (false, false);
+            } else {
+                dp[i][j].0 = (s[i + 1][j] == '.' && !dp[i + 1][j].1)
+                    || (s[i][j + 1] == '.' && !dp[i][j + 1].1)
+                    || (s[i + 1][j + 1] == '.' && !dp[i + 1][j + 1].1);
+                dp[i][j].1 = (s[i + 1][j] == '.' && !dp[i + 1][j].0)
+                    || (s[i][j + 1] == '.' && !dp[i][j + 1].0)
+                    || (s[i + 1][j + 1] == '.' && !dp[i + 1][j + 1].0);
+            }
+        }
+    }
+    if dp[0][0].0 {
+        println!("First");
+    } else {
+        println!("Second");
+    }
 }

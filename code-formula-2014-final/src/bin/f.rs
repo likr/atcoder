@@ -14,8 +14,8 @@ const INF: usize = std::usize::MAX / 4;
 const M: usize = 1000000007;
 
 fn main() {
-    input! {
-        n: usize,
-    }
+    let n = 100;
+    let h = 1500;
+    let w = 1500;
     println!("{}", n);
 }

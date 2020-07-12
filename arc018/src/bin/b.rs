@@ -16,7 +16,7 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        xy: [(f64, f64); n],
+        xy: [(isize, isize); n],
     }
     let mut result = 0;
     for i in 2..n {
@@ -25,10 +25,8 @@ fn main() {
             let (xj, yj) = xy[j];
             for k in 0..j {
                 let (xk, yk) = xy[k];
-                if (xi == xj && xj == xk) || (yi == yj && yj == yk) {
-                    continue;
-                }
-                if xi == xj || xi == xk || xj == xk || yi == yj || yi == yk || yj == yk {
+                let d = ((xi - xk) * (yj - yk) - (xj - xk) * (yi - yk)).abs();
+                if d > 0 && d % 2 == 0 {
                     result += 1;
                 }
             }
