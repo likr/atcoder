@@ -1,92 +1,39 @@
-#[allow(unused_macros)]
-macro_rules! input {
-    (source = $s:expr, $($r:tt)*) => {
-        let mut iter = $s.split_whitespace();
-        let mut next = || { iter.next().unwrap() };
-        input_inner!{next, $($r)*}
-    };
-    ($($r:tt)*) => {
-        let stdin = std::io::stdin();
-        let mut bytes = std::io::Read::bytes(std::io::BufReader::new(stdin.lock()));
-        let mut next = move || -> String{
-            bytes
-                .by_ref()
-                .map(|r|r.unwrap() as char)
-                .skip_while(|c|c.is_whitespace())
-                .take_while(|c|!c.is_whitespace())
-                .collect()
-        };
-        input_inner!{next, $($r)*}
-    };
-}
+use proconio::input;
+#[allow(unused_imports)]
+use proconio::marker::*;
+#[allow(unused_imports)]
+use std::cmp::*;
+#[allow(unused_imports)]
+use std::collections::*;
+#[allow(unused_imports)]
+use std::f64::consts::*;
 
-#[allow(unused_macros)]
-macro_rules! input_inner {
-    ($next:expr) => {};
-    ($next:expr, ) => {};
-
-    ($next:expr, $var:ident : $t:tt $($r:tt)*) => {
-        let $var = read_value!($next, $t);
-        input_inner!{$next $($r)*}
-    };
-
-    ($next:expr, mut $var:ident : $t:tt $($r:tt)*) => {
-        let mut $var = read_value!($next, $t);
-        input_inner!{$next $($r)*}
-    };
-}
-
-#[allow(unused_macros)]
-macro_rules! read_value {
-    ($next:expr, ( $($t:tt),* )) => {
-        ( $(read_value!($next, $t)),* )
-    };
-
-    ($next:expr, [ $t:tt ; $len:expr ]) => {
-        (0..$len).map(|_| read_value!($next, $t)).collect::<Vec<_>>()
-    };
-
-    ($next:expr, [ $t:tt ]) => {
-        {
-            let len = read_value!($next, usize);
-            (0..len).map(|_| read_value!($next, $t)).collect::<Vec<_>>()
-        }
-    };
-
-    ($next:expr, chars) => {
-        read_value!($next, String).chars().collect::<Vec<char>>()
-    };
-
-    ($next:expr, bytes) => {
-        read_value!($next, String).into_bytes()
-    };
-
-    ($next:expr, usize1) => {
-        read_value!($next, usize) - 1
-    };
-
-    ($next:expr, $t:ty) => {
-        $next().parse::<$t>().expect("Parse error")
-    };
-}
+#[allow(unused)]
+const INF: usize = std::usize::MAX / 4;
+#[allow(unused)]
+const M: usize = 1000000007;
 
 fn main() {
     input! {
         n: usize,
         d: usize,
-        x: [f32; n * d],
+        x: [[i64; d]; n],
     }
     let mut count = 0;
-    for i in 0..n {
-        for j in 0..i {
-            let mut s = 0.0;
+    for j in 0..n {
+        for i in 0..j {
+            let mut d2 = 0;
             for k in 0..d {
-                let dk = (x[d * i + k] - x[d * j + k]) as f32;
-                s += dk * dk;
+                d2 += (x[i][k] - x[j][k]) * (x[i][k] - x[j][k]);
             }
-            let s = s.sqrt();
-            if s == s.floor() {
-                count += 1;
+            for k in 0.. {
+                if k * k > d2 {
+                    break;
+                }
+                if k * k == d2 {
+                    count += 1;
+                    break;
+                }
             }
         }
     }

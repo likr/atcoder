@@ -16,8 +16,14 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
-        a: usize,
-        b: usize,
+        k: usize,
+        a: [usize; n],
     }
-    println!("{}", min(a * n, b));
+    for i in k..n {
+        if a[i - k] < a[i] {
+            println!("Yes");
+        } else {
+            println!("No");
+        }
+    }
 }

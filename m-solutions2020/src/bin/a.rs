@@ -15,9 +15,7 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
-        a: usize,
-        b: usize,
+        x: usize,
     }
-    println!("{}", min(a * n, b));
+    println!("{}", 8 - (x - 400) / 200);
 }
