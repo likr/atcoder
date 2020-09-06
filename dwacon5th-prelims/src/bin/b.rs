@@ -29,17 +29,11 @@ fn main() {
             b.push(acc[i] - acc[j]);
         }
     }
-    b.sort();
-    let mut count = vec![0; 60];
     let mut result = 0;
-    for &bj in &b {
-        for i in 0..count.len() {
-            if 1 << i & bj >= 1 {
-                count[i] += 1;
-            }
-        }
-        if (0..count.len()).all(|i| 1 << i & bj == 0 || count[i] >= k) {
-            result = bj;
+    for i in (0..=40).rev() {
+        let x = result | 1 << i;
+        if b.iter().filter(|&bi| bi & x == x).count() >= k {
+            result = x;
         }
     }
     println!("{}", result);

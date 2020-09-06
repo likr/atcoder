@@ -18,6 +18,25 @@ fn main() {
         k: usize,
     }
     let n = 50;
-    let mut a = vec![0; n];
+    let mut a = (0..n).collect::<Vec<usize>>();
+    for i in 0..n {
+        a[i] += k / n;
+    }
+    for i in 0..k % n {
+        for j in 0..n {
+            if i == j {
+                a[j] += n;
+            } else {
+                a[j] -= 1;
+            }
+        }
+    }
     println!("{}", n);
+    println!(
+        "{}",
+        a.iter()
+            .map(|&ai| format!("{}", ai))
+            .collect::<Vec<_>>()
+            .join(" ")
+    );
 }

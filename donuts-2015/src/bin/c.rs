@@ -16,7 +16,16 @@ const M: usize = 1000000007;
 fn main() {
     input! {
         n: usize,
+        h: [usize; n],
     }
 
-    println!("{}", n);
+    let mut x = vec![];
+    for i in 0..n {
+        let hi = h[i];
+        println!("{}", x.len());
+        while !x.is_empty() && x[x.len() - 1] <= hi {
+            x.pop();
+        }
+        x.push(hi);
+    }
 }

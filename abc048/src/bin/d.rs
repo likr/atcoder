@@ -15,7 +15,12 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
+        s: Chars,
     }
-    println!("{}", n);
+    let n = s.len();
+    if (n % 2 == 0) == (s[0] == s[n - 1]) {
+        println!("First");
+    } else {
+        println!("Second");
+    }
 }
