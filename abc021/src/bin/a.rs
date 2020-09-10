@@ -13,21 +13,19 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
-        mut n: usize,
+        n: usize,
     }
-    let mut nums = vec![];
-    let mut b = 1;
-    while n > 0 {
-        if n % 2 == 1 {
-            nums.push(b)
-        }
-        n /= 2;
-        b *= 2;
-    }
-    println!("{}", nums.len());
-    for &i in &nums {
-        println!("{}", i);
+    println!("{}", n);
+    for _ in 0..n {
+        println!("1");
     }
 }

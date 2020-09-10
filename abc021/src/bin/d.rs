@@ -13,8 +13,38 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
-fn inv(a: usize) -> usize {
-    let m = M as i64;
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
+pub struct Combination {
+    m: usize,
+    f: Vec<usize>,
+    g: Vec<usize>,
+}
+
+impl Combination {
+    pub fn new(m: usize) -> Combination {
+        Combination {
+            m,
+            f: vec![1],
+            g: vec![1],
+        }
+    }
+    pub fn combinations(&mut self, n: usize, k: usize) -> usize {
+        for i in self.f.len()..=n {
+            self.f.push(self.f[i - 1] * i % self.m);
+            self.g.push(inv(self.f[i], self.m));
+        }
+        self.f[n] * self.g[k] % self.m * self.g[n - k] % self.m
+    }
+}
+
+fn inv(a: usize, m: usize) -> usize {
+    let m = m as i64;
     let mut a = a as i64;
     let mut b = m as i64;
     let mut u = 1;
@@ -41,19 +71,13 @@ fn inv(a: usize) -> usize {
 fn main() {
     input! {
         n: usize,
-        k: Usize1,
+        k: usize,
     }
-    let m = n + k;
-    let mut f = vec![1; m + 1];
-    let mut g = vec![1; m + 1];
-    for i in 1..=m {
-        f[i] = (f[i - 1] * i) % M;
-        g[i] = inv(f[i]);
-    }
-
-    let mut s = 0usize;
+    let mut result = 0;
+    let mut c = Combination::new(M);
     for i in 0..n {
-        s = (s + f[k + i] * g[k] % M * g[i] % M) % M;
+        debug!(result);
+        result = (result + c.combinations(k + i - 1, i)) % M;
     }
-    println!("{}", s);
+    println!("{}", result);
 }
