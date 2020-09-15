@@ -13,6 +13,62 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+fn camelcase(s: &Vec<char>) -> bool {
+    if s.len() == 0 {
+        return true;
+    }
+    if '0' <= s[0] && s[0] <= '9' {
+        return false;
+    }
+    if 'A' <= s[0] && s[0] <= 'Z' {
+        return false;
+    }
+    s.iter().all(|&c| c != '_')
+}
+
+fn snakecase(s: &Vec<char>) -> bool {
+    if s.len() == 0 {
+        return true;
+    }
+    if '0' <= s[0] && s[0] <= '9' {
+        return false;
+    }
+    for i in 1..s.len() {
+        if s[i - 1] == '_' && ('0' <= s[i] && s[i] <= '9') {
+            return false;
+        }
+        if s[i - 1] == '_' && s[i] == '_' {
+            return false;
+        }
+    }
+    s.iter().all(|&c| c < 'A' || 'Z' < c)
+}
+
+fn to_snakecase(s: &Vec<char>) -> Vec<char> {
+    let mut t = vec![];
+    for &c in s {
+        if 'A' <= c && c <= 'Z' {
+            t.push('_');
+            t.push((c as usize + 'a' as usize - 'A' as usize) as u8 as char);
+        } else {
+            t.push(c);
+        }
+    }
+    t
+}
+
+fn to_camelcase(s: &Vec<char>) -> Vec<char> {
+    let mut t = vec![];
+    for i in 0..s.len() {
+        if i > 1 && s[i - 1] == '_' {
+            t.push((s[i] as usize + 'A' as usize - 'a' as usize) as u8 as char);
+        } else if s[i] != '_' {
+            t.push(s[i]);
+        }
+    }
+    t
+}
+
 fn main() {
     input! {
         mut c: Chars,
@@ -32,52 +88,18 @@ fn main() {
     for _ in 0..first {
         print!("_");
     }
-    let n = c.len();
-    if (0..n).any(|i| c[i] == '_') {
-        if (0..n).any(|i| 'A' <= c[i] && c[i] <= 'Z') {
-            for &ci in &c {
-                print!("{}", ci);
-            }
-        } else {
-            let words = c.iter().collect::<String>();
-            let words = words.split('_').collect::<Vec<_>>();
-            if words.iter().any(|w| w.is_empty()) {
-                for &ci in &c {
-                    print!("{}", ci);
-                }
-            } else {
-                for w in &words {
-                    for (i, c) in w.chars().enumerate() {
-                        if i == 0 {
-                            print!(
-                                "{}",
-                                (c as usize - 'a' as usize + 'A' as usize) as u8 as char
-                            );
-                        } else {
-                            print!("{}", c);
-                        }
-                    }
-                }
-            }
-        }
+
+    let d = if camelcase(&c) {
+        to_snakecase(&c)
+    } else if snakecase(&c) {
+        to_camelcase(&c)
     } else {
-        if (c[0] < 'A' || 'Z' < c[0]) && (0..n).any(|i| 'A' <= c[i] && c[i] <= 'Z') {
-            for i in 0..n {
-                if 'A' <= c[i] && c[i] <= 'Z' {
-                    print!(
-                        "_{}",
-                        (c[i] as usize - 'A' as usize + 'a' as usize) as u8 as char
-                    );
-                } else {
-                    print!("{}", c[i]);
-                }
-            }
-        } else {
-            for &ci in &c {
-                print!("{}", ci);
-            }
-        }
+        c
+    };
+    for &ci in &d {
+        print!("{}", ci);
     }
+
     for _ in 0..last {
         print!("_");
     }

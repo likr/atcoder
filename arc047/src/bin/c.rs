@@ -24,13 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        xy: [(isize, isize); n],
     }
-
-    let x_max = xy.iter().map(|&(xi, yi)| xi + yi).max().unwrap();
-    let x_min = xy.iter().map(|&(xi, yi)| xi + yi).min().unwrap();
-    let y_max = xy.iter().map(|&(xi, yi)| xi - yi).max().unwrap();
-    let y_min = xy.iter().map(|&(xi, yi)| xi - yi).min().unwrap();
-
-    println!("{}", max(x_max - x_min, y_max - y_min));
+    println!("{}", n);
 }

@@ -15,7 +15,14 @@ const M: usize = 1000000007;
 
 fn main() {
     input! {
-        n: usize,
+        s: Chars,
     }
-    println!("{}", n);
+    let n = s.len();
+    let mut result = n;
+    for i in 1..n {
+        if s[i - 1] != s[i] {
+            result = min(result, max(i, n - i));
+        }
+    }
+    println!("{}", result);
 }

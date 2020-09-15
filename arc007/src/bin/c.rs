@@ -13,39 +13,48 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+    #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
+fn dfs(x: &Vec<char>, c: &Vec<char>, cache: &mut HashMap<String, usize>) -> usize {
+    debug!(x);
+    let sx = x.iter().collect::<String>();
+    if let Some(&c) = cache.get(&sx) {
+        return c;
+    }
+    let n = c.len();
+    let mut result = INF;
+    for offset in 0..n {
+        let mut y = x.clone();
+        let mut changed = 0;
+        for i in offset..2 * n {
+            if c[(i - offset) % n] == 'o' && y[i] == 'x' {
+                y[i] = 'o';
+                changed += 1;
+            }
+        }
+        if changed > 0 {
+            for i in 0..n {
+                if (0..n).all(|j| y[i + j] == 'o') {
+                    return 1;
+                }
+            }
+            result = min(result, 1 + dfs(&y, c, cache));
+        }
+    }
+    cache.insert(sx, result);
+    return result;
+}
+
 fn main() {
     input! {
         c: Chars,
     }
-    let n = c.len();
-    let mut start = 0;
-    while start < n && c[start] != 'o' {
-        start += 1;
-    }
-
-    let mut t = vec![];
-    for i in start..n {
-        t.push(c[i]);
-    }
-    for i in 0..start {
-        t.push(c[i]);
-    }
-
-    let mut result = 1;
-    while (0..n).any(|i| t[i] == 'x') {
-        let mut i = 0;
-        while i < n && t[i] == 'o' {
-            i += 1;
-        }
-        for j in 0.. {
-            if i + j >= n {
-                break;
-            }
-            if c[start + j] == 'o' {
-                t[i + j] = 'o'
-            }
-        }
-        result += 1;
-    }
-    println!("{}", result);
+    let mut cache = HashMap::new();
+    let x = vec!['x'; 2 * c.len()];
+    println!("{}", dfs(&x, &c, &mut cache));
 }
