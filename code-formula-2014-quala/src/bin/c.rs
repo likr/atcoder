@@ -27,31 +27,38 @@ fn main() {
         k: usize,
         a: [[usize; k]; n],
     }
-    let m = k / n;
-    let mut used = HashSet::new();
-    let mut skip = k % n;
+    let mut used0 = HashSet::new();
     let mut result = vec![vec![]; n];
     for i in 0..n {
-        for j in 0..m {
-            if used.contains(&a[i][j]) {
-                skip += 1;
-            }
-            if !used.contains(&a[i][j]) {
-                result[i].push(format!("{}", a[i][j]));
-                used.insert(a[i][j]);
-            }
-        }
-        for l in 0..(skip + n - 1) / n {
-            for j in 0..=i {
-                if !used.contains(&a[j][m + l]) {
-                    result[i].push(format!("{}", a[j][m + l]));
-                    used.insert(a[j][m + l]);
+        let mut skip = 0;
+        let mut used = HashSet::new();
+        let mut j = 0;
+        while j < k + skip {
+            let i2 = j % n;
+            let j2 = j / n;
+            if i2 <= i {
+                if used.contains(&a[i2][j2]) {
+                    skip += 1;
+                } else {
+                    if !used0.contains(&a[i2][j2]) {
+                        result[i].push(a[i2][j2]);
+                        used0.insert(a[i2][j2]);
+                    }
+                    used.insert(a[i2][j2]);
                 }
             }
+            j += 1;
         }
     }
     for i in 0..n {
         result[i].sort();
-        println!("{}", result[i].join(" "));
+        println!(
+            "{}",
+            result[i]
+                .iter()
+                .map(|v| format!("{}", v))
+                .collect::<Vec<_>>()
+                .join(" ")
+        );
     }
 }
