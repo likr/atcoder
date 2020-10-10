@@ -23,15 +23,24 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        mut a: usize,
-        mut b: usize,
+        h: usize,
+        w: usize,
+        s: [Chars; h],
     }
-    if a > b {
-        std::mem::swap(&mut a, &mut b);
+    let mut result = 0;
+    for i in 0..h {
+        for j in 1..w {
+            if s[i][j - 1] == '.' && s[i][j] == '.' {
+                result += 1;
+            }
+        }
     }
-    if (b - a) % 2 == 0 {
-        println!("{}", (b - a) / 2 + a);
-    } else {
-        println!("IMPOSSIBLE");
+    for i in 1..h {
+        for j in 0..w {
+            if s[i - 1][j] == '.' && s[i][j] == '.' {
+                result += 1;
+            }
+        }
     }
+    println!("{}", result);
 }

@@ -23,15 +23,8 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        mut a: usize,
-        mut b: usize,
+        a: i64,
+        b: i64,
     }
-    if a > b {
-        std::mem::swap(&mut a, &mut b);
-    }
-    if (b - a) % 2 == 0 {
-        println!("{}", (b - a) / 2 + a);
-    } else {
-        println!("IMPOSSIBLE");
-    }
+    println!("{} {}", (a + b) / 2, (a - b) / 2);
 }

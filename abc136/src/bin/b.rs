@@ -24,31 +24,17 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        mut a: [usize; n + 1],
-        mut b: [usize; n],
     }
-    let mut count = 0usize;
-    for i in 0..n {
-        if b[i] > a[i] {
-            count += a[i];
-            b[i] -= a[i];
-            a[i] = 0;
-        } else {
-            count += b[i];
-            a[i] -= b[i];
-            b[i] = 0;
+    let mut result = 0;
+    for mut i in 1..=n {
+        let mut count = 0;
+        while i > 0 {
+            count += 1;
+            i /= 10;
         }
-        if b[i] > a[i + 1] {
-            count += a[i + 1];
-            b[i] -= a[i + 1];
-            a[i + 1] = 0;
-        } else {
-            count += b[i];
-            a[i + 1] -= b[i];
-            b[i] = 0;
+        if count % 2 == 1 {
+            result += 1;
         }
     }
-    debug!(a);
-    debug!(b);
-    println!("{}", count);
+    println!("{}", result);
 }

@@ -23,15 +23,14 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        mut a: usize,
-        mut b: usize,
+        mut s: Chars,
     }
-    if a > b {
-        std::mem::swap(&mut a, &mut b);
-    }
-    if (b - a) % 2 == 0 {
-        println!("{}", (b - a) / 2 + a);
+    if s[s.len() - 1] == 's' {
+        s.push('e');
+        s.push('s');
+        println!("{}", s.iter().collect::<String>());
     } else {
-        println!("IMPOSSIBLE");
+        s.push('s');
+        println!("{}", s.iter().collect::<String>());
     }
 }

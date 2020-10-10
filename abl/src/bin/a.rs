@@ -23,15 +23,10 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        mut a: usize,
-        mut b: usize,
+        n: usize,
     }
-    if a > b {
-        std::mem::swap(&mut a, &mut b);
+    for _ in 0..n {
+        print!("ACL");
     }
-    if (b - a) % 2 == 0 {
-        println!("{}", (b - a) / 2 + a);
-    } else {
-        println!("IMPOSSIBLE");
-    }
+    println!("");
 }

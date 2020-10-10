@@ -21,108 +21,24 @@ macro_rules! debug {
     };
 }
 
-fn longest_path_rec(graph: &Vec<Vec<usize>>, u: usize, height: &mut Vec<Option<usize>>) -> usize {
-    if let Some(h) = height[u] {
-        return h;
-    }
-    let h = graph[u]
-        .iter()
-        .map(|&v| longest_path_rec(graph, v, height) + 1)
-        .max()
-        .unwrap_or(0);
-    height[u] = Some(h);
-    h
-}
-
-fn longest_path(graph: &Vec<Vec<usize>>) -> usize {
-    let n = graph.len();
-    let mut height = vec![None; n];
-    (0..n)
-        .map(|i| longest_path_rec(graph, i, &mut height))
-        .max()
-        .unwrap()
-}
-
-fn has_cycle(graph: &Vec<Vec<usize>>) -> bool {
-    let n = graph.len();
-    let mut visited = vec![false; n];
-    let mut in_degree = vec![0; n];
-    for u in 0..n {
-        for &v in &graph[u] {
-            in_degree[v] += 1;
-        }
-    }
-    for u in 0..n {
-        if in_degree[u] == 0 {
-            let mut queue = VecDeque::new();
-            visited[u] = true;
-            queue.push_back(u);
-            while let Some(u) = queue.pop_front() {
-                for &v in &graph[u] {
-                    if visited[v] {
-                        return true;
-                    }
-                    visited[v] = true;
-                    queue.push_back(v);
-                }
-            }
-        }
-    }
-    return (0..n).any(|u| !visited[u]);
-}
-
 fn main() {
     input! {
-        s: Chars,
-        t: Chars,
+        s: String,
     }
+    let sa = suffix_array(&s);
+    let lcp = lcp_array(&s, &sa);
+    debug!(sa);
+    debug!(lcp);
     let n = s.len();
-    let m = t.len();
-    let s = if n < m {
-        let s0 = s;
-        let mut s = vec![];
-        while s.len() < m {
-            for i in 0..n {
-                s.push(s0[i]);
-            }
-        }
-        s
-    } else {
-        s
-    };
-    let n = s.len();
-
-    let mut tss = vec![];
-    for i in 0..m {
-        tss.push(t[i]);
+    let mut result = n * (n + 1) / 2;
+    for &l in &lcp {
+        result -= l;
     }
-    for i in 0..n {
-        tss.push(s[i]);
-    }
-    for i in 0..n {
-        tss.push(s[i]);
-    }
-    let lcp = z_algorithm_arbitrary(&tss);
-    // debug!(lcp);
-
-    let mut graph = vec![vec![]; n];
-    for i in 0..n {
-        // debug!(i, lcp[m + i]);
-        if lcp[m + i] >= m {
-            graph[i].push((i + m) % n);
-        }
-    }
-    if has_cycle(&graph) {
-        println!("-1");
-        return;
-    }
-    println!("{}", longest_path(&graph));
+    println!("{}", result);
 }
 //https://github.com/rust-lang-ja/ac-library-rs
 
 pub mod string {
-    #![allow(clippy::many_single_char_names)]
-
     fn sa_naive<T: Ord>(s: &[T]) -> Vec<usize> {
         let n = s.len();
         let mut sa: Vec<usize> = (0..n).collect();

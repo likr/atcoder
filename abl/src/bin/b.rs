@@ -23,15 +23,14 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        mut a: usize,
-        mut b: usize,
+        a: usize,
+        b: usize,
+        c: usize,
+        d: usize,
     }
-    if a > b {
-        std::mem::swap(&mut a, &mut b);
-    }
-    if (b - a) % 2 == 0 {
-        println!("{}", (b - a) / 2 + a);
+    if (a <= c && c <= b) || (a <= d && d <= b) || (c <= a && a <= d) || (c <= b && b <= d) {
+        println!("Yes");
     } else {
-        println!("IMPOSSIBLE");
+        println!("No");
     }
 }
