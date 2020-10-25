@@ -4,6 +4,17 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "nikkei2019-qual-a",problem = {platform = "atcoder",contest = "nikkei2019-qual",index = "A"}}
+b = {name = "nikkei2019-qual-b",problem = {platform = "atcoder",contest = "nikkei2019-qual",index = "B"}}
+c = {name = "nikkei2019-qual-c",problem = {platform = "atcoder",contest = "nikkei2019-qual",index = "C"}}
+d = {name = "nikkei2019-qual-d",problem = {platform = "atcoder",contest = "nikkei2019-qual",index = "D"}}
+e = {name = "nikkei2019-qual-e",problem = {platform = "atcoder",contest = "nikkei2019-qual",index = "E"}}
+f = {name = "nikkei2019-qual-f",problem = {platform = "atcoder",contest = "nikkei2019-qual",index = "F"}}
+
 # dependencies added to new project
 [dependencies]
 itertools = "*"
@@ -13,6 +24,26 @@ proconio = "*"
 superslice = "*"
 union-find = "*"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "nikkei2019-qual-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "nikkei2019-qual-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "nikkei2019-qual-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "nikkei2019-qual-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "nikkei2019-qual-e"
+path = "./src/bin/e.rs"
+
+[[bin]]
+name = "nikkei2019-qual-f"
+path = "./src/bin/f.rs"

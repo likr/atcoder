@@ -4,6 +4,17 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "code-festival-2017-qualb-a",problem = {platform = "atcoder",contest = "code-festival-2017-qualb",index = "A"}}
+b = {name = "code-festival-2017-qualb-b",problem = {platform = "atcoder",contest = "code-festival-2017-qualb",index = "B"}}
+c = {name = "code-festival-2017-qualb-c",problem = {platform = "atcoder",contest = "code-festival-2017-qualb",index = "C"}}
+d = {name = "code-festival-2017-qualb-d",problem = {platform = "atcoder",contest = "code-festival-2017-qualb",index = "D"}}
+e = {name = "code-festival-2017-qualb-e",problem = {platform = "atcoder",contest = "code-festival-2017-qualb",index = "E"}}
+f = {name = "code-festival-2017-qualb-f",problem = {platform = "atcoder",contest = "code-festival-2017-qualb",index = "F"}}
+
 # dependencies added to new project
 [dependencies]
 num = "=0.2.1"
@@ -46,6 +57,26 @@ whiteread = "=0.5.0"
 rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "code-festival-2017-qualb-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "code-festival-2017-qualb-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "code-festival-2017-qualb-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "code-festival-2017-qualb-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "code-festival-2017-qualb-e"
+path = "./src/bin/e.rs"
+
+[[bin]]
+name = "code-festival-2017-qualb-f"
+path = "./src/bin/f.rs"

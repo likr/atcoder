@@ -4,6 +4,15 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "indeednow-quala-a",problem = {platform = "atcoder",contest = "indeednow-quala",index = "A"}}
+b = {name = "indeednow-quala-b",problem = {platform = "atcoder",contest = "indeednow-quala",index = "B"}}
+c = {name = "indeednow-quala-c",problem = {platform = "atcoder",contest = "indeednow-quala",index = "C"}}
+d = {name = "indeednow-quala-d",problem = {platform = "atcoder",contest = "indeednow-quala",index = "D"}}
+
 # dependencies added to new project
 [dependencies]
 num = "=0.2.1"
@@ -46,6 +55,18 @@ whiteread = "=0.5.0"
 rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "indeednow-quala-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "indeednow-quala-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "indeednow-quala-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "indeednow-quala-d"
+path = "./src/bin/d.rs"

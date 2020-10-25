@@ -4,6 +4,26 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "past-sample-a",problem = {platform = "atcoder",contest = "past-sample",index = "A"}}
+b = {name = "past-sample-b",problem = {platform = "atcoder",contest = "past-sample",index = "B"}}
+c = {name = "past-sample-c",problem = {platform = "atcoder",contest = "past-sample",index = "C"}}
+d = {name = "past-sample-d",problem = {platform = "atcoder",contest = "past-sample",index = "D"}}
+e = {name = "past-sample-e",problem = {platform = "atcoder",contest = "past-sample",index = "E"}}
+f = {name = "past-sample-f",problem = {platform = "atcoder",contest = "past-sample",index = "F"}}
+g = {name = "past-sample-g",problem = {platform = "atcoder",contest = "past-sample",index = "G"}}
+h = {name = "past-sample-h",problem = {platform = "atcoder",contest = "past-sample",index = "H"}}
+i = {name = "past-sample-i",problem = {platform = "atcoder",contest = "past-sample",index = "I"}}
+j = {name = "past-sample-j",problem = {platform = "atcoder",contest = "past-sample",index = "J"}}
+k = {name = "past-sample-k",problem = {platform = "atcoder",contest = "past-sample",index = "K"}}
+l = {name = "past-sample-l",problem = {platform = "atcoder",contest = "past-sample",index = "L"}}
+m = {name = "past-sample-m",problem = {platform = "atcoder",contest = "past-sample",index = "M"}}
+n = {name = "past-sample-n",problem = {platform = "atcoder",contest = "past-sample",index = "N"}}
+o = {name = "past-sample-o",problem = {platform = "atcoder",contest = "past-sample",index = "O"}}
+
 # dependencies added to new project
 [dependencies]
 num = "=0.2.1"
@@ -46,6 +66,62 @@ whiteread = "=0.5.0"
 rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "past-sample-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "past-sample-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "past-sample-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "past-sample-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "past-sample-e"
+path = "./src/bin/e.rs"
+
+[[bin]]
+name = "past-sample-f"
+path = "./src/bin/f.rs"
+
+[[bin]]
+name = "past-sample-g"
+path = "./src/bin/g.rs"
+
+[[bin]]
+name = "past-sample-h"
+path = "./src/bin/h.rs"
+
+[[bin]]
+name = "past-sample-i"
+path = "./src/bin/i.rs"
+
+[[bin]]
+name = "past-sample-j"
+path = "./src/bin/j.rs"
+
+[[bin]]
+name = "past-sample-k"
+path = "./src/bin/k.rs"
+
+[[bin]]
+name = "past-sample-l"
+path = "./src/bin/l.rs"
+
+[[bin]]
+name = "past-sample-m"
+path = "./src/bin/m.rs"
+
+[[bin]]
+name = "past-sample-n"
+path = "./src/bin/n.rs"
+
+[[bin]]
+name = "past-sample-o"
+path = "./src/bin/o.rs"

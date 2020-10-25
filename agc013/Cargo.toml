@@ -4,6 +4,17 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "agc013-a",problem = {platform = "atcoder",contest = "agc013",index = "A"}}
+b = {name = "agc013-b",problem = {platform = "atcoder",contest = "agc013",index = "B"}}
+c = {name = "agc013-c",problem = {platform = "atcoder",contest = "agc013",index = "C"}}
+d = {name = "agc013-d",problem = {platform = "atcoder",contest = "agc013",index = "D"}}
+e = {name = "agc013-e",problem = {platform = "atcoder",contest = "agc013",index = "E"}}
+f = {name = "agc013-f",problem = {platform = "atcoder",contest = "agc013",index = "F"}}
+
 # dependencies added to new project
 [dependencies]
 itertools = "*"
@@ -13,6 +24,26 @@ proconio = "*"
 superslice = "*"
 union-find = "*"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "agc013-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "agc013-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "agc013-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "agc013-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "agc013-e"
+path = "./src/bin/e.rs"
+
+[[bin]]
+name = "agc013-f"
+path = "./src/bin/f.rs"

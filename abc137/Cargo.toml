@@ -9,6 +9,38 @@ authors = ['Yosuke Onoue <onoue@likr-lab.com>']
 edition = '2018'
 name = 'abc137'
 version = '0.1.0'
-[profile.release]
-lto = true
-panic = 'abort'
+
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "abc137-a",problem = {platform = "atcoder",contest = "abc137",index = "A"}}
+b = {name = "abc137-b",problem = {platform = "atcoder",contest = "abc137",index = "B"}}
+c = {name = "abc137-c",problem = {platform = "atcoder",contest = "abc137",index = "C"}}
+d = {name = "abc137-d",problem = {platform = "atcoder",contest = "abc137",index = "D"}}
+e = {name = "abc137-e",problem = {platform = "atcoder",contest = "abc137",index = "E"}}
+f = {name = "abc137-f",problem = {platform = "atcoder",contest = "abc137",index = "F"}}
+
+[[bin]]
+name = "abc137-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "abc137-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "abc137-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "abc137-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "abc137-e"
+path = "./src/bin/e.rs"
+
+[[bin]]
+name = "abc137-f"
+path = "./src/bin/f.rs"

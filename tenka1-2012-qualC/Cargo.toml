@@ -4,6 +4,15 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "tenka1-2012-qualC-a",problem = {platform = "atcoder",contest = "tenka1-2012-qualC",index = "A"}}
+b = {name = "tenka1-2012-qualC-b",problem = {platform = "atcoder",contest = "tenka1-2012-qualC",index = "B"}}
+c = {name = "tenka1-2012-qualC-c",problem = {platform = "atcoder",contest = "tenka1-2012-qualC",index = "C"}}
+d = {name = "tenka1-2012-qualC-d",problem = {platform = "atcoder",contest = "tenka1-2012-qualC",index = "D"}}
+
 # dependencies added to new project
 [dependencies]
 itertools = "*"
@@ -13,6 +22,18 @@ proconio = "*"
 superslice = "*"
 union-find = "*"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "tenka1-2012-qualC-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "tenka1-2012-qualC-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "tenka1-2012-qualC-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "tenka1-2012-qualC-d"
+path = "./src/bin/d.rs"

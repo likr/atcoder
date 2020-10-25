@@ -10,6 +10,28 @@ authors = ['Yosuke Onoue <onoue@likr-lab.com>']
 edition = '2018'
 name = 'dwacon6th-final-open'
 version = '0.1.0'
-[profile.release]
-lto = true
-panic = 'abort'
+
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "dwacon6th-final-open-a",problem = {platform = "atcoder",contest = "dwacon6th-final-open",index = "A"}}
+b = {name = "dwacon6th-final-open-b",problem = {platform = "atcoder",contest = "dwacon6th-final-open",index = "B"}}
+c = {name = "dwacon6th-final-open-c",problem = {platform = "atcoder",contest = "dwacon6th-final-open",index = "C"}}
+d = {name = "dwacon6th-final-open-d",problem = {platform = "atcoder",contest = "dwacon6th-final-open",index = "D"}}
+
+[[bin]]
+name = "dwacon6th-final-open-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "dwacon6th-final-open-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "dwacon6th-final-open-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "dwacon6th-final-open-d"
+path = "./src/bin/d.rs"

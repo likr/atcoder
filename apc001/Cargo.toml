@@ -10,6 +10,58 @@ authors = ['Yosuke Onoue <onoue@likr-lab.com>']
 edition = '2018'
 name = 'apc001'
 version = '0.1.0'
-[profile.release]
-lto = true
-panic = 'abort'
+
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "apc001-a",problem = {platform = "atcoder",contest = "apc001",index = "A"}}
+b = {name = "apc001-b",problem = {platform = "atcoder",contest = "apc001",index = "B"}}
+c = {name = "apc001-c",problem = {platform = "atcoder",contest = "apc001",index = "C"}}
+d = {name = "apc001-d",problem = {platform = "atcoder",contest = "apc001",index = "D"}}
+e = {name = "apc001-e",problem = {platform = "atcoder",contest = "apc001",index = "E"}}
+f = {name = "apc001-f",problem = {platform = "atcoder",contest = "apc001",index = "F"}}
+g = {name = "apc001-g",problem = {platform = "atcoder",contest = "apc001",index = "G"}}
+h = {name = "apc001-h",problem = {platform = "atcoder",contest = "apc001",index = "H"}}
+i = {name = "apc001-i",problem = {platform = "atcoder",contest = "apc001",index = "I"}}
+j = {name = "apc001-j",problem = {platform = "atcoder",contest = "apc001",index = "J"}}
+
+[[bin]]
+name = "apc001-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "apc001-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "apc001-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "apc001-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "apc001-e"
+path = "./src/bin/e.rs"
+
+[[bin]]
+name = "apc001-f"
+path = "./src/bin/f.rs"
+
+[[bin]]
+name = "apc001-g"
+path = "./src/bin/g.rs"
+
+[[bin]]
+name = "apc001-h"
+path = "./src/bin/h.rs"
+
+[[bin]]
+name = "apc001-i"
+path = "./src/bin/i.rs"
+
+[[bin]]
+name = "apc001-j"
+path = "./src/bin/j.rs"

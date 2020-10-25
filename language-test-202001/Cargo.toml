@@ -4,6 +4,24 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+abc049c = {name = "language-test-202001-abc049c",problem = {platform = "atcoder",contest = "language-test-202001",index = "ABC049C"}}
+abc081a = {name = "language-test-202001-abc081a",problem = {platform = "atcoder",contest = "language-test-202001",index = "ABC081A"}}
+abc081b = {name = "language-test-202001-abc081b",problem = {platform = "atcoder",contest = "language-test-202001",index = "ABC081B"}}
+abc083b = {name = "language-test-202001-abc083b",problem = {platform = "atcoder",contest = "language-test-202001",index = "ABC083B"}}
+abc085b = {name = "language-test-202001-abc085b",problem = {platform = "atcoder",contest = "language-test-202001",index = "ABC085B"}}
+abc085c = {name = "language-test-202001-abc085c",problem = {platform = "atcoder",contest = "language-test-202001",index = "ABC085C"}}
+abc086a = {name = "language-test-202001-abc086a",problem = {platform = "atcoder",contest = "language-test-202001",index = "ABC086A"}}
+abc086c = {name = "language-test-202001-abc086c",problem = {platform = "atcoder",contest = "language-test-202001",index = "ABC086C"}}
+abc087b = {name = "language-test-202001-abc087b",problem = {platform = "atcoder",contest = "language-test-202001",index = "ABC087B"}}
+abc088b = {name = "language-test-202001-abc088b",problem = {platform = "atcoder",contest = "language-test-202001",index = "ABC088B"}}
+l = {name = "language-test-202001-l",problem = {platform = "atcoder",contest = "language-test-202001",index = "L"}}
+m = {name = "language-test-202001-m",problem = {platform = "atcoder",contest = "language-test-202001",index = "M"}}
+practicea = {name = "language-test-202001-practicea",problem = {platform = "atcoder",contest = "language-test-202001",index = "PRACTICEA"}}
+
 # dependencies added to new project
 [dependencies]
 num = "=0.2.1"
@@ -46,6 +64,54 @@ whiteread = "=0.5.0"
 rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "language-test-202001-abc049c"
+path = "./src/bin/abc049c.rs"
+
+[[bin]]
+name = "language-test-202001-abc081a"
+path = "./src/bin/abc081a.rs"
+
+[[bin]]
+name = "language-test-202001-abc081b"
+path = "./src/bin/abc081b.rs"
+
+[[bin]]
+name = "language-test-202001-abc083b"
+path = "./src/bin/abc083b.rs"
+
+[[bin]]
+name = "language-test-202001-abc085b"
+path = "./src/bin/abc085b.rs"
+
+[[bin]]
+name = "language-test-202001-abc085c"
+path = "./src/bin/abc085c.rs"
+
+[[bin]]
+name = "language-test-202001-abc086a"
+path = "./src/bin/abc086a.rs"
+
+[[bin]]
+name = "language-test-202001-abc086c"
+path = "./src/bin/abc086c.rs"
+
+[[bin]]
+name = "language-test-202001-abc087b"
+path = "./src/bin/abc087b.rs"
+
+[[bin]]
+name = "language-test-202001-abc088b"
+path = "./src/bin/abc088b.rs"
+
+[[bin]]
+name = "language-test-202001-l"
+path = "./src/bin/l.rs"
+
+[[bin]]
+name = "language-test-202001-m"
+path = "./src/bin/m.rs"
+
+[[bin]]
+name = "language-test-202001-practicea"
+path = "./src/bin/practicea.rs"

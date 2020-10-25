@@ -4,6 +4,23 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "practice2-a",problem = {platform = "atcoder",contest = "practice2",index = "A"}}
+b = {name = "practice2-b",problem = {platform = "atcoder",contest = "practice2",index = "B"}}
+c = {name = "practice2-c",problem = {platform = "atcoder",contest = "practice2",index = "C"}}
+d = {name = "practice2-d",problem = {platform = "atcoder",contest = "practice2",index = "D"}}
+e = {name = "practice2-e",problem = {platform = "atcoder",contest = "practice2",index = "E"}}
+f = {name = "practice2-f",problem = {platform = "atcoder",contest = "practice2",index = "F"}}
+g = {name = "practice2-g",problem = {platform = "atcoder",contest = "practice2",index = "G"}}
+h = {name = "practice2-h",problem = {platform = "atcoder",contest = "practice2",index = "H"}}
+i = {name = "practice2-i",problem = {platform = "atcoder",contest = "practice2",index = "I"}}
+j = {name = "practice2-j",problem = {platform = "atcoder",contest = "practice2",index = "J"}}
+k = {name = "practice2-k",problem = {platform = "atcoder",contest = "practice2",index = "K"}}
+l = {name = "practice2-l",problem = {platform = "atcoder",contest = "practice2",index = "L"}}
+
 # dependencies added to new project
 [dependencies]
 num = "=0.2.1"
@@ -46,6 +63,50 @@ whiteread = "=0.5.0"
 rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "practice2-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "practice2-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "practice2-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "practice2-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "practice2-e"
+path = "./src/bin/e.rs"
+
+[[bin]]
+name = "practice2-f"
+path = "./src/bin/f.rs"
+
+[[bin]]
+name = "practice2-g"
+path = "./src/bin/g.rs"
+
+[[bin]]
+name = "practice2-h"
+path = "./src/bin/h.rs"
+
+[[bin]]
+name = "practice2-i"
+path = "./src/bin/i.rs"
+
+[[bin]]
+name = "practice2-j"
+path = "./src/bin/j.rs"
+
+[[bin]]
+name = "practice2-k"
+path = "./src/bin/k.rs"
+
+[[bin]]
+name = "practice2-l"
+path = "./src/bin/l.rs"

@@ -9,6 +9,38 @@ authors = ['Yosuke Onoue <onoue@likr-lab.com>']
 edition = '2018'
 name = 'joi2013yo'
 version = '0.1.0'
-[profile.release]
-lto = true
-panic = 'abort'
+
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "joi2013yo-a",problem = {platform = "atcoder",contest = "joi2013yo",index = "A"}}
+b = {name = "joi2013yo-b",problem = {platform = "atcoder",contest = "joi2013yo",index = "B"}}
+c = {name = "joi2013yo-c",problem = {platform = "atcoder",contest = "joi2013yo",index = "C"}}
+d = {name = "joi2013yo-d",problem = {platform = "atcoder",contest = "joi2013yo",index = "D"}}
+e = {name = "joi2013yo-e",problem = {platform = "atcoder",contest = "joi2013yo",index = "E"}}
+f = {name = "joi2013yo-f",problem = {platform = "atcoder",contest = "joi2013yo",index = "F"}}
+
+[[bin]]
+name = "joi2013yo-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "joi2013yo-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "joi2013yo-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "joi2013yo-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "joi2013yo-e"
+path = "./src/bin/e.rs"
+
+[[bin]]
+name = "joi2013yo-f"
+path = "./src/bin/f.rs"

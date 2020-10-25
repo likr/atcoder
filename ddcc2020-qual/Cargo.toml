@@ -4,6 +4,17 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "ddcc2020-qual-a",problem = {platform = "atcoder",contest = "ddcc2020-qual",index = "A"}}
+b = {name = "ddcc2020-qual-b",problem = {platform = "atcoder",contest = "ddcc2020-qual",index = "B"}}
+c = {name = "ddcc2020-qual-c",problem = {platform = "atcoder",contest = "ddcc2020-qual",index = "C"}}
+d = {name = "ddcc2020-qual-d",problem = {platform = "atcoder",contest = "ddcc2020-qual",index = "D"}}
+e = {name = "ddcc2020-qual-e",problem = {platform = "atcoder",contest = "ddcc2020-qual",index = "E"}}
+f = {name = "ddcc2020-qual-f",problem = {platform = "atcoder",contest = "ddcc2020-qual",index = "F"}}
+
 # dependencies added to new project
 [dependencies]
 itertools = "*"
@@ -13,6 +24,26 @@ proconio = "*"
 superslice = "*"
 union-find = "*"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "ddcc2020-qual-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "ddcc2020-qual-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "ddcc2020-qual-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "ddcc2020-qual-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "ddcc2020-qual-e"
+path = "./src/bin/e.rs"
+
+[[bin]]
+name = "ddcc2020-qual-f"
+path = "./src/bin/f.rs"

@@ -4,6 +4,15 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "code-festival-2014-quala-a",problem = {platform = "atcoder",contest = "code-festival-2014-quala",index = "A"}}
+b = {name = "code-festival-2014-quala-b",problem = {platform = "atcoder",contest = "code-festival-2014-quala",index = "B"}}
+c = {name = "code-festival-2014-quala-c",problem = {platform = "atcoder",contest = "code-festival-2014-quala",index = "C"}}
+d = {name = "code-festival-2014-quala-d",problem = {platform = "atcoder",contest = "code-festival-2014-quala",index = "D"}}
+
 # dependencies added to new project
 [dependencies]
 num = "=0.2.1"
@@ -46,6 +55,18 @@ whiteread = "=0.5.0"
 rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "code-festival-2014-quala-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "code-festival-2014-quala-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "code-festival-2014-quala-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "code-festival-2014-quala-d"
+path = "./src/bin/d.rs"

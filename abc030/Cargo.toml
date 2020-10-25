@@ -4,6 +4,15 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "abc030-a",problem = {platform = "atcoder",contest = "abc030",index = "A"}}
+b = {name = "abc030-b",problem = {platform = "atcoder",contest = "abc030",index = "B"}}
+c = {name = "abc030-c",problem = {platform = "atcoder",contest = "abc030",index = "C"}}
+d = {name = "abc030-d",problem = {platform = "atcoder",contest = "abc030",index = "D"}}
+
 # dependencies added to new project
 [dependencies]
 num = "=0.2.1"
@@ -46,6 +55,18 @@ whiteread = "=0.5.0"
 rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "abc030-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "abc030-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "abc030-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "abc030-d"
+path = "./src/bin/d.rs"

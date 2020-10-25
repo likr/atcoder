@@ -4,6 +4,16 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "tenka1-2015-qualb-a",problem = {platform = "atcoder",contest = "tenka1-2015-qualb",index = "A"}}
+b = {name = "tenka1-2015-qualb-b",problem = {platform = "atcoder",contest = "tenka1-2015-qualb",index = "B"}}
+c = {name = "tenka1-2015-qualb-c",problem = {platform = "atcoder",contest = "tenka1-2015-qualb",index = "C"}}
+d = {name = "tenka1-2015-qualb-d",problem = {platform = "atcoder",contest = "tenka1-2015-qualb",index = "D"}}
+e = {name = "tenka1-2015-qualb-e",problem = {platform = "atcoder",contest = "tenka1-2015-qualb",index = "E"}}
+
 # dependencies added to new project
 [dependencies]
 num = "=0.2.1"
@@ -46,6 +56,22 @@ whiteread = "=0.5.0"
 rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "tenka1-2015-qualb-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "tenka1-2015-qualb-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "tenka1-2015-qualb-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "tenka1-2015-qualb-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "tenka1-2015-qualb-e"
+path = "./src/bin/e.rs"

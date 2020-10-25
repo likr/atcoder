@@ -4,6 +4,15 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "abc094-a",problem = {platform = "atcoder",contest = "abc094",index = "A"}}
+b = {name = "abc094-b",problem = {platform = "atcoder",contest = "abc094",index = "B"}}
+c = {name = "abc094-c",problem = {platform = "atcoder",contest = "abc094",index = "C"}}
+d = {name = "abc094-d",problem = {platform = "atcoder",contest = "abc094",index = "D"}}
+
 # dependencies added to new project
 [dependencies]
 num = '*'
@@ -11,6 +20,18 @@ permutohedron = "*"
 proconio = "*"
 superslice = "*"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "abc094-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "abc094-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "abc094-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "abc094-d"
+path = "./src/bin/d.rs"

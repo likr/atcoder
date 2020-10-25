@@ -9,6 +9,33 @@ authors = ['Yosuke Onoue <onoue@likr-lab.com>']
 edition = '2018'
 name = 'soundhound2018-summer-qual'
 version = '0.1.0'
-[profile.release]
-lto = true
-panic = 'abort'
+
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "soundhound2018-summer-qual-a",problem = {platform = "atcoder",contest = "soundhound2018-summer-qual",index = "A"}}
+b = {name = "soundhound2018-summer-qual-b",problem = {platform = "atcoder",contest = "soundhound2018-summer-qual",index = "B"}}
+c = {name = "soundhound2018-summer-qual-c",problem = {platform = "atcoder",contest = "soundhound2018-summer-qual",index = "C"}}
+d = {name = "soundhound2018-summer-qual-d",problem = {platform = "atcoder",contest = "soundhound2018-summer-qual",index = "D"}}
+e = {name = "soundhound2018-summer-qual-e",problem = {platform = "atcoder",contest = "soundhound2018-summer-qual",index = "E"}}
+
+[[bin]]
+name = "soundhound2018-summer-qual-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "soundhound2018-summer-qual-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "soundhound2018-summer-qual-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "soundhound2018-summer-qual-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "soundhound2018-summer-qual-e"
+path = "./src/bin/e.rs"

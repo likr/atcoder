@@ -4,6 +4,17 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "keyence2019-a",problem = {platform = "atcoder",contest = "keyence2019",index = "A"}}
+b = {name = "keyence2019-b",problem = {platform = "atcoder",contest = "keyence2019",index = "B"}}
+c = {name = "keyence2019-c",problem = {platform = "atcoder",contest = "keyence2019",index = "C"}}
+d = {name = "keyence2019-d",problem = {platform = "atcoder",contest = "keyence2019",index = "D"}}
+e = {name = "keyence2019-e",problem = {platform = "atcoder",contest = "keyence2019",index = "E"}}
+f = {name = "keyence2019-f",problem = {platform = "atcoder",contest = "keyence2019",index = "F"}}
+
 # dependencies added to new project
 [dependencies]
 itertools = "*"
@@ -13,6 +24,26 @@ proconio = "*"
 superslice = "*"
 union-find = "*"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "keyence2019-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "keyence2019-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "keyence2019-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "keyence2019-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "keyence2019-e"
+path = "./src/bin/e.rs"
+
+[[bin]]
+name = "keyence2019-f"
+path = "./src/bin/f.rs"

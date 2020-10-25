@@ -4,6 +4,21 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "cf17-final-a",problem = {platform = "atcoder",contest = "cf17-final",index = "A"}}
+b = {name = "cf17-final-b",problem = {platform = "atcoder",contest = "cf17-final",index = "B"}}
+c = {name = "cf17-final-c",problem = {platform = "atcoder",contest = "cf17-final",index = "C"}}
+d = {name = "cf17-final-d",problem = {platform = "atcoder",contest = "cf17-final",index = "D"}}
+e = {name = "cf17-final-e",problem = {platform = "atcoder",contest = "cf17-final",index = "E"}}
+f = {name = "cf17-final-f",problem = {platform = "atcoder",contest = "cf17-final",index = "F"}}
+g = {name = "cf17-final-g",problem = {platform = "atcoder",contest = "cf17-final",index = "G"}}
+h = {name = "cf17-final-h",problem = {platform = "atcoder",contest = "cf17-final",index = "H"}}
+i = {name = "cf17-final-i",problem = {platform = "atcoder",contest = "cf17-final",index = "I"}}
+j = {name = "cf17-final-j",problem = {platform = "atcoder",contest = "cf17-final",index = "J"}}
+
 # dependencies added to new project
 [dependencies]
 num = '*'
@@ -12,6 +27,42 @@ proconio = "*"
 superslice = "*"
 union-find = "*"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "cf17-final-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "cf17-final-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "cf17-final-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "cf17-final-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "cf17-final-e"
+path = "./src/bin/e.rs"
+
+[[bin]]
+name = "cf17-final-f"
+path = "./src/bin/f.rs"
+
+[[bin]]
+name = "cf17-final-g"
+path = "./src/bin/g.rs"
+
+[[bin]]
+name = "cf17-final-h"
+path = "./src/bin/h.rs"
+
+[[bin]]
+name = "cf17-final-i"
+path = "./src/bin/i.rs"
+
+[[bin]]
+name = "cf17-final-j"
+path = "./src/bin/j.rs"

@@ -4,6 +4,15 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "abc085-a",problem = {platform = "atcoder",contest = "abc085",index = "A"}}
+b = {name = "abc085-b",problem = {platform = "atcoder",contest = "abc085",index = "B"}}
+c = {name = "abc085-c",problem = {platform = "atcoder",contest = "abc085",index = "C"}}
+d = {name = "abc085-d",problem = {platform = "atcoder",contest = "abc085",index = "D"}}
+
 # dependencies added to new project
 [dependencies]
 itertools = "*"
@@ -13,6 +22,18 @@ proconio = "*"
 superslice = "*"
 union-find = "*"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "abc085-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "abc085-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "abc085-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "abc085-d"
+path = "./src/bin/d.rs"

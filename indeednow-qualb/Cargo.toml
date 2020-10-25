@@ -4,6 +4,15 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "indeednow-qualb-a",problem = {platform = "atcoder",contest = "indeednow-qualb",index = "A"}}
+b = {name = "indeednow-qualb-b",problem = {platform = "atcoder",contest = "indeednow-qualb",index = "B"}}
+c = {name = "indeednow-qualb-c",problem = {platform = "atcoder",contest = "indeednow-qualb",index = "C"}}
+d = {name = "indeednow-qualb-d",problem = {platform = "atcoder",contest = "indeednow-qualb",index = "D"}}
+
 # dependencies added to new project
 [dependencies]
 itertools = "*"
@@ -13,6 +22,18 @@ proconio = "*"
 superslice = "*"
 union-find = "*"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "indeednow-qualb-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "indeednow-qualb-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "indeednow-qualb-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "indeednow-qualb-d"
+path = "./src/bin/d.rs"

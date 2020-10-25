@@ -4,6 +4,17 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "agc045-a",problem = {platform = "atcoder",contest = "agc045",index = "A"}}
+b = {name = "agc045-b",problem = {platform = "atcoder",contest = "agc045",index = "B"}}
+c = {name = "agc045-c",problem = {platform = "atcoder",contest = "agc045",index = "C"}}
+d = {name = "agc045-d",problem = {platform = "atcoder",contest = "agc045",index = "D"}}
+e = {name = "agc045-e",problem = {platform = "atcoder",contest = "agc045",index = "E"}}
+f = {name = "agc045-f",problem = {platform = "atcoder",contest = "agc045",index = "F"}}
+
 # dependencies added to new project
 [dependencies]
 num = "=0.2.1"
@@ -46,6 +57,26 @@ whiteread = "=0.5.0"
 rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "agc045-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "agc045-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "agc045-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "agc045-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "agc045-e"
+path = "./src/bin/e.rs"
+
+[[bin]]
+name = "agc045-f"
+path = "./src/bin/f.rs"

@@ -4,6 +4,16 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "dwango2015-prelims-a",problem = {platform = "atcoder",contest = "dwango2015-prelims",index = "A"}}
+b = {name = "dwango2015-prelims-b",problem = {platform = "atcoder",contest = "dwango2015-prelims",index = "B"}}
+c = {name = "dwango2015-prelims-c",problem = {platform = "atcoder",contest = "dwango2015-prelims",index = "C"}}
+d = {name = "dwango2015-prelims-d",problem = {platform = "atcoder",contest = "dwango2015-prelims",index = "D"}}
+e = {name = "dwango2015-prelims-e",problem = {platform = "atcoder",contest = "dwango2015-prelims",index = "E"}}
+
 # dependencies added to new project
 [dependencies]
 num = "=0.2.1"
@@ -46,6 +56,22 @@ whiteread = "=0.5.0"
 rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "dwango2015-prelims-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "dwango2015-prelims-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "dwango2015-prelims-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "dwango2015-prelims-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "dwango2015-prelims-e"
+path = "./src/bin/e.rs"

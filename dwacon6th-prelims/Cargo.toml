@@ -4,6 +4,16 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "dwacon6th-prelims-a",problem = {platform = "atcoder",contest = "dwacon6th-prelims",index = "A"}}
+b = {name = "dwacon6th-prelims-b",problem = {platform = "atcoder",contest = "dwacon6th-prelims",index = "B"}}
+c = {name = "dwacon6th-prelims-c",problem = {platform = "atcoder",contest = "dwacon6th-prelims",index = "C"}}
+d = {name = "dwacon6th-prelims-d",problem = {platform = "atcoder",contest = "dwacon6th-prelims",index = "D"}}
+e = {name = "dwacon6th-prelims-e",problem = {platform = "atcoder",contest = "dwacon6th-prelims",index = "E"}}
+
 # dependencies added to new project
 [dependencies]
 itertools = "*"
@@ -13,6 +23,22 @@ proconio = "*"
 superslice = "*"
 union-find = "*"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "dwacon6th-prelims-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "dwacon6th-prelims-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "dwacon6th-prelims-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "dwacon6th-prelims-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "dwacon6th-prelims-e"
+path = "./src/bin/e.rs"

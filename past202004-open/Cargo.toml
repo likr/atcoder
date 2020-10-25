@@ -4,6 +4,26 @@ version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
+[package.metadata.cargo-compete]
+config = "../compete.toml"
+
+[package.metadata.cargo-compete.bin]
+a = {name = "past202004-open-a",problem = {platform = "atcoder",contest = "past202004-open",index = "A"}}
+b = {name = "past202004-open-b",problem = {platform = "atcoder",contest = "past202004-open",index = "B"}}
+c = {name = "past202004-open-c",problem = {platform = "atcoder",contest = "past202004-open",index = "C"}}
+d = {name = "past202004-open-d",problem = {platform = "atcoder",contest = "past202004-open",index = "D"}}
+e = {name = "past202004-open-e",problem = {platform = "atcoder",contest = "past202004-open",index = "E"}}
+f = {name = "past202004-open-f",problem = {platform = "atcoder",contest = "past202004-open",index = "F"}}
+g = {name = "past202004-open-g",problem = {platform = "atcoder",contest = "past202004-open",index = "G"}}
+h = {name = "past202004-open-h",problem = {platform = "atcoder",contest = "past202004-open",index = "H"}}
+i = {name = "past202004-open-i",problem = {platform = "atcoder",contest = "past202004-open",index = "I"}}
+j = {name = "past202004-open-j",problem = {platform = "atcoder",contest = "past202004-open",index = "J"}}
+k = {name = "past202004-open-k",problem = {platform = "atcoder",contest = "past202004-open",index = "K"}}
+l = {name = "past202004-open-l",problem = {platform = "atcoder",contest = "past202004-open",index = "L"}}
+m = {name = "past202004-open-m",problem = {platform = "atcoder",contest = "past202004-open",index = "M"}}
+n = {name = "past202004-open-n",problem = {platform = "atcoder",contest = "past202004-open",index = "N"}}
+o = {name = "past202004-open-o",problem = {platform = "atcoder",contest = "past202004-open",index = "O"}}
+
 # dependencies added to new project
 [dependencies]
 num = "=0.2.1"
@@ -47,6 +67,62 @@ rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
 segment-tree = "*"
 
-[profile.release]
-lto = true
-panic = 'abort'
+[[bin]]
+name = "past202004-open-a"
+path = "./src/bin/a.rs"
+
+[[bin]]
+name = "past202004-open-b"
+path = "./src/bin/b.rs"
+
+[[bin]]
+name = "past202004-open-c"
+path = "./src/bin/c.rs"
+
+[[bin]]
+name = "past202004-open-d"
+path = "./src/bin/d.rs"
+
+[[bin]]
+name = "past202004-open-e"
+path = "./src/bin/e.rs"
+
+[[bin]]
+name = "past202004-open-f"
+path = "./src/bin/f.rs"
+
+[[bin]]
+name = "past202004-open-g"
+path = "./src/bin/g.rs"
+
+[[bin]]
+name = "past202004-open-h"
+path = "./src/bin/h.rs"
+
+[[bin]]
+name = "past202004-open-i"
+path = "./src/bin/i.rs"
+
+[[bin]]
+name = "past202004-open-j"
+path = "./src/bin/j.rs"
+
+[[bin]]
+name = "past202004-open-k"
+path = "./src/bin/k.rs"
+
+[[bin]]
+name = "past202004-open-l"
+path = "./src/bin/l.rs"
+
+[[bin]]
+name = "past202004-open-m"
+path = "./src/bin/m.rs"
+
+[[bin]]
+name = "past202004-open-n"
+path = "./src/bin/n.rs"
+
+[[bin]]
+name = "past202004-open-o"
+path = "./src/bin/o.rs"
