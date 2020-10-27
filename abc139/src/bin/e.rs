@@ -2,7 +2,7 @@ use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
-use std::cmp::{max, min};
+use std::cmp::*;
 #[allow(unused_imports)]
 use std::collections::*;
 #[allow(unused_imports)]
@@ -13,45 +13,62 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
-      n: usize,
-      a: [[Usize1; n - 1]; n],
+        n: usize,
+        a: [[Usize1; n - 1]; n],
     }
-    let mut candidate = (0..n).collect::<HashSet<_>>();
-    let mut progress = vec![0; n];
+    let mut queues = a
+        .iter()
+        .map(|ai| ai.iter().map(|&aij| aij).collect::<VecDeque<usize>>())
+        .collect::<Vec<_>>();
     let mut finished = HashSet::new();
-    let mut turn = 0;
-    while finished.len() < n {
-        let mut used = HashSet::new();
-        for &i in &candidate {
-            if finished.contains(&i) {
+    let mut candidates = (0..n).collect::<HashSet<_>>();
+    let mut next_candidates = HashSet::new();
+    for d in 1.. {
+        next_candidates.clear();
+        for &i in candidates.iter() {
+            if next_candidates.contains(&i) || finished.contains(&i) {
                 continue;
             }
-            let j = a[i][progress[i]];
-            if !used.contains(&i)
-                && !used.contains(&j)
-                && !finished.contains(&j)
-                && i == a[j][progress[j]]
-            {
-                used.insert(i);
-                used.insert(j);
-                progress[i] += 1;
-                if progress[i] == n - 1 {
+            let j = *queues[i].front().unwrap();
+            if next_candidates.contains(&j) || finished.contains(&j) {
+                continue;
+            }
+            let k = *queues[j].front().unwrap();
+            if i == k {
+                queues[i].pop_front();
+                if queues[i].is_empty() {
                     finished.insert(i);
+                } else {
+                    next_candidates.insert(i);
                 }
-                progress[j] += 1;
-                if progress[j] == n - 1 {
+                queues[j].pop_front();
+                if queues[j].is_empty() {
                     finished.insert(j);
+                } else {
+                    next_candidates.insert(j);
                 }
             }
         }
-        if used.is_empty() {
+        if finished.len() == n {
+            println!("{}", d);
+            return;
+        }
+        if next_candidates.is_empty() {
             println!("-1");
             return;
         }
-        candidate = used;
-        turn += 1;
+        debug!(next_candidates);
+        debug!(queues);
+        std::mem::swap(&mut candidates, &mut next_candidates);
     }
-    println!("{}", turn);
 }
