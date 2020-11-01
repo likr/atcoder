@@ -1,0 +1,26 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      contest
+      son
+    out: |
+      10
+  - name: sample2
+    in: |
+      contest
+      programming
+    out: |
+      -1
+  - name: sample3
+    in: |
+      contest
+      sentence
+    out: |
+      33
+
+extend: []
