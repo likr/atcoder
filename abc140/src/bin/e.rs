@@ -2,52 +2,57 @@ use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
-use std::cmp::{max, min};
+use std::cmp::*;
 #[allow(unused_imports)]
 use std::collections::*;
 #[allow(unused_imports)]
 use std::f64::consts::*;
 
 #[allow(unused)]
-const INF: usize = std::usize::MAX / 4;
+const INF: i64 = std::i64::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
-      n: usize,
-      p: [usize; n],
+        n: usize,
+        p: [usize; n],
     }
-    let mut indices = BTreeSet::new();
-    indices.insert(0);
-    indices.insert(1);
-    indices.insert(n + 2);
-    indices.insert(n + 3);
-
-    let mut p = p
-        .into_iter()
-        .enumerate()
-        .map(|(i, pi)| (pi, i + 2))
-        .collect::<BinaryHeap<_>>();
-
-    let mut s = 0;
-    while let Some((pi, i)) = p.pop() {
-        let mut left = indices.range(..i).rev();
-        let mut right = indices.range(i..);
-        let &l1 = left.next().unwrap();
-        let &l2 = left.next().unwrap();
-        let &r1 = right.next().unwrap();
-        let &r2 = right.next().unwrap();
-        // eprintln!("{}", pi);
-        // eprintln!("{} {} {} {} {}", l2, l1, i, r1, r2);
-        if 1 < l1 {
-            s += pi * (l1 - l2) * (r1 - i);
-        }
-        if r1 < n + 2 {
-            s += pi * (r2 - r1) * (i - l1);
-        }
-        // eprintln!(" {}", s);
-        indices.insert(i);
+    let mut indices = vec![0; n + 1];
+    for i in 0..n {
+        indices[p[i]] = i as i64;
     }
-    println!("{}", s);
+    let mut visited = BTreeMap::new();
+    visited.insert(-2, INF);
+    visited.insert(-1, INF);
+    visited.insert(n as i64, INF);
+    visited.insert(n as i64 + 1, INF);
+    visited.insert(indices[n], n as i64);
+    let mut result = 0;
+    for x in (1..n).rev() {
+        let m = indices[x];
+        let mut left = visited.range(..m).rev();
+        let l1 = *left.next().unwrap().0;
+        let l2 = *left.next().unwrap().0;
+        let mut right = visited.range(m..);
+        let r1 = *right.next().unwrap().0;
+        let r2 = *right.next().unwrap().0;
+        debug!(l2, l1, m, r1, r2);
+        if 0 <= r1 && r1 < n as i64 {
+            result += x as i64 * (m - l1) * (r2 - r1);
+        }
+        if 0 <= l1 && l1 < n as i64 {
+            result += x as i64 * (l1 - l2) * (r1 - m);
+        }
+        visited.insert(indices[x], x as i64);
+    }
+    println!("{}", result);
 }

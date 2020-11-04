@@ -1,72 +1,23 @@
-#[allow(unused_macros)]
-macro_rules! input {
-    (source = $s:expr, $($r:tt)*) => {
-        let mut iter = $s.split_whitespace();
-        let mut next = || { iter.next().unwrap() };
-        input_inner!{next, $($r)*}
-    };
-    ($($r:tt)*) => {
-        let stdin = std::io::stdin();
-        let mut bytes = std::io::Read::bytes(std::io::BufReader::new(stdin.lock()));
-        let mut next = move || -> String{
-            bytes
-                .by_ref()
-                .map(|r|r.unwrap() as char)
-                .skip_while(|c|c.is_whitespace())
-                .take_while(|c|!c.is_whitespace())
-                .collect()
-        };
-        input_inner!{next, $($r)*}
-    };
-}
+use proconio::input;
+#[allow(unused_imports)]
+use proconio::marker::*;
+#[allow(unused_imports)]
+use std::cmp::*;
+#[allow(unused_imports)]
+use std::collections::*;
+#[allow(unused_imports)]
+use std::f64::consts::*;
+
+#[allow(unused)]
+const INF: usize = std::usize::MAX / 4;
+#[allow(unused)]
+const M: usize = 1000000007;
 
 #[allow(unused_macros)]
-macro_rules! input_inner {
-    ($next:expr) => {};
-    ($next:expr, ) => {};
-
-    ($next:expr, $var:ident : $t:tt $($r:tt)*) => {
-        let $var = read_value!($next, $t);
-        input_inner!{$next $($r)*}
-    };
-
-    ($next:expr, mut $var:ident : $t:tt $($r:tt)*) => {
-        let mut $var = read_value!($next, $t);
-        input_inner!{$next $($r)*}
-    };
-}
-
-#[allow(unused_macros)]
-macro_rules! read_value {
-    ($next:expr, ( $($t:tt),* )) => {
-        ( $(read_value!($next, $t)),* )
-    };
-
-    ($next:expr, [ $t:tt ; $len:expr ]) => {
-        (0..$len).map(|_| read_value!($next, $t)).collect::<Vec<_>>()
-    };
-
-    ($next:expr, [ $t:tt ]) => {
-        {
-            let len = read_value!($next, usize);
-            (0..len).map(|_| read_value!($next, $t)).collect::<Vec<_>>()
-        }
-    };
-
-    ($next:expr, chars) => {
-        read_value!($next, String).chars().collect::<Vec<char>>()
-    };
-
-    ($next:expr, bytes) => {
-        read_value!($next, String).into_bytes()
-    };
-
-    ($next:expr, usize1) => {
-        read_value!($next, usize) - 1
-    };
-
-    ($next:expr, $t:ty) => {
-        $next().parse::<$t>().expect("Parse error")
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
     };
 }
 
@@ -74,38 +25,41 @@ fn main() {
     input! {
         n: usize,
         k: usize,
-        s: chars,
+        mut s: Chars,
     }
-    let mut k = k;
-    let mut result = 0;
-    for i in 1..n {
-        if s[i - 1] == s[i] {
-            result += 1;
-        }
-    }
-
-    let mut right = n - 1;
-    while s[0] != s[right] {
-        right -= 1;
-    }
-    let right_r = n - right - 1;
-
-    let mut count = 0;
-    for i in 0..right {
+    s.push('x');
+    let mut count = 1;
+    let mut segs = vec![];
+    for i in 0..n {
         if s[i] != s[i + 1] {
-            count += 1;
+            segs.push(count);
+            count = 0;
         }
+        count += 1;
     }
-    if count / 2 > k {
-        result += 2 * k;
-        k = 0;
-    } else {
-        result += count;
-        k -= count / 2;
+    debug!(segs);
+
+    let m = segs.len();
+    let mut acc = vec![0; m + 1];
+    for i in 0..m {
+        acc[i + 1] = acc[i] + segs[i];
     }
 
-    if k > 0 && right_r > 0 {
-        result += 1;
+    let l = 2 * k + 1;
+    if l >= m {
+        println!("{}", n - 1);
+        return;
+    }
+
+    debug!(acc);
+    let x = (l..=m).max_by_key(|&i| acc[i] - acc[i - l]).unwrap();
+    debug!(x);
+    let mut result = acc[x] - acc[x - l] - 1;
+    for i in 0..m {
+        if i < x - l || x <= i {
+            debug!(i);
+            result += segs[i] - 1;
+        }
     }
     println!("{}", result);
 }
