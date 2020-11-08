@@ -1,0 +1,35 @@
+---
+type: Batch
+timelimit: 2s
+match:
+  Float:
+    relative_error: 1e-9
+    absolute_error: 1e-9
+
+cases:
+  - name: sample1
+    in: |
+      -2 -2 2 2
+      1
+      0 0 1
+    out: |
+      3.6568542495
+  - name: sample2
+    in: |
+      -2 0 2 0
+      2
+      -1 0 2
+      1 0 2
+    out: |
+      0.0000000000
+  - name: sample3
+    in: |
+      4 -2 -2 4
+      3
+      0 0 2
+      4 0 1
+      0 4 1
+    out: |
+      4.0000000000
+
+extend: []

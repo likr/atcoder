@@ -1,0 +1,32 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      10
+      nowindeed
+      indeedwow
+      windoneed
+      indeednow
+      wondeedni
+      a
+      indonow
+      ddeennoiw
+      indeednoww
+      indeow
+    out: |
+      YES
+      NO
+      YES
+      YES
+      YES
+      NO
+      NO
+      YES
+      NO
+      NO
+
+extend: []

@@ -1,5 +1,5 @@
 [package]
-name = "indeednow-quala"
+name = "arc064"
 version = "0.1.0"
 authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
@@ -8,12 +8,26 @@ edition = "2018"
 config = "../compete.toml"
 
 [package.metadata.cargo-compete.bin]
-a = {name = "indeednow-quala-a",problem = {platform = "atcoder",contest = "indeednow-quala",index = "A",url = "https://atcoder.jp/contests/indeednow-quala/tasks/indeednow_2015_quala_1"}}
-b = {name = "indeednow-quala-b",problem = {platform = "atcoder",contest = "indeednow-quala",index = "B",url = "https://atcoder.jp/contests/indeednow-quala/tasks/indeednow_2015_quala_2"}}
-c = {name = "indeednow-quala-c",problem = {platform = "atcoder",contest = "indeednow-quala",index = "C",url = "https://atcoder.jp/contests/indeednow-quala/tasks/indeednow_2015_quala_3"}}
-d = {name = "indeednow-quala-d",problem = {platform = "atcoder",contest = "indeednow-quala",index = "D",url = "https://atcoder.jp/contests/indeednow-quala/tasks/indeednow_2015_quala_4"}}
+c = { name = "arc064-c", problem = { platform = "atcoder", contest = "arc064", index = "C", url = "https://atcoder.jp/contests/arc064/tasks/arc064_a" } }
+d = { name = "arc064-d", problem = { platform = "atcoder", contest = "arc064", index = "D", url = "https://atcoder.jp/contests/arc064/tasks/arc064_b" } }
+e = { name = "arc064-e", problem = { platform = "atcoder", contest = "arc064", index = "E", url = "https://atcoder.jp/contests/arc064/tasks/arc064_c" } }
+f = { name = "arc064-f", problem = { platform = "atcoder", contest = "arc064", index = "F", url = "https://atcoder.jp/contests/arc064/tasks/arc064_d" } }
 
-# dependencies added to new project
+[[bin]]
+name = "arc064-c"
+path = "src/bin/c.rs"
+
+[[bin]]
+name = "arc064-d"
+path = "src/bin/d.rs"
+
+[[bin]]
+name = "arc064-e"
+path = "src/bin/e.rs"
+
+[[bin]]
+name = "arc064-f"
+path = "src/bin/f.rs"
 [dependencies]
 num = "=0.2.1"
 num-bigint = "=0.2.6"
@@ -54,19 +68,3 @@ text_io = "=0.1.8"
 whiteread = "=0.5.0"
 rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
-
-[[bin]]
-name = "indeednow-quala-a"
-path = "./src/bin/a.rs"
-
-[[bin]]
-name = "indeednow-quala-b"
-path = "./src/bin/b.rs"
-
-[[bin]]
-name = "indeednow-quala-c"
-path = "./src/bin/c.rs"
-
-[[bin]]
-name = "indeednow-quala-d"
-path = "./src/bin/d.rs"
