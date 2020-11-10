@@ -2,7 +2,7 @@ use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
-use std::cmp::{max, min};
+use std::cmp::*;
 #[allow(unused_imports)]
 use std::collections::*;
 #[allow(unused_imports)]
@@ -10,50 +10,79 @@ use std::f64::consts::*;
 
 #[allow(unused)]
 const INF: usize = std::usize::MAX / 4;
+#[allow(unused)]
+const M: usize = 1000000007;
 
-const B1: usize = 1009;
-const B2: usize = 1007;
-const M1: usize = 1000000007;
-const M2: usize = 1000000009;
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
+struct RollingHash {
+    bm: Vec<(usize, usize)>,
+    hash: Vec<Vec<usize>>,
+    pow: Vec<Vec<usize>>,
+}
+
+impl RollingHash {
+    fn new(s: &[usize], bm: &[(usize, usize)]) -> RollingHash {
+        let bm = bm.to_vec();
+        let n = s.len();
+        let m = bm.len();
+        let mut pow = vec![vec![1; m]; n + 1];
+        for i in 1..=n {
+            for j in 0..m {
+                let (bj, mj) = bm[j];
+                pow[i][j] = pow[i - 1][j] * bj % mj;
+            }
+        }
+
+        let mut hash = vec![vec![0; m]; n + 1];
+        for i in 1..=n {
+            for j in 0..m {
+                let (bj, mj) = bm[j];
+                hash[i][j] = (hash[i - 1][j] + s[i - 1]) * bj % mj;
+            }
+        }
+        RollingHash { bm, hash, pow }
+    }
+
+    fn hash(&self, start: usize, stop: usize) -> Vec<usize> {
+        (0..self.bm.len())
+            .map(|j| {
+                let (_, mj) = self.bm[j];
+                (self.hash[stop][j] + mj - self.hash[start][j] * self.pow[stop - start][j] % mj)
+                    % mj
+            })
+            .collect::<Vec<_>>()
+    }
+}
 
 fn main() {
     input! {
-      n: usize,
-      s: Chars,
+        n: usize,
+        s: Chars,
     }
-    let mut hash1 = vec![0; n + 1];
-    let mut hash2 = vec![0; n + 1];
-    let mut pow1 = vec![1; n + 1];
-    let mut pow2 = vec![1; n + 1];
-    for i in 0..n {
-        hash1[i + 1] = (hash1[i] + s[i] as usize) * B1 % M1;
-        hash2[i + 1] = (hash2[i] + s[i] as usize) * B2 % M2;
-        pow1[i + 1] = pow1[i] * B1 % M1;
-        pow2[i + 1] = pow2[i] * B2 % M2;
-    }
+    let s = s.into_iter().map(|c| c as usize).collect::<Vec<_>>();
+    let rh = RollingHash::new(&s, &vec![(1009, 1000000007), (1007, 1000000009)]);
 
-    let mut hashes = HashMap::new();
     let mut result = 0;
-    for k in 1..=n / 2 {
-        let mut ok = false;
-        for i in 0..=n - k {
-            let h = (
-                ((hash1[i + k] + M1 - hash1[i] * pow1[k] % M1) % M1 + M1) % M1,
-                ((hash2[i + k] + M2 - hash2[i] * pow2[k] % M2) % M2 + M2) % M2,
-            );
-            if let Some(&j) = hashes.get(&h) {
-                if i - j >= k {
-                    ok = true;
-                }
-            } else {
-                hashes.insert(h, i);
+    let mut l_hash = HashMap::new();
+    for l in 1..=n / 2 {
+        l_hash.clear();
+        for s in 0..=n - l {
+            let h = rh.hash(s, s + l);
+            l_hash.entry(h).or_insert(vec![]).push(s);
+        }
+        for indices in l_hash.values() {
+            if indices[indices.len() - 1] - indices[0] >= l {
+                result = l;
             }
         }
-        // println!("{:?}", hashes);
-        if !ok {
-            break;
-        }
-        result = k;
+        debug!(l, l_hash);
     }
     println!("{}", result);
 }

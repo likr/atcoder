@@ -1,0 +1,18 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      Sunny
+    out: |
+      Cloudy
+  - name: sample2
+    in: |
+      Rainy
+    out: |
+      Sunny
+
+extend: []

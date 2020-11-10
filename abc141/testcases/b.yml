@@ -1,0 +1,33 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      RUDLUDR
+    out: |
+      Yes
+  - name: sample2
+    in: |
+      DULL
+    out: |
+      No
+  - name: sample3
+    in: |
+      UUUUUUUUUUUUUUU
+    out: |
+      Yes
+  - name: sample4
+    in: |
+      ULURU
+    out: |
+      No
+  - name: sample5
+    in: |
+      RDULULDURURLRDULRLR
+    out: |
+      Yes
+
+extend: []
