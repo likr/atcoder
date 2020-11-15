@@ -1,0 +1,18 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      chokudai55
+    out: |
+      55
+  - name: sample2
+    in: |
+      cho9dai
+    out: |
+      9
+
+extend: []

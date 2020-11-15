@@ -8,10 +8,10 @@ edition = "2018"
 config = "../compete.toml"
 
 [package.metadata.cargo-compete.bin]
-a = {name = "arc052-a",problem = {platform = "atcoder",contest = "arc052",index = "A"}}
-b = {name = "arc052-b",problem = {platform = "atcoder",contest = "arc052",index = "B"}}
-c = {name = "arc052-c",problem = {platform = "atcoder",contest = "arc052",index = "C"}}
-d = {name = "arc052-d",problem = {platform = "atcoder",contest = "arc052",index = "D"}}
+a = {name = "arc052-a",problem = {platform = "atcoder",contest = "arc052",index = "A",url = "https://atcoder.jp/contests/arc052/tasks/arc052_a"}}
+b = {name = "arc052-b",problem = {platform = "atcoder",contest = "arc052",index = "B",url = "https://atcoder.jp/contests/arc052/tasks/arc052_b"}}
+c = {name = "arc052-c",problem = {platform = "atcoder",contest = "arc052",index = "C",url = "https://atcoder.jp/contests/arc052/tasks/arc052_c"}}
+d = {name = "arc052-d",problem = {platform = "atcoder",contest = "arc052",index = "D",url = "https://atcoder.jp/contests/arc052/tasks/arc052_d"}}
 
 # dependencies added to new project
 [dependencies]
