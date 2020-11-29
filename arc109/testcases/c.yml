@@ -1,0 +1,26 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      3 2
+      RPS
+    out: |
+      P
+  - name: sample2
+    in: |
+      11 1
+      RPSSPRSPPRS
+    out: |
+      P
+  - name: sample3
+    in: |
+      1 100
+      S
+    out: |
+      S
+
+extend: []

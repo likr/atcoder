@@ -1,0 +1,36 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      3
+      wbb
+      o_o
+    out: |
+      2
+  - name: sample2
+    in: |
+      4
+      wwww
+      o__o
+    out: |
+      3
+  - name: sample3
+    in: |
+      9
+      bbwbwbwbb
+      _o_o_o_o_
+    out: |
+      5
+  - name: sample4
+    in: |
+      17
+      wwwwbbbbbbbbwwwwb
+      __o__o_o_ooo__oo_
+    out: |
+      11
+
+extend: []
