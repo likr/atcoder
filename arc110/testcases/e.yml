@@ -1,0 +1,20 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      5
+      ABAAC
+    out: |
+      11
+  - name: sample2
+    in: |
+      50
+      AACCCCBBBACCCCABABCCCCABACCACACACCACABABBBABABACCB
+    out: |
+      256972022
+
+extend: []
