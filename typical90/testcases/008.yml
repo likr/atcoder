@@ -1,0 +1,30 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      10
+      attcordeer
+    out: |
+      4
+  - name: sample2
+    in: |
+      41
+      btwogablwetwoiehocghiewobadegwhoihegnldir
+    out: |
+      2
+  - name: sample3
+    in: |
+      140
+      aaaaaaaaaaaaaaaaaaaattttttttttttttttttttccccccccccccccccccccooooooooooooooooooooddddddddddddddddddddeeeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrrrr
+    out: |
+      279999993
+
+extend:
+  - type: Text
+    path: "./008"
+    in: /in/*.txt
+    out: /out/*.txt

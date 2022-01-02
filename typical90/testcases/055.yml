@@ -1,0 +1,24 @@
+---
+type: Batch
+timelimit: 5s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      6 7 1
+      1 2 3 4 5 6
+    out: |
+      1
+  - name: sample2
+    in: |
+      10 1 0
+      0 0 0 0 0 0 0 0 0 0
+    out: |
+      252
+
+extend:
+  - type: Text
+    path: "./055"
+    in: /in/*.txt
+    out: /out/*.txt

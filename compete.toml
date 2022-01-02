@@ -1,45 +1,40 @@
-# Path to the test file (Liquid template)
-#
-# Variables:
-#
-# - `manifest_dir`: Package directory
-# - `contest`:      Contest ID (e.g. "abc100")
-# - `problem`:      Problem index (e.g. "A", "B")
-#
-# Additional filters:
-#
-# - `kebabcase`: Convert to kebab case (by using the `heck` crate)
-test-suite = "{{ manifest_dir }}/testcases/{{ problem | kebabcase }}.yml"
-#test-suite = "./testcases/{{ contest }}/{{ problem | kebabcase }}.yml"
+test-suite = "{{ manifest_dir }}/testcases/{{ bin_alias }}.yml"
 
-# Open files with the command (`jq` command that outputs `string[] | string[][]`)
-#
-# VSCode:
-#open = '[["code", "-a", .manifest_dir], ["code"] + (.paths | map([.src, .test_suite]) | flatten)]'
-# Emacs:
-#open = '["emacsclient", "-n"] + (.paths | map([.src, .test_suite]) | flatten)'
+[template]
+src = '''
+use proconio::input;
+#[allow(unused_imports)]
+use proconio::marker::*;
+#[allow(unused_imports)]
+use std::cmp::*;
+#[allow(unused_imports)]
+use std::collections::*; #[allow(unused_imports)]
+use std::f64::consts::*;
 
-[new]
-# Platform
-#
-# - atcoder
-# - codeforces
-# - yukicoder
-platform = "atcoder"
-# Path (Liquid template)
-#
-# Variables:
-#
-# - `contest`:      Contest ID. **May be nil**
-# - `package_name`: Package name
-path = "./{{ contest }}"
+#[allow(unused)]
+const INF: usize = std::usize::MAX / 4;
+#[allow(unused)]
+const M: usize = 1000000007;
 
-[new.template]
-#lockfile = "/path/to/cargo-lock-template.toml"
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
 
-[new.template.dependencies]
-kind = "inline"
-content = '''
+fn main() {
+    input! {
+        n: usize,
+    }
+    println!("{}", n);
+}
+'''
+
+[template.new]
+edition = "2018"
+dependencies = '''
 num = "=0.2.1"
 num-bigint = "=0.2.6"
 num-complex = "=0.2.4"
@@ -81,46 +76,13 @@ rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
 '''
 
-[new.template.src]
-kind = "inline"
-content = '''
-use proconio::input;
-#[allow(unused_imports)]
-use proconio::marker::*;
-#[allow(unused_imports)]
-use std::cmp::*;
-#[allow(unused_imports)]
-use std::collections::*; #[allow(unused_imports)]
-use std::f64::consts::*;
+[template.new.copy-files]
+#"./template-cargo-lock.toml" = "Cargo.lock"
 
-#[allow(unused)]
-const INF: usize = std::usize::MAX / 4;
-#[allow(unused)]
-const M: usize = 1000000007;
+[new]
+kind = "cargo-compete"
+platform = "atcoder"
+path = "./{{ contest }}"
 
-#[allow(unused_macros)]
-macro_rules! debug {
-    ($($a:expr),* $(,)*) => {
-        #[cfg(debug_assertions)]
-        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
-    };
-}
-
-fn main() {
-    input! {
-        n: usize,
-    }
-    println!("{}", n);
-}
-'''
-
-#[submit.transpile]
-#kind = "command"
-#args = ["cargo", "equip", "--oneline", "mods", "--rustfmt", "--check", "--bin", "{{ bin_name }}"]
-#language_id = ""
-
-#[submit.via-binary]
-#target = "x86_64-unknown-linux-musl"
-##cross = "cross"
-#strip = "strip"
-##upx = "upx"
+[test]
+toolchain = "1.42.0"

@@ -1,0 +1,51 @@
+---
+type: Batch
+timelimit: 1s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      5
+      e869120
+      atcoder
+      e869120
+      square1001
+      square1001
+    out: |
+      1
+      2
+      4
+  - name: sample2
+    in: |
+      4
+      taro
+      hanako
+      yuka
+      takashi
+    out: |
+      1
+      2
+      3
+      4
+  - name: sample3
+    in: |
+      10
+      square869120
+      square869120
+      square869120
+      square869120
+      square869120
+      square869120
+      square869120
+      square869120
+      square869120
+      square869120
+    out: |
+      1
+
+extend:
+  - type: Text
+    path: "./027"
+    in: /in/*.txt
+    out: /out/*.txt
