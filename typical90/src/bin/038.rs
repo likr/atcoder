@@ -1,10 +1,12 @@
+use num::integer::gcd;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
 use std::cmp::*;
 #[allow(unused_imports)]
-use std::collections::*; #[allow(unused_imports)]
+use std::collections::*;
+#[allow(unused_imports)]
 use std::f64::consts::*;
 
 #[allow(unused)]
@@ -22,7 +24,14 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        a: u64,
+        b: u64,
     }
-    println!("{}", n);
+    let c = gcd(a, b);
+    let (x, overflow) = (a / c).overflowing_mul(b);
+    if overflow || x > 1000000000000000000 {
+        println!("Large");
+    } else {
+        println!("{}", x);
+    }
 }

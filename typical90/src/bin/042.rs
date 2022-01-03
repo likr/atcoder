@@ -4,7 +4,8 @@ use proconio::marker::*;
 #[allow(unused_imports)]
 use std::cmp::*;
 #[allow(unused_imports)]
-use std::collections::*; #[allow(unused_imports)]
+use std::collections::*;
+#[allow(unused_imports)]
 use std::f64::consts::*;
 
 #[allow(unused)]
@@ -22,7 +23,20 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        k: usize,
     }
-    println!("{}", n);
+    if k % 9 != 0 {
+        println!("0");
+        return;
+    }
+    let mut dp = vec![0; k + 1];
+    dp[0] = 1;
+    for i in 0..k {
+        for j in 1..10 {
+            if i + j <= k {
+                dp[i + j] = (dp[i + j] + dp[i]) % M;
+            }
+        }
+    }
+    println!("{}", dp[k]);
 }

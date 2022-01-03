@@ -4,7 +4,8 @@ use proconio::marker::*;
 #[allow(unused_imports)]
 use std::cmp::*;
 #[allow(unused_imports)]
-use std::collections::*; #[allow(unused_imports)]
+use std::collections::*;
+#[allow(unused_imports)]
 use std::f64::consts::*;
 
 #[allow(unused)]
@@ -23,6 +24,19 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        q: usize,
+        mut a: [usize; n],
+        txy: [(usize, usize, usize); q],
     }
-    println!("{}", n);
+    let mut offset = 0;
+    for i in 0..q {
+        let (ti, xi, yi) = txy[i];
+        if ti == 1 {
+            a.swap((xi - 1 + n - offset % n) % n, (yi - 1 + n - offset % n) % n);
+        } else if ti == 2 {
+            offset += 1;
+        } else {
+            println!("{}", a[(xi - 1 + n - offset % n) % n]);
+        }
+    }
 }

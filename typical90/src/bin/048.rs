@@ -4,7 +4,8 @@ use proconio::marker::*;
 #[allow(unused_imports)]
 use std::cmp::*;
 #[allow(unused_imports)]
-use std::collections::*; #[allow(unused_imports)]
+use std::collections::*;
+#[allow(unused_imports)]
 use std::f64::consts::*;
 
 #[allow(unused)]
@@ -23,6 +24,19 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        k: usize,
+        ab: [(usize, usize); n],
     }
-    println!("{}", n);
+    let mut score = vec![];
+    for &(ai, bi) in ab.iter() {
+        score.push(bi);
+        score.push(ai - bi);
+    }
+    score.sort();
+    score.reverse();
+    let mut result = 0;
+    for i in 0..k {
+        result += score[i];
+    }
+    println!("{}", result);
 }
