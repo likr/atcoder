@@ -13,9 +13,18 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         x: usize,
     }
-    println!("{}", 1000 * (x / 500) + 5 * ((x % 500) / 5));
+    let y = x % 500;
+    println!("{}", x / 500 * 1000 + y / 5 * 5);
 }

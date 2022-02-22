@@ -13,6 +13,14 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         x: usize,
@@ -20,41 +28,49 @@ fn main() {
         a: usize,
         b: usize,
         c: usize,
-        mut p: [usize; a],
-        mut q: [usize; b],
-        mut r: [usize; c],
+        p: [usize; a],
+        q: [usize; b],
+        r: [usize; c],
     }
-    p.sort();
-    p.reverse();
-    q.sort();
-    q.reverse();
-    r.sort();
-    r.reverse();
-    p.push(0);
-    q.push(0);
-    r.push(0);
+    let mut items = vec![];
+    for &pi in p.iter() {
+        items.push((pi, 0))
+    }
+    for &qi in q.iter() {
+        items.push((qi, 1))
+    }
+    for &ri in r.iter() {
+        items.push((ri, 2))
+    }
+    items.sort();
+    items.reverse();
 
-    let mut i = 0;
-    let mut j = 0;
-    let mut k = 0;
-    let mut d = 0;
-    let mut e = 0;
     let mut result = 0;
-    for _ in 0..x + y {
-        if d < x && ((p[i] >= q[j] && p[i] >= r[k]) || (e == y && p[i] >= r[k])) {
-            // eprintln!("p");
-            result += p[i];
-            d += 1;
-            i += 1;
-        } else if e < y && ((q[j] >= p[i] && q[j] >= r[k]) || (d == x && q[j] >= r[k])) {
-            // eprintln!("q");
-            result += q[j];
-            e += 1;
-            j += 1;
-        } else {
-            // eprintln!("r");
-            result += r[k];
-            k += 1;
+    let mut p_count = 0;
+    let mut q_count = 0;
+    let mut r_count = 0;
+    for i in 0..items.len() {
+        let (v, t) = items[i];
+        match t {
+            0 => {
+                if p_count < x {
+                    result += v;
+                    p_count += 1;
+                }
+            }
+            1 => {
+                if q_count < y {
+                    result += v;
+                    q_count += 1;
+                }
+            }
+            _ => {
+                result += v;
+                r_count += 1;
+            }
+        }
+        if p_count + q_count + r_count == x + y {
+            break;
         }
     }
     println!("{}", result);

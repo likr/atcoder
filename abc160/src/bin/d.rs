@@ -13,24 +13,12 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
-fn dijkstra(graph: &Vec<Vec<(usize, usize)>>, s: usize) -> Vec<usize> {
-    let mut distance = vec![INF; graph.len()];
-    distance[s] = 0;
-    let mut queue = BinaryHeap::new();
-    queue.push(Reverse((0, s)));
-    while !queue.is_empty() {
-        let Reverse((d, u)) = queue.pop().unwrap();
-        if distance[u] < d {
-            continue;
-        }
-        for &(v, c) in &graph[u] {
-            if distance[u] + c < distance[v] {
-                distance[v] = distance[u] + c;
-                queue.push(Reverse((distance[v], v)));
-            }
-        }
-    }
-    distance
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
 }
 
 fn main() {
@@ -40,26 +28,35 @@ fn main() {
         y: Usize1,
     }
     let mut graph = vec![vec![]; n];
-    for v in 1..n {
-        let u = v - 1;
-        graph[u].push((v, 1));
-        graph[v].push((u, 1));
+    for u in 1..n {
+        let v = u - 1;
+        graph[u].push(v);
+        graph[v].push(u);
     }
-    graph[x].push((y, 1));
-    graph[y].push((x, 1));
-    let d = (0..n).map(|u| dijkstra(&graph, u)).collect::<Vec<_>>();
-    // eprintln!("{:?}", d);
-    let mut count = HashMap::new();
+    graph[x].push(y);
+    graph[y].push(x);
+    let mut d = vec![vec![INF; n]; n];
+    let mut queue = VecDeque::new();
+    for s in 0..n {
+        queue.clear();
+        queue.push_back(s);
+        d[s][s] = 0;
+        while let Some(u) = queue.pop_front() {
+            for &v in graph[u].iter() {
+                if d[s][v] == INF {
+                    queue.push_back(v);
+                    d[s][v] = d[s][u] + 1;
+                }
+            }
+        }
+    }
+    let mut count = vec![0; n];
     for i in 0..n {
         for j in 0..i {
-            *count.entry(d[i][j]).or_insert(0) += 1;
+            count[d[i][j]] += 1;
         }
     }
-    for k in 1..n {
-        if let Some(c) = count.get(&k) {
-            println!("{}", c);
-        } else {
-            println!("0");
-        }
+    for i in 1..n {
+        println!("{}", count[i]);
     }
 }

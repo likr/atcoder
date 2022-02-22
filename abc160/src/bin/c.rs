@@ -13,15 +13,23 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         k: usize,
         n: usize,
         a: [usize; n],
     }
-    let mut result = k - (k - a[n - 1] + a[0]);
+    let mut d = k - a[n - 1] + a[0];
     for i in 1..n {
-        result = min(result, k - a[i] + a[i - 1]);
+        d = max(d, a[i] - a[i - 1]);
     }
-    println!("{}", result);
+    println!("{}", k - d);
 }
