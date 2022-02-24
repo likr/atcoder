@@ -1,0 +1,32 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      50 50
+    out: |
+      Alloy
+  - name: sample2
+    in: |
+      100 0
+    out: |
+      Gold
+  - name: sample3
+    in: |
+      0 100
+    out: |
+      Silver
+  - name: sample4
+    in: |
+      100 2
+    out: |
+      Alloy
+
+extend:
+  - type: Text
+    path: "./a"
+    in: /in/*.txt
+    out: /out/*.txt
