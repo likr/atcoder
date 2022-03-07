@@ -21,27 +21,33 @@ macro_rules! debug {
     };
 }
 
+fn dfs(graph: &Vec<Vec<usize>>, u: usize, l: &mut Vec<usize>, r: &mut Vec<usize>) {
+    let mut l_last = l[u] - 1;
+    for &v in graph[u].iter() {
+        if l[v] == INF {
+            l[v] = l_last + 1;
+            dfs(graph, v, l, r);
+            l_last = r[v];
+        }
+    }
+    r[u] = l_last + 1;
+}
+
 fn main() {
     input! {
         n: usize,
-        m: usize,
-        h: [usize; n],
-        ab: [(Usize1, Usize1); m],
+        uv: [(Usize1, Usize1); n - 1],
     }
     let mut graph = vec![vec![]; n];
-    for &(ai, bi) in ab.iter() {
-        graph[ai].push(bi);
-        graph[bi].push(ai);
+    for &(u, v) in uv.iter() {
+        graph[u].push(v);
+        graph[v].push(u);
     }
-    let mut result = 0;
+    let mut l = vec![INF; n];
+    l[0] = 1;
+    let mut r = vec![INF; n];
+    dfs(&graph, 0, &mut l, &mut r);
     for i in 0..n {
-        if let Some(hj) = graph[i].iter().map(|&j| h[j]).max() {
-            if h[i] > hj {
-                result += 1;
-            }
-        } else {
-            result += 1;
-        }
+        println!("{} {}", l[i], r[i]);
     }
-    println!("{}", result);
 }

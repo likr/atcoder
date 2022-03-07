@@ -13,27 +13,33 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
-        x: isize,
+        x: usize,
     }
-    let mut nums = vec![0isize];
-    let mut i = 1isize;
-    while i.pow(5u32) - nums[nums.len() - 1] < x {
-        nums.push(i.pow(5u32));
-        i += 1;
+    let mut nums = vec![];
+    for a in 0usize.. {
+        if a.pow(5) - (a - 1).pow(5) > x {
+            break;
+        }
+        nums.push((a.pow(5), a));
     }
-    nums.push(i.pow(5u32));
-    // eprintln!("{:?}", nums);
-
-    let m = nums.len();
-    for i in 0..m {
-        for j in 0..m {
-            if nums[i] - nums[j] == x {
-                println!("{} {}", i, j);
+    for i in 0..nums.len() {
+        for j in 0..i {
+            if nums[i].0 - nums[j].0 == x {
+                println!("{} {}", nums[i].1, nums[j].1);
                 return;
-            } else if nums[i] + nums[j] == x {
-                println!("{} -{}", i, j);
+            }
+            if nums[i].0 + nums[j].0 == x {
+                println!("{} -{}", nums[i].1, nums[j].1);
                 return;
             }
         }

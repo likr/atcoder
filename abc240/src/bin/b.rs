@@ -24,24 +24,11 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        m: usize,
-        h: [usize; n],
-        ab: [(Usize1, Usize1); m],
+        a: [usize; n],
     }
-    let mut graph = vec![vec![]; n];
-    for &(ai, bi) in ab.iter() {
-        graph[ai].push(bi);
-        graph[bi].push(ai);
-    }
-    let mut result = 0;
+    let mut nums = HashSet::new();
     for i in 0..n {
-        if let Some(hj) = graph[i].iter().map(|&j| h[j]).max() {
-            if h[i] > hj {
-                result += 1;
-            }
-        } else {
-            result += 1;
-        }
+        nums.insert(a[i]);
     }
-    println!("{}", result);
+    println!("{}", nums.len());
 }

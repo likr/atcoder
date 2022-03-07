@@ -13,25 +13,26 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
-        n: usize,
+        n: u32,
         m: usize,
-        sc: [(usize, usize); m],
+        sc: [(u32, u32); m],
     }
-    if n == 1
-        && sc
-            .iter()
-            .all(|&(si, ci)| 0 / 10usize.pow((n - si) as u32) % 10 == ci)
-    {
+    if n == 1 && sc.iter().all(|&(s, c)| (0 / 10u32.pow(n - s)) % 10 == c) {
         println!("{}", 0);
         return;
     }
-    for x in 10usize.pow(n as u32 - 1)..10usize.pow(n as u32) {
-        if sc
-            .iter()
-            .all(|&(si, ci)| x / 10usize.pow((n - si) as u32) % 10 == ci)
-        {
+    for x in 10u32.pow(n - 1)..10u32.pow(n) {
+        if sc.iter().all(|&(s, c)| (x / 10u32.pow(n - s)) % 10 == c) {
             println!("{}", x);
             return;
         }

@@ -1,3 +1,4 @@
+use petgraph::unionfind::UnionFind;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -13,6 +14,14 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         n: usize,
@@ -21,48 +30,34 @@ fn main() {
         ab: [(Usize1, Usize1); m],
         cd: [(Usize1, Usize1); k],
     }
-    let mut graph = vec![vec![]; n];
-    for &(ai, bi) in &ab {
-        graph[ai].push(bi);
-        graph[bi].push(ai);
+    let mut uf = UnionFind::new(n);
+    for &(ai, bi) in ab.iter() {
+        uf.union(ai, bi);
     }
-
-    let mut components = vec![INF; n];
-    for w in 0..n {
-        if components[w] != INF {
-            continue;
-        }
-        let mut queue = VecDeque::new();
-        queue.push_back(w);
-        while let Some(u) = queue.pop_front() {
-            if components[u] != INF {
-                continue;
-            }
-            components[u] = w;
-            for &v in &graph[u] {
-                queue.push_back(v);
-            }
-        }
+    let mut count = vec![0; n];
+    for i in 0..n {
+        count[uf.find(i)] += 1;
     }
-    let mut components_set = HashMap::new();
-    for u in 0..n {
-        components_set
-            .entry(components[u])
-            .or_insert(HashSet::new())
-            .insert(u);
+    let mut result = vec![0; n];
+    for i in 0..n {
+        result[i] = count[uf.find(i)] - 1;
     }
-    // eprintln!("{:?}", components_set);
-    for &(ci, di) in &cd {
-        if components[ci] == components[di] {
-            graph[ci].push(di);
-            graph[di].push(ci);
+    for &(ai, bi) in ab.iter() {
+        result[ai] -= 1;
+        result[bi] -= 1;
+    }
+    for &(ci, di) in cd.iter() {
+        if uf.find(ci) == uf.find(di) {
+            result[ci] -= 1;
+            result[di] -= 1;
         }
     }
-    for u in 0..n {
-        print!(
-            "{} ",
-            components_set[&components[u]].len() - graph[u].len() - 1
-        );
-    }
-    println!("");
+    println!(
+        "{}",
+        result
+            .iter()
+            .map(|x| format!("{}", x))
+            .collect::<Vec<_>>()
+            .join(" ")
+    );
 }

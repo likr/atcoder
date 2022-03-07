@@ -1,39 +1,44 @@
 [package]
-name = "abc157"
+name = "abc240"
 version = "0.1.0"
 edition = "2018"
 
 [package.metadata.cargo-compete.bin]
-abc157-a = { alias = "a", problem = "https://atcoder.jp/contests/abc157/tasks/abc157_a" }
-abc157-b = { alias = "b", problem = "https://atcoder.jp/contests/abc157/tasks/abc157_b" }
-abc157-c = { alias = "c", problem = "https://atcoder.jp/contests/abc157/tasks/abc157_c" }
-abc157-d = { alias = "d", problem = "https://atcoder.jp/contests/abc157/tasks/abc157_d" }
-abc157-e = { alias = "e", problem = "https://atcoder.jp/contests/abc157/tasks/abc157_e" }
-abc157-f = { alias = "f", problem = "https://atcoder.jp/contests/abc157/tasks/abc157_f" }
+abc240-a = { alias = "a", problem = "https://atcoder.jp/contests/abc240/tasks/abc240_a" }
+abc240-b = { alias = "b", problem = "https://atcoder.jp/contests/abc240/tasks/abc240_b" }
+abc240-c = { alias = "c", problem = "https://atcoder.jp/contests/abc240/tasks/abc240_c" }
+abc240-d = { alias = "d", problem = "https://atcoder.jp/contests/abc240/tasks/abc240_d" }
+abc240-e = { alias = "e", problem = "https://atcoder.jp/contests/abc240/tasks/abc240_e" }
+abc240-f = { alias = "f", problem = "https://atcoder.jp/contests/abc240/tasks/abc240_f" }
+abc240-g = { alias = "g", problem = "https://atcoder.jp/contests/abc240/tasks/abc240_g" }
 
 [[bin]]
-name = "abc157-a"
+name = "abc240-a"
 path = "src/bin/a.rs"
 
 [[bin]]
-name = "abc157-b"
+name = "abc240-b"
 path = "src/bin/b.rs"
 
 [[bin]]
-name = "abc157-c"
+name = "abc240-c"
 path = "src/bin/c.rs"
 
 [[bin]]
-name = "abc157-d"
+name = "abc240-d"
 path = "src/bin/d.rs"
 
 [[bin]]
-name = "abc157-e"
+name = "abc240-e"
 path = "src/bin/e.rs"
 
 [[bin]]
-name = "abc157-f"
+name = "abc240-f"
 path = "src/bin/f.rs"
+
+[[bin]]
+name = "abc240-g"
+path = "src/bin/g.rs"
 
 [dependencies]
 num = "=0.2.1"

@@ -13,23 +13,47 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         n: usize,
-        a: [isize; n],
+        mut a: [i64; n],
     }
-    let mut l = HashMap::new();
-    let mut r = HashMap::new();
+    let mut left = BTreeMap::new();
+    let mut right = BTreeMap::new();
     for i in 0..n {
-        *l.entry(i as isize + a[i]).or_insert(0) += 1isize;
-        *r.entry(i as isize - a[i]).or_insert(0) += 1isize;
-    }
-
-    let mut result = 0;
-    for (v, c) in l.iter() {
-        if let Some(&d) = r.get(&v) {
-            result += c * d;
+        if let Some(&c) = right.get(&(i as i64 - a[i])) {
+            right.insert(i as i64 - a[i], c + 1);
+        } else {
+            right.insert(i as i64 - a[i], 1);
         }
     }
-    println!("{}", result);
+    let mut result = 0usize;
+    for i in 0..n {
+        let &c = right.get(&(i as i64 - a[i])).unwrap();
+        if c > 1 {
+            right.insert(i as i64 - a[i], c - 1);
+        } else {
+            right.remove(&(i as i64 - a[i]));
+        }
+        if let Some(&c) = left.get(&(i as i64 - a[i])) {
+            result += c;
+        }
+        if let Some(&c) = right.get(&(a[i] + i as i64)) {
+            result += c;
+        }
+        if let Some(&c) = left.get(&(a[i] + i as i64)) {
+            left.insert(a[i] + i as i64, c + 1);
+        } else {
+            left.insert(a[i] + i as i64, 1);
+        }
+    }
+    println!("{}", result / 2);
 }

@@ -24,24 +24,15 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        m: usize,
-        h: [usize; n],
-        ab: [(Usize1, Usize1); m],
+        mut x: usize,
+        s: Chars,
     }
-    let mut graph = vec![vec![]; n];
-    for &(ai, bi) in ab.iter() {
-        graph[ai].push(bi);
-        graph[bi].push(ai);
-    }
-    let mut result = 0;
     for i in 0..n {
-        if let Some(hj) = graph[i].iter().map(|&j| h[j]).max() {
-            if h[i] > hj {
-                result += 1;
-            }
-        } else {
-            result += 1;
+        if s[i] == 'o' {
+            x += 1;
+        } else if x > 0 {
+            x -= 1;
         }
     }
-    println!("{}", result);
+    println!("{}", x);
 }

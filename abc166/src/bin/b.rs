@@ -13,16 +13,27 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         n: usize,
         k: usize,
-        a: [[Usize1]; k],
     }
     let mut count = vec![0; n];
-    for i in 0..k {
-        for &aij in &a[i] {
-            count[aij] += 1;
+    for _ in 0..k {
+        input! {
+            d: usize,
+            a: [Usize1; d],
+        }
+        for &i in a.iter() {
+            count[i] += 1;
         }
     }
     let mut result = 0;
