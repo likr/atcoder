@@ -1,0 +1,30 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      3 2
+      URL
+    out: |
+      6
+  - name: sample2
+    in: |
+      4 500000000000000000
+      RRUU
+    out: |
+      500000000000000000
+  - name: sample3
+    in: |
+      30 123456789
+      LRULURLURLULULRURRLRULRRRUURRU
+    out: |
+      126419752371
+
+extend:
+  - type: Text
+    path: "./d"
+    in: /in/*.txt
+    out: /out/*.txt
