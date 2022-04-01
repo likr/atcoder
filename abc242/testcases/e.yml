@@ -1,0 +1,31 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      5
+      3
+      AXA
+      6
+      ABCZAZ
+      30
+      QWERTYUIOPASDFGHJKLZXCVBNMQWER
+      28
+      JVIISNEOXHSNEAAENSHXOENSIIVJ
+      31
+      KVOHEEMSOZZASHENDIGOJRTJVMVSDWW
+    out: |
+      24
+      29
+      212370247
+      36523399
+      231364016
+
+extend:
+  - type: Text
+    path: "./e"
+    in: /in/*.txt
+    out: /out/*.txt
