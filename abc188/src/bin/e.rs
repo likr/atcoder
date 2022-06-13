@@ -24,6 +24,19 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        m: usize,
+        a: [i64; n],
+        xy: [(Usize1, Usize1); m],
     }
-    println!("{}", n);
+    let mut graph = vec![vec![]; n];
+    for &(u, v) in xy.iter() {
+        graph[u].push(v);
+    }
+    let mut buy = vec![INF as i64; n];
+    for u in 0..n {
+        for &v in graph[u].iter() {
+            buy[v] = min(buy[v], min(buy[u], a[u]));
+        }
+    }
+    println!("{}", (0..n).map(|u| a[u] - buy[u]).max().unwrap());
 }
