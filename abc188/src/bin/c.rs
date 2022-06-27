@@ -34,7 +34,7 @@ fn main() {
     while win[win.len() - 1].len() != 2 {
         let mut win_next = vec![];
         for i in (0..win[win.len() - 1].len()).step_by(2) {
-            if a[win[win.len() - 1][i]] <  a[win[win.len() - 1][i + 1]] {
+            if a[win[win.len() - 1][i]] < a[win[win.len() - 1][i + 1]] {
                 win_next.push(win[win.len() - 1][i + 1]);
             } else {
                 win_next.push(win[win.len() - 1][i]);
@@ -42,7 +42,7 @@ fn main() {
         }
         win.push(win_next);
     }
-    if a[win[win.len() - 1][0]] <  a[win[win.len() - 1][1]] {
+    if a[win[win.len() - 1][0]] < a[win[win.len() - 1][1]] {
         println!("{}", win[win.len() - 1][0] + 1);
     } else {
         println!("{}", win[win.len() - 1][1] + 1);
