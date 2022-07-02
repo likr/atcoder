@@ -13,17 +13,22 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         x: usize,
         y: usize,
     }
-    for a in 0..=x {
-        let b = x - a;
-        if 2 * a + 4 * b == y {
-            println!("Yes");
-            return;
-        }
+    if (0..=x).any(|a| 2 * a + 4 * (x - a) == y) {
+        println!("Yes");
+    } else {
+        println!("No");
     }
-    println!("No");
 }

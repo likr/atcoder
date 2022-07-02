@@ -24,32 +24,34 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        mut a: [usize; n],
+        k: usize,
+        s: Chars,
     }
-    a.sort();
-    let mut count = HashMap::new();
+    let mut count = vec![0];
     for i in 0..n {
-        *count.entry(a[i]).or_insert(0) += 1;
-    }
-    let mut result = 0;
-    let mut p = HashSet::new();
-    for i in 0..n {
-        if count[&a[i]] == 1 {
-            let mut factors = HashSet::new();
-            for d in 1.. {
-                if d * d > a[i] {
-                    break;
-                }
-                if a[i] % d == 0 {
-                    factors.insert(a[i] / d);
-                    factors.insert(d);
-                }
-            }
-            if factors.iter().all(|d| !p.contains(&d)) {
-                result += 1;
-            }
+        if (s[i] == '0' && count.len() % 2 == 1) || (s[i] == '1' && count.len() % 2 == 0) {
+            count.push(0);
         }
-        p.insert(&a[i]);
+        *count.last_mut().unwrap() += 1;
+    }
+    if s[n - 1] == '0' {
+        count.push(0);
+    }
+    let m = count.len();
+
+    let mut acc = vec![0; m + 1];
+    for i in 0..m {
+        acc[i + 1] = acc[i] + count[i];
+    }
+
+    if m / 2 <= k {
+        println!("{}", acc.last().unwrap());
+        return;
+    }
+
+    let mut result = 0;
+    for i in (2 * k..m).step_by(2) {
+        result = max(result, acc[i + 1] - acc[i - 2 * k]);
     }
     println!("{}", result);
 }

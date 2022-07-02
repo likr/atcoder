@@ -13,47 +13,45 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         n: usize,
         q: usize,
-        ab: [(usize, Usize1); n],
+        mut ab: [(usize, Usize1); n],
         cd: [(Usize1, Usize1); q],
     }
     let m = 200000;
-    let mut place = vec![0; n];
-    let mut players = vec![BTreeSet::new(); m];
+    let mut school_infants = vec![BTreeSet::new(); m];
+    let mut strongest_infants = BTreeSet::new();
     for i in 0..n {
-        let (ai, bi) = ab[i];
-        place[i] = bi;
-        players[bi].insert(Reverse((ai, i)));
+        school_infants[ab[i].1].insert((ab[i].0, i));
     }
-    let mut max_scores = BTreeSet::new();
-    for j in 0..m {
-        if !players[j].is_empty() {
-            let Reverse((ai, i)) = *players[j].range(..).nth(0).unwrap();
-            max_scores.insert((ai, i));
+    for i in 0..m {
+        if let Some(&s) = school_infants[i].range(..).rev().nth(0) {
+            strongest_infants.insert(s);
         }
     }
-    for &(c, d) in &cd {
-        let x = place[c];
-        let y = d;
-        place[c] = d;
-        let Reverse((x_max, x_max_i)) = *players[x].range(..).nth(0).unwrap();
-        max_scores.remove(&(x_max, x_max_i));
-        if !players[y].is_empty() {
-            let Reverse((y_max, y_max_i)) = *players[y].range(..).nth(0).unwrap();
-            max_scores.remove(&(y_max, y_max_i));
+    for i in 0..q {
+        let (ci, di) = cd[i];
+        strongest_infants.remove(&*school_infants[ab[ci].1].range(..).rev().nth(0).unwrap());
+        school_infants[ab[ci].1].remove(&(ab[ci].0, ci));
+        if let Some(&t) = school_infants[ab[ci].1].range(..).rev().nth(0) {
+            strongest_infants.insert(t);
         }
-        players[x].remove(&Reverse((ab[c].0, c)));
-        players[y].insert(Reverse((ab[c].0, c)));
-        if !players[x].is_empty() {
-            let Reverse((new_x_max, new_x_max_i)) = *players[x].range(..).nth(0).unwrap();
-            max_scores.insert((new_x_max, new_x_max_i));
+        ab[ci].1 = di;
+        if let Some(&t) = school_infants[ab[ci].1].range(..).rev().nth(0) {
+            strongest_infants.remove(&t);
         }
-        let Reverse((new_y_max, new_y_max_i)) = *players[y].range(..).nth(0).unwrap();
-        max_scores.insert((new_y_max, new_y_max_i));
-        // eprintln!("{:?}", max_scores);
-        println!("{}", max_scores.range(..).nth(0).unwrap().0);
+        school_infants[ab[ci].1].insert((ab[ci].0, ci));
+        strongest_infants.insert(*school_infants[ab[ci].1].range(..).rev().nth(0).unwrap());
+        println!("{}", strongest_infants.range(..).nth(0).unwrap().0);
     }
 }

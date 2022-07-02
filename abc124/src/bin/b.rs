@@ -23,16 +23,16 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        x: i64,
         n: usize,
-        p: [i64; n],
+        h: [usize; n],
     }
-    let p = p.into_iter().collect::<HashSet<_>>();
-    println!(
-        "{}",
-        (0..=101)
-            .filter(|y| !p.contains(&y))
-            .min_by_key(|y| (x - y).abs())
-            .unwrap()
-    );
+    let mut h_max = h[0];
+    let mut result = 1;
+    for i in 1..n {
+        if h[i] >= h_max {
+            result += 1;
+        }
+        h_max = max(h_max, h[i]);
+    }
+    println!("{}", result);
 }

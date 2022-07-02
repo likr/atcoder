@@ -23,16 +23,21 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        x: i64,
-        n: usize,
-        p: [i64; n],
+        s: Chars,
     }
-    let p = p.into_iter().collect::<HashSet<_>>();
-    println!(
-        "{}",
-        (0..=101)
-            .filter(|y| !p.contains(&y))
-            .min_by_key(|y| (x - y).abs())
-            .unwrap()
-    );
+    let n = s.len();
+
+    let mut result1 = 0;
+    for i in 0..n {
+        if (i % 2 == 0 && s[i] == '0') || (i % 2 == 1 && s[i] == '1') {
+            result1 += 1;
+        }
+    }
+    let mut result2 = 0;
+    for i in 0..n {
+        if (i % 2 == 0 && s[i] == '1') || (i % 2 == 1 && s[i] == '0') {
+            result2 += 1;
+        }
+    }
+    println!("{}", min(result1, result2));
 }
