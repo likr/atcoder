@@ -27,7 +27,7 @@ fn main() {
         k: usize,
     }
     let m = 100000;
-    let mut next = vec![INF; m];
+    let mut doubling = vec![vec![INF; m]; 60];
     for i in 0..m {
         let mut x = i;
         let mut s = 0;
@@ -35,18 +35,19 @@ fn main() {
             s += x % 10;
             x /= 10;
         }
-        next[i] = (i + s) % m;
+        doubling[0][i] = (i + s) % m;
+    }
+    for j in 1..60 {
+        for i in 0..m {
+            doubling[j][i] = doubling[j - 1][doubling[j - 1][i]];
+        }
     }
 
     let mut current = n;
-    let mut cycle = 1;
-    while next[current] != n {
-        cycle += 1;
-        current = next[current];
-    }
-    let mut current = n;
-    for _ in 0..k % cycle {
-        current = next[current];
+    for j in 0..60 {
+        if 1 << j & k > 0 {
+            current = doubling[j][current];
+        }
     }
     println!("{}", current);
 }

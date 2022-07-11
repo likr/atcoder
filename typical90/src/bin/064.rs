@@ -24,6 +24,28 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        q: usize,
+        a: [i64; n],
+        lrv: [(Usize1, Usize1, i64); q],
     }
-    println!("{}", n);
+    let mut d = vec![0; n];
+    let mut s = 0;
+    for i in 1..n {
+        d[i] = a[i] - a[i - 1];
+        s += d[i].abs();
+    }
+    for i in 0..q {
+        let (li, ri, vi) = lrv[i];
+        if li > 0 {
+            s -= d[li].abs();
+            d[li] += vi;
+            s += d[li].abs();
+        }
+        if ri + 1 < n {
+            s -= d[ri + 1].abs();
+            d[ri + 1] -= vi;
+            s += d[ri + 1].abs();
+        }
+        println!("{}", s);
+    }
 }
