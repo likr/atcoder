@@ -26,6 +26,11 @@ fn main() {
         p: [Usize1; 26],
     }
     let s = "abcdefghijklmnopqrstuvwxyz".chars().collect::<Vec<_>>();
-    let t = (0..26).map(|i| s[p[i]]).collect::<String>();
-    println!("{}", t);
+    println!(
+        "{}",
+        p.iter()
+            .map(|&i| format!("{}", s[i]))
+            .collect::<Vec<_>>()
+            .join("")
+    );
 }

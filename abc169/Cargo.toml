@@ -1,21 +1,40 @@
 [package]
 name = "abc169"
 version = "0.1.0"
-authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
-[package.metadata.cargo-compete]
-config = "../compete.toml"
-
 [package.metadata.cargo-compete.bin]
-a = {name = "abc169-a",problem = {platform = "atcoder",contest = "abc169",index = "A"}}
-b = {name = "abc169-b",problem = {platform = "atcoder",contest = "abc169",index = "B"}}
-c = {name = "abc169-c",problem = {platform = "atcoder",contest = "abc169",index = "C"}}
-d = {name = "abc169-d",problem = {platform = "atcoder",contest = "abc169",index = "D"}}
-e = {name = "abc169-e",problem = {platform = "atcoder",contest = "abc169",index = "E"}}
-f = {name = "abc169-f",problem = {platform = "atcoder",contest = "abc169",index = "F"}}
+abc169-a = { alias = "a", problem = "https://atcoder.jp/contests/abc169/tasks/abc169_a" }
+abc169-b = { alias = "b", problem = "https://atcoder.jp/contests/abc169/tasks/abc169_b" }
+abc169-c = { alias = "c", problem = "https://atcoder.jp/contests/abc169/tasks/abc169_c" }
+abc169-d = { alias = "d", problem = "https://atcoder.jp/contests/abc169/tasks/abc169_d" }
+abc169-e = { alias = "e", problem = "https://atcoder.jp/contests/abc169/tasks/abc169_e" }
+abc169-f = { alias = "f", problem = "https://atcoder.jp/contests/abc169/tasks/abc169_f" }
 
-# dependencies added to new project
+[[bin]]
+name = "abc169-a"
+path = "src/bin/a.rs"
+
+[[bin]]
+name = "abc169-b"
+path = "src/bin/b.rs"
+
+[[bin]]
+name = "abc169-c"
+path = "src/bin/c.rs"
+
+[[bin]]
+name = "abc169-d"
+path = "src/bin/d.rs"
+
+[[bin]]
+name = "abc169-e"
+path = "src/bin/e.rs"
+
+[[bin]]
+name = "abc169-f"
+path = "src/bin/f.rs"
+
 [dependencies]
 num = "=0.2.1"
 num-bigint = "=0.2.6"
@@ -38,7 +57,7 @@ rand_pcg = "=0.2.1"
 rand_distr = "=0.2.2"
 petgraph = "=0.5.0"
 indexmap = "=1.3.2"
-regex = "=1.3.6"
+# regex = "=1.3.6"
 lazy_static = "=1.4.0"
 ordered-float = "=1.0.2"
 ascii = "=1.0.0"
@@ -57,26 +76,4 @@ whiteread = "=0.5.0"
 rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
 
-[[bin]]
-name = "abc169-a"
-path = "./src/bin/a.rs"
-
-[[bin]]
-name = "abc169-b"
-path = "./src/bin/b.rs"
-
-[[bin]]
-name = "abc169-c"
-path = "./src/bin/c.rs"
-
-[[bin]]
-name = "abc169-d"
-path = "./src/bin/d.rs"
-
-[[bin]]
-name = "abc169-e"
-path = "./src/bin/e.rs"
-
-[[bin]]
-name = "abc169-f"
-path = "./src/bin/f.rs"
+[dev-dependencies]

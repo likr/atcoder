@@ -13,19 +13,19 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         a: usize,
-        b: String,
+        b: Chars,
     }
-    let k = b.len() - b.chars().position(|c| c == '.').unwrap() - 1;
-    let b = b
-        .chars()
-        .filter(|&c| c != '.')
-        .collect::<String>()
-        .parse::<usize>()
-        .unwrap();
-    let c = a * b;
-    eprintln!("{}", k);
-    println!("{}", c / 10usize.pow(k as u32));
+    let c: usize = format!("{}{}{}", b[0], b[2], b[3]).parse().unwrap();
+    println!("{}", a * c / 100);
 }

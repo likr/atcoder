@@ -21,6 +21,28 @@ macro_rules! debug {
     };
 }
 
+fn dijkstra(graph: &Vec<Vec<(usize, usize)>>, s: usize) -> (Vec<usize>, Vec<Option<usize>>) {
+    let mut distance = vec![INF; graph.len()];
+    distance[s] = 0;
+    let mut parent = vec![None; graph.len()];
+    let mut queue = BinaryHeap::new();
+    queue.push(Reverse((0, s)));
+    while !queue.is_empty() {
+        let Reverse((d, u)) = queue.pop().unwrap();
+        if distance[u] < d {
+            continue;
+        }
+        for &(v, c) in &graph[u] {
+            if distance[u] + c < distance[v] {
+                distance[v] = distance[u] + c;
+                parent[v] = Some(u);
+                queue.push(Reverse((distance[v], v)));
+            }
+        }
+    }
+    (distance, parent)
+}
+
 fn main() {
     input! {
         n: usize,
@@ -29,59 +51,31 @@ fn main() {
     }
     let mut graph = vec![vec![]; n];
     for &(si, ti) in st.iter() {
-        graph[si].push(ti);
+        graph[si].push((ti, 1));
     }
-    let mut distance = vec![INF; n];
-    let mut parent = vec![INF; n];
-    let mut queue = VecDeque::new();
-    distance[0] = 0;
-    queue.push_back(0);
-    while let Some(u) = queue.pop_front() {
-        for &v in graph[u].iter() {
-            if distance[v] == INF {
-                distance[v] = distance[u] + 1;
-                parent[v] = u;
-                queue.push_back(v);
-            }
-        }
-    }
-    let mut edges = HashSet::new();
-    let mut v = n - 1;
-    let mut u = parent[n - 1];
-    while u != INF {
-        edges.insert((u, v));
-        edges.insert((v, u));
-        v = u;
-        u = parent[v];
+    let (distance, parent) = dijkstra(&graph, 0);
+    let mut min_edges = HashSet::new();
+    let mut u = n - 1;
+    while parent[u].is_some() {
+        let v = parent[u].unwrap();
+        min_edges.insert((v, u));
+        u = v;
     }
     for i in 0..m {
         let (si, ti) = st[i];
-        if edges.contains(&(si, ti)) {
-            let mut graph = vec![vec![]; n];
+        if min_edges.contains(&(si, ti)) {
+            let mut graph2 = vec![vec![]; n];
             for j in 0..m {
                 if i != j {
                     let (sj, tj) = st[j];
-                    graph[sj].push(tj);
+                    graph2[sj].push((tj, 1));
                 }
             }
-            let mut distance = vec![INF; n];
-            let mut parent = vec![INF; n];
-            let mut queue = VecDeque::new();
-            distance[0] = 0;
-            queue.push_back(0);
-            while let Some(u) = queue.pop_front() {
-                for &v in graph[u].iter() {
-                    if distance[v] == INF {
-                        distance[v] = distance[u] + 1;
-                        parent[v] = u;
-                        queue.push_back(v);
-                    }
-                }
-            }
-            if distance[n - 1] == INF {
+            let (distance2, _) = dijkstra(&graph2, 0);
+            if distance2[n - 1] == INF {
                 println!("-1");
             } else {
-                println!("{}", distance[n - 1]);
+                println!("{}", distance2[n - 1]);
             }
         } else {
             if distance[n - 1] == INF {
