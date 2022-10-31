@@ -24,60 +24,45 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        mut s: [Chars; n],
-        t: [Chars; n],
+        s: [Chars; n],
+        mut t: [Chars; n],
     }
+    let s_y_offset = (0..n)
+        .take_while(|&i| (0..n).all(|j| s[i][j] == '.'))
+        .count();
+    let s_x_offset = (0..n)
+        .take_while(|&j| (0..n).all(|i| s[i][j] == '.'))
+        .count();
+    let mut s2 = vec![vec!['.'; n]; n];
+    for i in s_y_offset..n {
+        for j in s_x_offset..n {
+            s2[i - s_y_offset][j - s_x_offset] = s[i][j];
+        }
+    }
+    let mut t2 = vec![vec!['.'; n]; n];
     for _ in 0..4 {
-        let mut tmp = vec![vec!['.'; n]; n];
         for i in 0..n {
             for j in 0..n {
-                tmp[i][j] = s[j][n - 1 - i];
+                t2[i][j] = t[j][n - 1 - i];
             }
         }
+        let t_y_offset = (0..n)
+            .take_while(|&i| (0..n).all(|j| t2[i][j] == '.'))
+            .count();
+        let t_x_offset = (0..n)
+            .take_while(|&j| (0..n).all(|i| t2[i][j] == '.'))
+            .count();
         for i in 0..n {
             for j in 0..n {
-                s[i][j] = tmp[i][j];
+                t[i][j] = '.';
             }
         }
-        let mut s_left = INF;
-        let mut s_right = 0;
-        let mut s_top = INF;
-        let mut s_bottom = 0;
-        let mut t_left = INF;
-        let mut t_right = 0;
-        let mut t_top = INF;
-        let mut t_bottom = 0;
-        for i in 0..n {
-            for j in 0..n {
-                if s[i][j] == '#' {
-                    s_left = min(s_left, j);
-                    s_right = max(s_right, j);
-                    s_top = min(s_top, i);
-                    s_bottom = max(s_bottom, i);
-                }
-                if t[i][j] == '#' {
-                    t_left = min(t_left, j);
-                    t_right = max(t_right, j);
-                    t_top = min(t_top, i);
-                    t_bottom = max(t_bottom, i);
-                }
+        for i in t_y_offset..n {
+            for j in t_x_offset..n {
+                t[i - t_y_offset][j - t_x_offset] = t2[i][j];
             }
         }
-        let mut x = vec![vec!['.'; n]; n];
-        for i in s_top..=s_bottom {
-            for j in s_left..=s_right {
-                x[i - s_top][j - s_left] = s[i][j];
-            }
-        }
-        let mut y = vec![vec!['.'; n]; n];
-        for i in t_top..=t_bottom {
-            for j in t_left..=t_right {
-                y[i - t_top][j - t_left] = t[i][j];
-            }
-        }
-        // debug!(x);
-        // debug!(y);
-        if (0..n).all(|i| (0..n).all(|j| x[i][j] == y[i][j])) {
+        if s2 == t {
             println!("Yes");
             return;
         }

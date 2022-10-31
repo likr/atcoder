@@ -1,4 +1,3 @@
-use num_bigint::*;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -14,27 +13,28 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         n: usize,
-        a: [usize; n],
+        mut a: [usize; n],
     }
-    if a.iter().any(|&ai| ai == 0) {
-        println!("0");
-        return;
-    }
-    let a = a
-        .into_iter()
-        .map(|ai| ai.to_bigint().unwrap())
-        .collect::<Vec<_>>();
-    let mut result = 1.to_bigint().unwrap();
-    let limit = 10usize.pow(18).to_bigint().unwrap();
+    a.sort();
+    let limit = 1000000000000000000;
+    let mut result = 1;
     for i in 0..n {
-        result *= a[i].clone();
-        if result > limit {
+        if result > 0 && a[i] > limit / result {
             println!("-1");
             return;
         }
+        result *= a[i];
     }
     println!("{}", result);
 }
