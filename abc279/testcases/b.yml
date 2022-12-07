@@ -1,0 +1,36 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      voltage
+      tag
+    out: |
+      Yes
+  - name: sample2
+    in: |
+      atcoder
+      ace
+    out: |
+      No
+  - name: sample3
+    in: |
+      gorilla
+      gorillagorillagorilla
+    out: |
+      No
+  - name: sample4
+    in: |
+      toyotasystems
+      toyotasystems
+    out: |
+      Yes
+
+extend:
+  - type: Text
+    path: "./b"
+    in: /in/*.txt
+    out: /out/*.txt
