@@ -21,16 +21,18 @@ macro_rules! debug {
     };
 }
 
-fn dfs(graph: &Vec<Vec<usize>>, u: usize, l: &mut Vec<usize>, r: &mut Vec<usize>) {
-    let mut l_last = l[u] - 1;
-    for &v in graph[u].iter() {
-        if l[v] == INF {
-            l[v] = l_last + 1;
-            dfs(graph, v, l, r);
-            l_last = r[v];
+fn dfs(tree: &Vec<Vec<usize>>, u: usize, l: &mut Vec<usize>, r: &mut Vec<usize>, k: &mut usize) {
+    if tree[u].is_empty() {
+        l[u] = *k;
+        r[u] = *k;
+        *k += 1;
+    } else {
+        for &v in tree[u].iter() {
+            dfs(tree, v, l, r, k);
+            l[u] = min(l[u], l[v]);
+            r[u] = max(r[u], r[v]);
         }
     }
-    r[u] = l_last + 1;
 }
 
 fn main() {
@@ -43,10 +45,26 @@ fn main() {
         graph[u].push(v);
         graph[v].push(u);
     }
+
+    let mut children = vec![vec![]; n];
+    let mut visited = vec![false; n];
+    let mut queue = VecDeque::new();
+    visited[0] = true;
+    queue.push_back(0);
+    while let Some(u) = queue.pop_front() {
+        for &v in graph[u].iter() {
+            if !visited[v] {
+                children[u].push(v);
+                visited[v] = true;
+                queue.push_back(v);
+            }
+        }
+    }
+
     let mut l = vec![INF; n];
-    l[0] = 1;
-    let mut r = vec![INF; n];
-    dfs(&graph, 0, &mut l, &mut r);
+    let mut r = vec![0; n];
+    let mut k = 1;
+    dfs(&children, 0, &mut l, &mut r, &mut k);
     for i in 0..n {
         println!("{} {}", l[i], r[i]);
     }

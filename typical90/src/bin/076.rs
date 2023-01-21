@@ -4,7 +4,8 @@ use proconio::marker::*;
 #[allow(unused_imports)]
 use std::cmp::*;
 #[allow(unused_imports)]
-use std::collections::*; #[allow(unused_imports)]
+use std::collections::*;
+#[allow(unused_imports)]
 use std::f64::consts::*;
 
 #[allow(unused)]
@@ -23,6 +24,29 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        mut a: [i64; n],
     }
-    println!("{}", n);
+    let mut s = 0;
+    for i in 0..n {
+        s += a[i];
+        a.push(a[i]);
+    }
+    let mut t = 0;
+    let mut j = 0;
+    let mut ok = false;
+    for i in 0..n {
+        while 10 * (t + a[j]) <= s {
+            t += a[j];
+            j += 1;
+        }
+        if 10 * t == s {
+            ok = true;
+        }
+        t -= a[i];
+    }
+    if ok {
+        println!("Yes");
+    } else {
+        println!("No");
+    }
 }

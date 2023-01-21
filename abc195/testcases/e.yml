@@ -1,0 +1,40 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      2
+      35
+      AT
+    out: |
+      Takahashi
+  - name: sample2
+    in: |
+      5
+      12345
+      AAAAT
+    out: |
+      Aoki
+  - name: sample3
+    in: |
+      5
+      67890
+      TTTTA
+    out: |
+      Takahashi
+  - name: sample4
+    in: |
+      5
+      12345
+      ATATA
+    out: |
+      Aoki
+
+extend:
+  - type: Text
+    path: "./e"
+    in: /in/*.txt
+    out: /out/*.txt

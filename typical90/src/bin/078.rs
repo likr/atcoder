@@ -4,7 +4,8 @@ use proconio::marker::*;
 #[allow(unused_imports)]
 use std::cmp::*;
 #[allow(unused_imports)]
-use std::collections::*; #[allow(unused_imports)]
+use std::collections::*;
+#[allow(unused_imports)]
 use std::f64::consts::*;
 
 #[allow(unused)]
@@ -23,6 +24,25 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        m: usize,
+        ab: [(Usize1, Usize1); m],
     }
-    println!("{}", n);
+    let mut graph = vec![vec![]; n];
+    for &(ai, bi) in ab.iter() {
+        graph[ai].push(bi);
+        graph[bi].push(ai);
+    }
+    let mut result = 0;
+    for u in 0..n {
+        let mut count = 0;
+        for &v in graph[u].iter() {
+            if v < u {
+                count += 1;
+            }
+        }
+        if count == 1 {
+            result += 1;
+        }
+    }
+    println!("{}", result);
 }

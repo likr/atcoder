@@ -41,11 +41,14 @@ fn from_digits(digits: &Vec<usize>, base: usize) -> usize {
 
 fn main() {
     input! {
-        n: usize,
+        n: Chars,
         k: usize,
     }
-    let mut digits = vec![];
-    to_digits(n, &mut digits, 10);
+    let mut digits = n
+        .iter()
+        .rev()
+        .map(|&d| d as u8 as usize - '0' as u8 as usize)
+        .collect::<Vec<_>>();
     let mut result = from_digits(&digits, 8);
     for _ in 0..k {
         to_digits(result, &mut digits, 9);

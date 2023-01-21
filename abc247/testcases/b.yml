@@ -1,0 +1,43 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      3
+      tanaka taro
+      tanaka jiro
+      suzuki hanako
+    out: |
+      Yes
+  - name: sample2
+    in: |
+      3
+      aaa bbb
+      xxx aaa
+      bbb yyy
+    out: |
+      No
+  - name: sample3
+    in: |
+      2
+      tanaka taro
+      tanaka taro
+    out: |
+      No
+  - name: sample4
+    in: |
+      3
+      takahashi chokudai
+      aoki kensho
+      snu ke
+    out: |
+      Yes
+
+extend:
+  - type: Text
+    path: "./b"
+    in: /in/*.txt
+    out: /out/*.txt

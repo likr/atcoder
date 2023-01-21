@@ -1,0 +1,27 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      13 2
+    out: |
+      5
+  - name: sample2
+    in: |
+      100 80
+    out: |
+      99
+  - name: sample3
+    in: |
+      1000000000000000000 1000000000
+    out: |
+      841103275147365677
+
+extend:
+  - type: Text
+    path: "./e"
+    in: /in/*.txt
+    out: /out/*.txt
