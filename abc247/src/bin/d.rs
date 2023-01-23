@@ -42,13 +42,15 @@ fn main() {
             }
             let mut s = 0;
             while c > 0 {
-                let (x, d) = queue.pop_front().unwrap();
-                if d > c {
-                    s += x * c;
-                    queue.push_front((x, d - c));
+                let (y, d) = queue.pop_front().unwrap();
+                if d >= c {
+                    s += y * c;
+                    if d > c {
+                        queue.push_front((y, d - c));
+                    }
                     c = 0;
                 } else {
-                    s += x * d;
+                    s += y * d;
                     c -= d;
                 }
             }

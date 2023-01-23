@@ -29,5 +29,11 @@ fn main() {
         s[i] = s[i - 1];
     }
     s[0] = '0';
-    println!("{}", s.iter().collect::<String>());
+    println!(
+        "{}",
+        s.iter()
+            .map(|c| format!("{}", c))
+            .collect::<Vec<_>>()
+            .join("")
+    );
 }

@@ -21,13 +21,19 @@ macro_rules! debug {
     };
 }
 
+fn f(n: usize) {
+    if n == 1 {
+        print!("{}", n);
+    } else {
+        f(n - 1);
+        print!(" {} ", n);
+        f(n - 1);
+    }
+}
+
 fn main() {
     input! {
         n: usize,
     }
-    let mut s = vec!["1".into()];
-    for i in 1..n {
-        s.push(format!("{} {} {}", s[i - 1], i + 1, s[i - 1]));
-    }
-    println!("{}", s[n - 1]);
+    f(n);
 }
