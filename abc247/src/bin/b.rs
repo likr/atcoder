@@ -28,14 +28,14 @@ fn main() {
     }
     let mut count = HashMap::new();
     for i in 0..n {
-        let (si, ti) = &st[i];
+        let (si, ti) = st[i].clone();
         *count.entry(si).or_insert(0) += 1;
         *count.entry(ti).or_insert(0) += 1;
     }
     for i in 0..n {
-        let (si, ti) = &st[i];
+        let (si, ti) = st[i].clone();
         if si == ti {
-            if count[&si] > 2 && count[&ti] > 2 {
+            if count[&si] > 2 {
                 println!("No");
                 return;
             }
