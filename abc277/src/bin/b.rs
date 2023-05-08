@@ -24,16 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        s: [Chars; n],
     }
-    let first_letter = "HDCS".chars().collect::<Vec<_>>();
-    let second_letter = "A23456789TJQK".chars().collect::<Vec<_>>();
-    if s.iter().all(|si| {
-        first_letter.iter().any(|&c| c == si[0]) && second_letter.iter().any(|&c| c == si[1])
-    }) && s.iter().collect::<HashSet<_>>().len() == n
-    {
-        println!("Yes");
-    } else {
-        println!("No");
-    }
+    println!("{}", n);
 }

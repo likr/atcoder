@@ -32,12 +32,7 @@ fn main() {
             let (xj, yj) = xy[j];
             for k in 0..j {
                 let (xk, yk) = xy[k];
-                if (xi == xj && xj == xk)
-                    || (yi == yj && yj == yk)
-                    || ((yi - yj) * (xj - xk) == (yj - yk) * (xi - xj))
-                {
-                    debug!(i, j, k);
-                    debug!(xi, yi, xj, yj, xk, yk);
+                if (xj - xi) * (yk - yi) == (xk - xi) * (yj - yi) {
                     println!("Yes");
                     return;
                 }

@@ -1,0 +1,62 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      7
+      beat
+      vet
+      beet
+      bed
+      vet
+      bet
+      beet
+    out: |
+      beet
+      vet
+  - name: sample2
+    in: |
+      8
+      buffalo
+      buffalo
+      buffalo
+      buffalo
+      buffalo
+      buffalo
+      buffalo
+      buffalo
+    out: |
+      buffalo
+  - name: sample3
+    in: |
+      7
+      bass
+      bass
+      kick
+      kick
+      bass
+      kick
+      kick
+    out: |
+      kick
+  - name: sample4
+    in: |
+      4
+      ushi
+      tapu
+      nichia
+      kun
+    out: |
+      kun
+      nichia
+      tapu
+      ushi
+
+extend:
+  - type: Text
+    path: "./c"
+    in: /in/*.txt
+    out: /out/*.txt

@@ -13,52 +13,45 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         n: usize,
-        a: [[usize; n]; n],
-    }
-    let mut b = vec![vec![true; n]; n];
-    for i in 0..n {
-        for j in 0..n {
-            b[i][j] = (0..n).all(|k| i == k || j == k || a[i][j] < a[i][k] + a[k][j]);
-        }
-    }
-    let mut s = 0;
-    for i in 0..n {
-        for j in i..n {
-            if b[i][j] {
-                s += a[i][j];
-            }
-        }
-    }
-    let mut d = vec![vec![INF; n]; n];
-    for i in 0..n {
-        d[i][i] = 0;
+        mut a: [[usize; n]; n],
     }
     for i in 0..n {
         for j in 0..n {
-            if b[i][j] {
-                d[i][j] = a[i][j];
+            for k in 0..n {
+                if a[i][j] > a[i][k] + a[k][j] {
+                    println!("-1");
+                    return;
+                }
             }
         }
     }
     for k in 0..n {
         for i in 0..n {
             for j in 0..n {
-                d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
+                if a[i][j] == a[i][k] + a[k][j] && a[i][k] > 0 && a[k][j] > 0 {
+                    a[i][j] = INF;
+                }
             }
         }
     }
-    // eprintln!("{:?}", a);
-    // eprintln!("{:?}", d);
+    let mut result = 0;
     for i in 0..n {
-        for j in 0..n {
-            if d[i][j] != a[i][j] {
-                println!("-1");
-                return;
+        for j in 0..i {
+            if a[i][j] != INF {
+                result += a[i][j];
             }
         }
     }
-    println!("{}", s);
+    println!("{}", result);
 }

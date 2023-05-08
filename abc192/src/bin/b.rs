@@ -23,7 +23,20 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        s: Chars,
     }
-    println!("{}", n);
+    for i in 0..s.len() {
+        if i % 2 == 0 {
+            if 'A' <= s[i] && s[i] <= 'Z' {
+                println!("No");
+                return;
+            }
+        } else {
+            if 'a' <= s[i] && s[i] <= 'z' {
+                println!("No");
+                return;
+            }
+        }
+    }
+    println!("Yes");
 }

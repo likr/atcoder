@@ -24,6 +24,13 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        a: [usize; n],
     }
-    println!("{}", n);
+    let mut result = 0;
+    for i in 0..n {
+        if a[i] >= 10 {
+            result += a[i] - 10;
+        }
+    }
+    println!("{}", result);
 }

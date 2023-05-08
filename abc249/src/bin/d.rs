@@ -26,25 +26,22 @@ fn main() {
         n: usize,
         a: [usize; n],
     }
-    let mut count = HashMap::new();
-    for &ai in a.iter() {
-        *count.entry(ai).or_insert(0) += 1;
+    let mut count = vec![0; 200001];
+    for i in 0..n {
+        count[a[i]] += 1;
     }
     let mut result = 0usize;
-    for &ai in a.iter() {
-        for d in 1.. {
-            if d * d > ai {
+    for i in 0..n {
+        for x in 1.. {
+            if x * x > a[i] {
                 break;
             }
-            if ai % d == 0 {
-                if let Some(&c1) = count.get(&d) {
-                    if let Some(&c2) = count.get(&(ai / d)) {
-                        if d == ai / d {
-                            result += c1 * c2;
-                        } else {
-                            result += 2 * c1 * c2;
-                        }
-                    }
+            if a[i] % x == 0 {
+                let y = a[i] / x;
+                if x == y {
+                    result += count[x] * count[x];
+                } else {
+                    result += count[x] * count[y] * 2;
                 }
             }
         }

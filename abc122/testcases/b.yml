@@ -1,0 +1,27 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      ATCODER
+    out: |
+      3
+  - name: sample2
+    in: |
+      HATAGAYA
+    out: |
+      5
+  - name: sample3
+    in: |
+      SHINJUKU
+    out: |
+      0
+
+extend:
+  - type: Text
+    path: "./b"
+    in: /in/*.txt
+    out: /out/*.txt

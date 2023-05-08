@@ -1,19 +1,15 @@
 [package]
 name = "abc183"
 version = "0.1.0"
-authors = ["Yosuke Onoue <onoue@likr-lab.com>"]
 edition = "2018"
 
-[package.metadata.cargo-compete]
-config = "../compete.toml"
-
 [package.metadata.cargo-compete.bin]
-a = { name = "abc183-a", problem = { platform = "atcoder", contest = "abc183", index = "A", url = "https://atcoder.jp/contests/abc183/tasks/abc183_a" } }
-b = { name = "abc183-b", problem = { platform = "atcoder", contest = "abc183", index = "B", url = "https://atcoder.jp/contests/abc183/tasks/abc183_b" } }
-c = { name = "abc183-c", problem = { platform = "atcoder", contest = "abc183", index = "C", url = "https://atcoder.jp/contests/abc183/tasks/abc183_c" } }
-d = { name = "abc183-d", problem = { platform = "atcoder", contest = "abc183", index = "D", url = "https://atcoder.jp/contests/abc183/tasks/abc183_d" } }
-e = { name = "abc183-e", problem = { platform = "atcoder", contest = "abc183", index = "E", url = "https://atcoder.jp/contests/abc183/tasks/abc183_e" } }
-f = { name = "abc183-f", problem = { platform = "atcoder", contest = "abc183", index = "F", url = "https://atcoder.jp/contests/abc183/tasks/abc183_f" } }
+abc183-a = { alias = "a", problem = "https://atcoder.jp/contests/abc183/tasks/abc183_a" }
+abc183-b = { alias = "b", problem = "https://atcoder.jp/contests/abc183/tasks/abc183_b" }
+abc183-c = { alias = "c", problem = "https://atcoder.jp/contests/abc183/tasks/abc183_c" }
+abc183-d = { alias = "d", problem = "https://atcoder.jp/contests/abc183/tasks/abc183_d" }
+abc183-e = { alias = "e", problem = "https://atcoder.jp/contests/abc183/tasks/abc183_e" }
+abc183-f = { alias = "f", problem = "https://atcoder.jp/contests/abc183/tasks/abc183_f" }
 
 [[bin]]
 name = "abc183-a"
@@ -38,6 +34,7 @@ path = "src/bin/e.rs"
 [[bin]]
 name = "abc183-f"
 path = "src/bin/f.rs"
+
 [dependencies]
 num = "=0.2.1"
 num-bigint = "=0.2.6"
@@ -60,7 +57,7 @@ rand_pcg = "=0.2.1"
 rand_distr = "=0.2.2"
 petgraph = "=0.5.0"
 indexmap = "=1.3.2"
-regex = "=1.3.6"
+# regex = "=1.3.6"
 lazy_static = "=1.4.0"
 ordered-float = "=1.0.2"
 ascii = "=1.0.0"
@@ -78,3 +75,5 @@ text_io = "=0.1.8"
 whiteread = "=0.5.0"
 rustc-hash = "=1.1.0"
 smallvec = "=1.2.0"
+
+[dev-dependencies]

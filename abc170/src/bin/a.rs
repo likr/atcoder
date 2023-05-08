@@ -23,11 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        x: [usize; 5],
+        n: usize,
     }
-    for i in 0..5 {
-        if x[i] == 0 {
-            println!("{}", i + 1);
-        }
-    }
+    println!("{}", n);
 }

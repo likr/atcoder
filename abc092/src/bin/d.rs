@@ -13,36 +13,55 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         a: usize,
         b: usize,
     }
-    let (h, w) = (99, 99);
-    let (c1, c2) = if a > b { ('.', '#') } else { ('#', '.') };
-    let (a, b) = if a > b { (a, b) } else { (b, a) };
-
-    let mut s = vec![vec![c2; w]; h];
-    for k in 0..a {
-        let i = k / 25;
-        let j = k % 25;
-        for i2 in 0..3 {
-            for j2 in 0..3 {
-                s[4 * i + i2][4 * j + j2] = c1;
-            }
+    let h = 100;
+    let w = 100;
+    let mut s = vec![vec!['.'; w]; h];
+    for i in 0..h / 2 {
+        for j in 0..w {
+            s[i][j] = '#';
         }
     }
-    for k in 0..b - 1 {
-        let i = k / 25;
-        let j = k % 25;
-        s[4 * i + 1][4 * j + 1] = c2;
+    let mut i = 1;
+    let mut j = 1;
+    for _ in 0..a - 1 {
+        s[i][j] = '.';
+        j += 2;
+        if j >= w {
+            j = 1;
+            i += 2;
+        }
     }
-
+    let mut i = h / 2 + 1;
+    let mut j = 1;
+    for _ in 0..b - 1 {
+        s[i][j] = '#';
+        j += 2;
+        if j >= w {
+            j = 1;
+            i += 2;
+        }
+    }
     println!("{} {}", h, w);
     for i in 0..h {
-        for j in 0..w {
-            print!("{}", s[i][j]);
-        }
-        println!("");
+        println!(
+            "{}",
+            s[i].iter()
+                .map(|&c| format!("{}", c))
+                .collect::<Vec<_>>()
+                .join("")
+        );
     }
 }

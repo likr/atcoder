@@ -13,24 +13,17 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         n: usize,
-        mut a: [isize; n],
     }
-    a.push(0);
-    a.reverse();
-    a.push(0);
-    a.reverse();
-    let n = a.len();
-    let mut s = 0;
-    for i in 1..n {
-        s += (a[i - 1] - a[i]).abs();
-    }
-    for i in 1..n - 1 {
-        println!(
-            "{}",
-            s - (a[i - 1] - a[i]).abs() - (a[i] - a[i + 1]).abs() + (a[i - 1] - a[i + 1]).abs()
-        );
-    }
+    println!("{}", n);
 }

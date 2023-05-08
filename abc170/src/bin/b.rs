@@ -23,12 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
     }
-    if (0..=x).any(|a| 2 * a + 4 * (x - a) == y) {
-        println!("Yes");
-    } else {
-        println!("No");
-    }
+    println!("{}", n);
 }

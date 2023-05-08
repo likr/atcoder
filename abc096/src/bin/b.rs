@@ -13,14 +13,17 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
-        mut a: [usize; 3],
-        k: usize,
+        n: usize,
     }
-    a.sort();
-    for _ in 0..k {
-        a[2] *= 2;
-    }
-    println!("{}", a.iter().sum::<usize>());
+    println!("{}", n);
 }

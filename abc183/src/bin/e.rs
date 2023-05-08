@@ -25,41 +25,31 @@ fn main() {
     input! {
         h: usize,
         w: usize,
-        s: [Chars; h],
+        t: [Chars; h],
     }
+    let mut s = vec![vec!['#'; w + 1]; h + 1];
+    for i in 0..h {
+        for j in 0..w {
+            s[i + 1][j + 1] = t[i][j];
+        }
+    }
+    let mut count1 = vec![vec![0; w + 1]; h + 1];
+    let mut count2 = vec![vec![0; w + 1]; h + 1];
+    let mut count3 = vec![vec![0; w + 1]; h + 1];
     let mut dp = vec![vec![0; w + 1]; h + 1];
-    let mut acc_v = vec![0; w + 1];
-    let mut acc_x = vec![0; w + 1];
-    dp[1][1] = 1usize;
+    dp[1][1] = 1;
     for i in 1..=h {
-        let mut acc_h = 0;
         for j in 1..=w {
-            if s[i - 1][j - 1] == '#' {
-                acc_h = 0;
+            if i == 1 && j == 1 {
                 continue;
             }
-            dp[i][j] = (dp[i][j] + acc_h) % M;
-            dp[i][j] = (dp[i][j] + acc_v[j]) % M;
-            dp[i][j] = (dp[i][j] + acc_x[j - 1]) % M;
-            acc_h = (acc_h + dp[i][j]) % M;
-        }
-        for j in 1..=w {
-            if s[i - 1][j - 1] == '#' {
-                acc_v[j] = 0;
-            } else {
-                acc_v[j] = (acc_v[j] + dp[i][j]) % M;
+            if s[i][j] == '.' {
+                count1[i][j] = (count1[i][j - 1] + dp[i][j - 1]) % M;
+                count2[i][j] = (count2[i - 1][j] + dp[i - 1][j]) % M;
+                count3[i][j] = (count3[i - 1][j - 1] + dp[i - 1][j - 1]) % M;
+                dp[i][j] = (count1[i][j] + count2[i][j] + count3[i][j]) % M;
             }
         }
-        for j in (1..=w).rev() {
-            if s[i - 1][j - 1] == '#' {
-                acc_x[j] = 0;
-            } else {
-                acc_x[j] = (acc_x[j - 1] + dp[i][j]) % M;
-            }
-        }
-        // debug!(acc_h);
-        // debug!(acc_v);
-        // debug!(acc_x);
     }
     println!("{}", dp[h][w]);
 }

@@ -23,8 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        x: usize,
+        n: usize,
     }
-    let y = x % 500;
-    println!("{}", x / 500 * 1000 + y / 5 * 5);
+    println!("{}", n);
 }

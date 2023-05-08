@@ -24,11 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        ab: [(usize, usize); n],
     }
-    let mut result = 0;
-    for &(ai, bi) in &ab {
-        result += bi * (bi + 1) / 2 - ai * (ai - 1) / 2;
-    }
-    println!("{}", result);
+    println!("{}", n);
 }

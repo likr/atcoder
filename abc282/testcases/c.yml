@@ -1,0 +1,30 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      8
+      "a,b"c,d
+    out: |
+      "a,b"c.d
+  - name: sample2
+    in: |
+      5
+      ,,,,,
+    out: |
+      .....
+  - name: sample3
+    in: |
+      20
+      a,"t,"c,"o,"d,"e,"r,
+    out: |
+      a."t,"c."o,"d."e,"r.
+
+extend:
+  - type: Text
+    path: "./c"
+    in: /in/*.txt
+    out: /out/*.txt

@@ -13,6 +13,14 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         n: usize,
@@ -20,9 +28,9 @@ fn main() {
     }
     a.sort();
     a.reverse();
-    let mut result = 0;
     let mut heap = BinaryHeap::new();
     heap.push(a[0]);
+    let mut result = 0;
     for i in 1..n {
         result += heap.pop().unwrap();
         heap.push(a[i]);

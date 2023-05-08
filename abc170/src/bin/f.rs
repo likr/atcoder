@@ -1,4 +1,3 @@
-use ordered_float::*;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -22,67 +21,58 @@ macro_rules! debug {
     };
 }
 
-fn dijkstra(graph: &Vec<Vec<(usize, f64)>>, s: usize) -> Vec<f64> {
-    let mut distance = vec![INF as f64; graph.len()];
-    distance[s] = 0.;
-    let mut queue = BinaryHeap::new();
-    queue.push(Reverse((OrderedFloat::from(0f64), s)));
-    while !queue.is_empty() {
-        let Reverse((d, u)) = queue.pop().unwrap();
-        if OrderedFloat::from(distance[u]) < d {
-            continue;
-        }
-        for &(v, c) in &graph[u] {
-            if distance[u] + c < distance[v] {
-                distance[v] = (distance[u] + c).floor();
-                queue.push(Reverse((OrderedFloat::from(distance[v]), v)));
-            }
-        }
-    }
-    distance
-}
-
 fn main() {
     input! {
         h: usize,
         w: usize,
-        k: f64,
-        s: (Usize1, Usize1),
-        t: (Usize1, Usize1),
-        c: [Chars; h],
+        k: usize,
+        x1: usize,
+        y1: usize,
+        x2: usize,
+        y2: usize,
+        c0: [Chars; h],
     }
-    let n = h * w * 4 + 2;
-    let mut graph = vec![vec![]; n];
-    for i in 0..h {
-        for j in 1..w {
-            for l in 0..4 {
-                let u = l * w * h + i * w + j;
-                let v = l * w * h + i * w + j - 1;
-                graph[u].push((v, 1. / k));
-                graph[v].push((u, 1. / k));
+    let mut c = vec![vec!['@'; w + 2]; h + 2];
+    for i in 1..=h {
+        for j in 1..=w {
+            c[i][j] = c0[i - 1][j - 1];
+        }
+    }
+    let mut distance = vec![vec![vec![(INF, INF); 4]; w + 2]; h + 2];
+    let mut heap = BinaryHeap::new();
+    let ds = [(0, 1), (2, 1), (1, 0), (1, 2)];
+    for i in 0..4 {
+        distance[x1][y1][i] = (0, 0);
+        heap.push((Reverse(0), Reverse(0), i, x1, y1));
+    }
+    while let Some((Reverse(d), Reverse(e), f, x0, y0)) = heap.pop() {
+        if distance[x0][y0][f] < (d, e) {
+            continue;
+        }
+        {
+            let x = x0 + ds[f].0 - 1;
+            let y = y0 + ds[f].1 - 1;
+            if c[x][y] == '.' && distance[x][y][f] > (d + (e + 1) / k, (e + 1) % k) {
+                let (dd, de) = (d + (e + 1) / k, (e + 1) % k);
+                distance[x][y][f] = (dd, de);
+                heap.push((Reverse(dd), Reverse(de), f, x, y));
+            }
+        }
+        for i in 0..4 {
+            if i / 2 != f / 2 && distance[x0][y0][i] > (d + (e + k - 1) / k, 0) {
+                let (dd, de) = (d + (e + k - 1) / k, 0);
+                distance[x0][y0][i] = (dd, de);
+                heap.push((Reverse(dd), Reverse(de), i, x0, y0));
             }
         }
     }
-    for i in 1..h {
-        for j in 0..w {
-            for l in 0..4 {
-                let u = l * w * h + i * w + j;
-                let v = l * w * h + (i - 1) * w + j;
-                graph[u].push((v, 1. / k));
-                graph[v].push((u, 1. / k));
-            }
-        }
+    let result = (0..4)
+        .map(|i| distance[x2][y2][i].0 + (distance[x2][y2][i].1 + k - 1) / k)
+        .min()
+        .unwrap();
+    if result >= INF {
+        println!("-1");
+    } else {
+        println!("{}", result);
     }
-    for l in 0..4 {
-        let u = l * w * h + s.0 * w + s.1;
-        let v = n - 2;
-        graph[u].push((v, 0.));
-        graph[v].push((u, 0.));
-        let u = l * w * h + t.0 * w + t.1;
-        let v = n - 1;
-        graph[u].push((v, 0.));
-        graph[v].push((u, 0.));
-    }
-    let distance = dijkstra(&graph, n - 2);
-    println!("{}", distance[n - 1].ceil());
 }

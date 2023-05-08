@@ -23,7 +23,20 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        x: usize,
+        y: usize,
     }
-    println!("{}", n);
+    if x == y {
+        println!("{}", x);
+        return;
+    }
+    let mut s = HashSet::new();
+    s.insert(0);
+    s.insert(1);
+    s.insert(2);
+    s.remove(&x);
+    s.remove(&y);
+    for &z in s.iter() {
+        println!("{}", z);
+    }
 }

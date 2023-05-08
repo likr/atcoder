@@ -23,31 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        s: Chars,
+        n: usize,
     }
-    let mut count = HashMap::new();
-    for &c in s.iter() {
-        *count.entry(c).or_insert(0) += 1;
-    }
-    for &v in count.values() {
-        if v >= 2 {
-            println!("No");
-            return;
-        }
-    }
-    if "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        .chars()
-        .all(|c| !count.contains_key(&c))
-    {
-        println!("No");
-        return;
-    }
-    if "abcdefghijklmnopqrstuvwxyz"
-        .chars()
-        .all(|c| !count.contains_key(&c))
-    {
-        println!("No");
-        return;
-    }
-    println!("Yes");
+    println!("{}", n);
 }

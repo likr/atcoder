@@ -23,16 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        x: i64,
         n: usize,
-        p: [i64; n],
     }
-    let p = p.into_iter().collect::<HashSet<_>>();
-    println!(
-        "{}",
-        (0..=101)
-            .filter(|y| !p.contains(&y))
-            .min_by_key(|y| (x - y).abs())
-            .unwrap()
-    );
+    println!("{}", n);
 }

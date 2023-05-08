@@ -1,0 +1,44 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      a?c
+      b?
+    out: |
+      Yes
+      No
+      No
+  - name: sample2
+    in: |
+      atcoder
+      ?????
+    out: |
+      Yes
+      Yes
+      Yes
+      Yes
+      Yes
+      Yes
+  - name: sample3
+    in: |
+      beginner
+      contest
+    out: |
+      No
+      No
+      No
+      No
+      No
+      No
+      No
+      No
+
+extend:
+  - type: Text
+    path: "./d"
+    in: /in/*.txt
+    out: /out/*.txt

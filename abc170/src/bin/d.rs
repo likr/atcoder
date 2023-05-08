@@ -24,32 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        mut a: [usize; n],
     }
-    a.sort();
-    let mut count = HashMap::new();
-    for i in 0..n {
-        *count.entry(a[i]).or_insert(0) += 1;
-    }
-    let mut result = 0;
-    let mut p = HashSet::new();
-    for i in 0..n {
-        if count[&a[i]] == 1 {
-            let mut factors = HashSet::new();
-            for d in 1.. {
-                if d * d > a[i] {
-                    break;
-                }
-                if a[i] % d == 0 {
-                    factors.insert(a[i] / d);
-                    factors.insert(d);
-                }
-            }
-            if factors.iter().all(|d| !p.contains(&d)) {
-                result += 1;
-            }
-        }
-        p.insert(&a[i]);
-    }
-    println!("{}", result);
+    println!("{}", n);
 }

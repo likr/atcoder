@@ -23,8 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        x: isize,
+        n: usize,
     }
-    let y = if x < 0 { 0 } else { x };
-    println!("{}", y);
+    println!("{}", n);
 }

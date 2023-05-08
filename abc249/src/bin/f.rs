@@ -24,40 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        k: usize,
-        mut ty: [(usize, i64); n],
     }
-    ty.reverse();
-    ty.push((1, 0));
-    ty.reverse();
-    let n = ty.len();
-    let mut result = -(INF as i64);
-    let mut s = 0;
-    let mut t1_count = 0;
-    let mut heap = BinaryHeap::new();
-    for i in (0..n).rev() {
-        let (ti, yi) = ty[i];
-        if ti == 1 {
-            for j in i + 1..n {
-                let (tj, yj) = ty[j];
-                if tj == 1 {
-                    break;
-                }
-                if yj >= 0 {
-                    s += yj;
-                } else {
-                    heap.push(yj);
-                }
-            }
-            while !heap.is_empty() && heap.len() + t1_count > k {
-                s += heap.pop().unwrap();
-            }
-            result = max(result, yi + s);
-            t1_count += 1;
-            if k + 1 == t1_count {
-                break;
-            }
-        }
-    }
-    println!("{}", result);
+    println!("{}", n);
 }
