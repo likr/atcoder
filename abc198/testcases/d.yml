@@ -1,0 +1,53 @@
+---
+type: Batch
+timelimit: 5s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      a
+      b
+      c
+    out: |
+      1
+      2
+      3
+  - name: sample2
+    in: |
+      x
+      x
+      y
+    out: |
+      1
+      1
+      2
+  - name: sample3
+    in: |
+      p
+      q
+      p
+    out: |
+      UNSOLVABLE
+  - name: sample4
+    in: |
+      abcd
+      efgh
+      ijkl
+    out: |
+      UNSOLVABLE
+  - name: sample5
+    in: |
+      send
+      more
+      money
+    out: |
+      9567
+      1085
+      10652
+
+extend:
+  - type: Text
+    path: "./d"
+    in: /in/*.txt
+    out: /out/*.txt

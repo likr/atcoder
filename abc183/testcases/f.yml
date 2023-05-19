@@ -44,4 +44,8 @@ cases:
       0
       0
 
-extend: []
+extend:
+  - type: Text
+    path: "./f"
+    in: /in/*.txt
+    out: /out/*.txt

@@ -24,8 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        m: usize,
-        a: [usize; n],
     }
     let mut s = 0;
     let mut nums = vec![];

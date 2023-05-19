@@ -28,8 +28,9 @@ fn main() {
     }
     let mut floors = vec![1];
     for i in 0..n {
-        floors.push(ab[i].0);
-        floors.push(ab[i].1);
+        let (ai, bi) = ab[i];
+        floors.push(ai);
+        floors.push(bi);
     }
     floors.sort();
     floors.dedup();

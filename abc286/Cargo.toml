@@ -59,7 +59,7 @@ nalgebra = "=0.20.0"
 alga = "=0.9.3"
 libm = "=0.2.1"
 rand = { version = "=0.7.3", features = ["small_rng"] }
-getrandom = "=0.1.14"
+getrandom = "*"
 rand_chacha = "=0.2.2"
 rand_core = "=0.5.1"
 rand_hc = "=0.2.0"

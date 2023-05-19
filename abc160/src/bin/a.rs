@@ -23,11 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        s: Chars,
+        n: usize,
     }
-    if s[2] == s[3] && s[4] == s[5] {
-        println!("Yes");
-    } else {
-        println!("No");
-    }
+    println!("{}", n);
 }

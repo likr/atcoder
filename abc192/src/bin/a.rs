@@ -23,7 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        x: usize,
     }
-    println!("{}", n);
+    println!("{}", 100 - x % 100);
 }

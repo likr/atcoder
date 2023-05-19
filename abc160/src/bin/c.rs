@@ -27,9 +27,9 @@ fn main() {
         n: usize,
         a: [usize; n],
     }
-    let mut d = k - a[n - 1] + a[0];
+    let mut result = k + a[0] - a[n - 1];
     for i in 1..n {
-        d = max(d, a[i] - a[i - 1]);
+        result = max(result, a[i] - a[i - 1]);
     }
-    println!("{}", k - d);
+    println!("{}", k - result);
 }

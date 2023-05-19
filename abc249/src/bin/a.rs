@@ -23,21 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        a: usize,
-        b: usize,
-        c: usize,
-        d: usize,
-        e: usize,
-        f: usize,
-        x: usize,
+        n: usize,
     }
-    let l1 = b * (a * (x / (a + c)) + min(a, x % (a + c)));
-    let l2 = e * (d * (x / (d + f)) + min(d, x % (d + f)));
-    if l1 < l2 {
-        println!("Aoki");
-    } else if l1 > l2 {
-        println!("Takahashi");
-    } else {
-        println!("Draw");
-    }
+    println!("{}", n);
 }

@@ -3,8 +3,8 @@ type: Batch
 timelimit: 2s
 match:
   Float:
-    relative_error: 0.000001
-    absolute_error: 0.000001
+    relative_error: 1e-6
+    absolute_error: 1e-6
 
 cases:
   - name: sample1
@@ -23,4 +23,8 @@ cases:
     out: |
       -18.7058823529
 
-extend: []
+extend:
+  - type: Text
+    path: "./b"
+    in: /in/*.txt
+    out: /out/*.txt
