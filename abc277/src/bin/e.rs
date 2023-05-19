@@ -21,26 +21,6 @@ macro_rules! debug {
     };
 }
 
-fn dijkstra(graph: &Vec<Vec<(usize, usize)>>, s: usize) -> Vec<usize> {
-    let mut distance = vec![INF; graph.len()];
-    distance[s] = 0;
-    let mut queue = BinaryHeap::new();
-    queue.push(Reverse((0, s)));
-    while !queue.is_empty() {
-        let Reverse((d, u)) = queue.pop().unwrap();
-        if distance[u] < d {
-            continue;
-        }
-        for &(v, c) in &graph[u] {
-            if distance[u] + c < distance[v] {
-                distance[v] = distance[u] + c;
-                queue.push(Reverse((distance[v], v)));
-            }
-        }
-    }
-    distance
-}
-
 fn main() {
     input! {
         n: usize,
@@ -49,22 +29,37 @@ fn main() {
         uva: [(Usize1, Usize1, usize); m],
         s: [Usize1; k],
     }
-    let mut graph = vec![vec![]; 2 * n];
-    for &(ui, vi, ai) in uva.iter() {
+    let mut graph = vec![vec![]; n * 2];
+    for i in 0..m {
+        let (ui, vi, ai) = uva[i];
         if ai == 1 {
             graph[ui].push((vi, 1));
             graph[vi].push((ui, 1));
         } else {
-            graph[n + ui].push((n + vi, 1));
-            graph[n + vi].push((n + ui, 1));
+            graph[ui + n].push((vi + n, 1));
+            graph[vi + n].push((ui + n, 1));
         }
     }
-    for &si in s.iter() {
+    for i in 0..k {
+        let si = s[i];
         graph[si].push((si + n, 0));
         graph[si + n].push((si, 0));
     }
-
-    let distance = dijkstra(&graph, 0);
+    let mut distance = vec![INF; n * 2];
+    distance[0] = 0;
+    let mut heap = BinaryHeap::new();
+    heap.push((Reverse(distance[0]), 0));
+    while let Some((Reverse(d), u)) = heap.pop() {
+        if distance[u] < d {
+            continue;
+        }
+        for &(v, c) in graph[u].iter() {
+            if distance[u] + c < distance[v] {
+                distance[v] = distance[u] + c;
+                heap.push((Reverse(distance[v]), v));
+            }
+        }
+    }
     let result = min(distance[n - 1], distance[2 * n - 1]);
     if result == INF {
         println!("-1");

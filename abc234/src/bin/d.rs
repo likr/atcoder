@@ -24,18 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        k: usize,
-        p: [usize; n],
     }
-    let mut nums = BTreeSet::new();
-    for i in 0..k {
-        nums.insert(p[i]);
-    }
-    println!("{}", nums.range(0..).nth(0).unwrap());
-    for i in k..n {
-        nums.insert(p[i]);
-        let v = *nums.range(0..).nth(0).unwrap();
-        nums.remove(&v);
-        println!("{}", nums.range(0..).nth(0).unwrap());
-    }
+    println!("{}", n);
 }

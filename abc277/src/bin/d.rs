@@ -28,49 +28,41 @@ fn main() {
         a: [usize; n],
     }
     let mut s = 0;
-    let mut nums0 = vec![];
-    let mut count = HashMap::new();
+    let mut nums = vec![];
     for i in 0..n {
         s += a[i];
-        nums0.push(a[i]);
-        *count.entry(a[i]).or_insert(0) += 1;
+        nums.push(a[i]);
     }
-    nums0.sort();
-    nums0.dedup();
-    let k = nums0.len();
-    if nums0.len() == m || nums0.len() == 1 {
-        println!("0");
-        return;
+    nums.sort();
+    nums.dedup();
+    for i in 0..nums.len() {
+        nums.push(nums[i] + m);
     }
-
-    let mut nums = vec![];
-    for &x in nums0.iter() {
-        nums.push(x);
+    let num_index = nums
+        .iter()
+        .enumerate()
+        .map(|(i, &v)| (v, i))
+        .collect::<HashMap<_, _>>();
+    let mut count = vec![0; nums.len()];
+    for i in 0..n {
+        count[num_index[&a[i]]] += 1;
+        count[num_index[&(a[i] + m)]] += 1;
     }
-    for &x in nums0.iter() {
-        nums.push(x);
+    let mut acc = vec![0; count.len()];
+    acc[0] = nums[0] * count[0];
+    for i in 1..count.len() {
+        acc[i] = acc[i - 1] + count[i] * (nums[i] % m);
     }
-
-    let mut acc = vec![0; 2 * k + 1];
-    for i in 0..2 * k {
-        acc[i + 1] = acc[i] + nums[i] * count[&nums[i]];
-    }
-    debug!(nums);
-    debug!(acc);
-
-    let mut result = INF;
-    let mut left = 0;
-    while left < 2 * k {
-        let mut right = left;
-        loop {
-            right += 1;
-            if right == 2 * k || (nums[right - 1] + 1) % m != nums[right] {
-                break;
-            }
+    let mut result = s;
+    let mut j = 1;
+    for i in 0..nums.len() / 2 {
+        if j <= i {
+            j = i + 1;
         }
-        debug!(left, right);
-        result = min(result, s - (acc[right] - acc[left]));
-        left = right;
+        while j - i < nums.len() / 2 && nums[j] + 1 == nums[j + 1] {
+            j += 1;
+        }
+        result = min(result, s - (acc[j] - acc[i]));
     }
     println!("{}", result);
 }

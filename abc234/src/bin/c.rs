@@ -23,17 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        mut k: usize,
+        n: usize,
     }
-    let mut d = vec![];
-    while k > 0 {
-        if k % 2 == 0 {
-            d.push("0");
-        } else {
-            d.push("2");
-        }
-        k /= 2;
-    }
-    d.reverse();
-    println!("{}", d.join(""));
+    println!("{}", n);
 }

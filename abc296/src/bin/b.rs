@@ -23,22 +23,18 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
-        mut s: [Chars; n],
+        mut s: [Chars; 8],
     }
-    s.sort();
-    s.dedup();
-    if s.len() < n {
-        println!("No");
-        return;
-    }
-    let chars1 = "HDCS".chars().collect::<HashSet<_>>();
-    let chars2 = "A23456789TJQK".chars().collect::<HashSet<_>>();
-    for i in 0..n {
-        if !chars1.contains(&s[i][0]) || !chars2.contains(&s[i][1]) {
-            println!("No");
-            return;
+    s.reverse();
+    let col = "abcdefgh".chars().collect::<Vec<_>>();
+    let row = "12345678".chars().collect::<Vec<_>>();
+    let mut result = vec![];
+    for i in 0..8 {
+        for j in 0..8 {
+            if s[i][j] == '*' {
+                result.push(format!("{}{}", col[j], row[i]));
+            }
         }
     }
-    println!("Yes");
+    println!("{}", result.join(" "));
 }

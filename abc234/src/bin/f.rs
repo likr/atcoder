@@ -11,7 +11,7 @@ use std::f64::consts::*;
 #[allow(unused)]
 const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
-const M: usize = 998244353;
+const M: usize = 1000000007;
 
 #[allow(unused_macros)]
 macro_rules! debug {

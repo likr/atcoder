@@ -24,12 +24,12 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        x: Usize1,
-        p: [Usize1; n],
+        x: usize,
+        p: [usize; n],
     }
-    let mut q = vec![0; n];
     for i in 0..n {
-        q[p[i]] = i;
+        if p[i] == x {
+            println!("{}", i + 1);
+        }
     }
-    println!("{}", q[x] + 1);
 }

@@ -7,6 +7,7 @@ use std::cmp::*;
 use std::collections::*;
 #[allow(unused_imports)]
 use std::f64::consts::*;
+use superslice::*;
 
 #[allow(unused)]
 const INF: usize = std::usize::MAX / 4;
@@ -25,29 +26,44 @@ fn main() {
     input! {
         x: i64,
     }
-    let mut nums = vec![];
-    nums.push(111111111111111111);
-    for diff in -9..=9 {
-        for s in 0..=9 {
-            if diff == 0 && s == 0 {
-                continue;
+    let max = 111111111111111111i64;
+
+    let mut nums = vec![max];
+    for i in 1..=9 {
+        let mut v = i;
+        while v < max {
+            nums.push(v);
+            v = v * 10 + i;
+        }
+    }
+    for i in 1..=9 {
+        for j in 1..=9 {
+            let mut w = i + j;
+            if w > 9 {
+                break;
             }
-            let mut n = 0;
-            let mut b = 1;
-            let mut c = s;
-            while n < 111111111111111111 && (0 <= c && c <= 9) {
-                n += c * b;
-                nums.push(n);
-                b *= 10;
-                c += diff;
+            let mut v = i * 10 + w;
+            while v < max && w <= 9 {
+                nums.push(v);
+                w += j;
+                v = v * 10 + w;
+            }
+        }
+    }
+    for i in 1..=9 {
+        for j in 1..=9 {
+            let mut w = i - j;
+            if w < 0 {
+                break;
+            }
+            let mut v = i * 10 + w;
+            while v < max && w >= 0 {
+                nums.push(v);
+                w -= j;
+                v = v * 10 + w;
             }
         }
     }
     nums.sort();
-    for i in 0..nums.len() {
-        if nums[i] >= x {
-            println!("{}", nums[i]);
-            break;
-        }
-    }
+    println!("{}", nums[nums.lower_bound(&x)]);
 }

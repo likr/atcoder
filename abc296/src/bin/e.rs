@@ -24,21 +24,17 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        mut s: [Chars; n],
+        a: [Usize1; n],
     }
-    s.sort();
-    s.dedup();
-    if s.len() < n {
-        println!("No");
-        return;
+    let k = 20;
+    let mut d = vec![vec![0; n]; k];
+    for j in 0..n {
+        d[0][j] = a[j];
     }
-    let chars1 = "HDCS".chars().collect::<HashSet<_>>();
-    let chars2 = "A23456789TJQK".chars().collect::<HashSet<_>>();
-    for i in 0..n {
-        if !chars1.contains(&s[i][0]) || !chars2.contains(&s[i][1]) {
-            println!("No");
-            return;
+    for i in 1..k {
+        for j in 0..n {
+            d[i][j] = d[i - 1][d[i - 1][j]];
         }
     }
-    println!("Yes");
+    println!("{}", d[k - 1].iter().collect::<HashSet<_>>().len());
 }

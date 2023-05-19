@@ -23,22 +23,26 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
-        mut s: [Chars; n],
+        _n: usize,
+        q: usize,
     }
-    s.sort();
-    s.dedup();
-    if s.len() < n {
-        println!("No");
-        return;
-    }
-    let chars1 = "HDCS".chars().collect::<HashSet<_>>();
-    let chars2 = "A23456789TJQK".chars().collect::<HashSet<_>>();
-    for i in 0..n {
-        if !chars1.contains(&s[i][0]) || !chars2.contains(&s[i][1]) {
-            println!("No");
-            return;
+    let mut f = HashSet::new();
+    for _ in 0..q {
+        input! {
+            t: usize,
+            a: Usize1,
+            b: Usize1,
+        }
+        if t == 1 {
+            f.insert((a, b));
+        } else if t == 2 {
+            f.remove(&(a, b));
+        } else {
+            if f.contains(&(a, b)) && f.contains(&(b, a)) {
+                println!("Yes");
+            } else {
+                println!("No");
+            }
         }
     }
-    println!("Yes");
 }

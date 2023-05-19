@@ -24,20 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        xy: [(f64, f64); n],
     }
-    let mut max = 0.;
-    for i in 0..n {
-        let (xi, yi) = xy[i];
-        for j in 0..i {
-            let (xj, yj) = xy[j];
-            let dx = xi - xj;
-            let dy = yi - yj;
-            let d = (dx * dx + dy * dy).sqrt();
-            if d > max {
-                max = d;
-            }
-        }
-    }
-    println!("{}", max);
+    println!("{}", n);
 }
