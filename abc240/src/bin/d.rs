@@ -24,28 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        a: [usize; n],
     }
-    let mut count = 0usize;
-    let mut stack = vec![];
-    for i in 0..n {
-        if let Some((x, c)) = stack.pop() {
-            if a[i] == x {
-                if c + 1 == x {
-                    count -= c;
-                } else {
-                    stack.push((x, c + 1));
-                    count += 1;
-                }
-            } else {
-                stack.push((x, c));
-                stack.push((a[i], 1));
-                count += 1;
-            }
-        } else {
-            stack.push((a[i], 1));
-            count += 1;
-        }
-        println!("{}", count);
-    }
+    println!("{}", n);
 }

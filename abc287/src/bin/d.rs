@@ -23,7 +23,36 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        s: Chars,
+        t: Chars,
     }
-    println!("{}", n);
+    let n = s.len();
+    let m = t.len();
+    let mut match_count = 0;
+    for i in 0..m {
+        if s[n - m + i] == '?' || t[i] == '?' || s[n - m + i] == t[i] {
+            match_count += 1;
+        }
+    }
+    if match_count == m {
+        println!("Yes");
+    } else {
+        println!("No");
+    }
+    for i in 0..m {
+        if s[n - m + i] == '?' || t[i] == '?' || s[n - m + i] == t[i] {
+            if s[i] != '?' && t[i] != '?' && s[i] != t[i] {
+                match_count -= 1;
+            }
+        } else {
+            if s[i] == '?' || t[i] == '?' || s[i] == t[i] {
+                match_count += 1;
+            }
+        }
+        if match_count == m {
+            println!("Yes");
+        } else {
+            println!("No");
+        }
+    }
 }

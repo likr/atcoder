@@ -23,11 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        s: [Chars; 2],
+        n: usize,
     }
-    if s == vec![vec!['.', '#'], vec!['#', '.']] || s == vec![vec!['#', '.'], vec!['.', '#']] {
-        println!("No");
-    } else {
-        println!("Yes");
-    }
+    println!("{}", n);
 }

@@ -24,13 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        a: [usize; n],
     }
-    let a = a.into_iter().collect::<HashSet<_>>();
-    for i in 0..=2001 {
-        if !a.contains(&i) {
-            println!("{}", i);
-            return;
-        }
-    }
+    println!("{}", n);
 }

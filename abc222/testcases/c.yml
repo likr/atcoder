@@ -1,0 +1,36 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      2 3
+      GCP
+      PPP
+      CCC
+      PPC
+    out: |
+      3
+      1
+      2
+      4
+  - name: sample2
+    in: |
+      2 2
+      GC
+      PG
+      CG
+      PP
+    out: |
+      1
+      2
+      3
+      4
+
+extend:
+  - type: Text
+    path: "./c"
+    in: /in/*.txt
+    out: /out/*.txt

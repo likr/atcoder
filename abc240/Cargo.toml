@@ -9,6 +9,7 @@ abc240-b = { alias = "b", problem = "https://atcoder.jp/contests/abc240/tasks/ab
 abc240-c = { alias = "c", problem = "https://atcoder.jp/contests/abc240/tasks/abc240_c" }
 abc240-d = { alias = "d", problem = "https://atcoder.jp/contests/abc240/tasks/abc240_d" }
 abc240-e = { alias = "e", problem = "https://atcoder.jp/contests/abc240/tasks/abc240_e" }
+abc240-ex = { alias = "ex", problem = "https://atcoder.jp/contests/abc240/tasks/abc240_h" }
 abc240-f = { alias = "f", problem = "https://atcoder.jp/contests/abc240/tasks/abc240_f" }
 abc240-g = { alias = "g", problem = "https://atcoder.jp/contests/abc240/tasks/abc240_g" }
 
@@ -31,6 +32,10 @@ path = "src/bin/d.rs"
 [[bin]]
 name = "abc240-e"
 path = "src/bin/e.rs"
+
+[[bin]]
+name = "abc240-ex"
+path = "src/bin/ex.rs"
 
 [[bin]]
 name = "abc240-f"
@@ -62,7 +67,7 @@ rand_pcg = "=0.2.1"
 rand_distr = "=0.2.2"
 petgraph = "=0.5.0"
 indexmap = "=1.3.2"
-regex = "=1.3.6"
+# regex = "=1.3.6"
 lazy_static = "=1.4.0"
 ordered-float = "=1.0.2"
 ascii = "=1.0.0"

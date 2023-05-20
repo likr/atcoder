@@ -13,22 +13,34 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         h: usize,
         w: usize,
         a: [Chars; h],
     }
-    let mut b = vec![vec!['#'; w + 2]; h + 2];
+    let mut result = vec![vec!['#'; w + 2]; h + 2];
     for i in 0..h {
         for j in 0..w {
-            b[i + 1][j + 1] = a[i][j];
+            result[i + 1][j + 1] = a[i][j];
         }
     }
-    for row in b {
-        for c in row {
-            print!("{}", c);
-        }
-        println!("");
+    for i in 0..=h + 1 {
+        println!(
+            "{}",
+            result[i]
+                .iter()
+                .map(|c| format!("{}", c))
+                .collect::<Vec<_>>()
+                .join("")
+        );
     }
 }

@@ -24,20 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        mut w: usize,
-        mut ab: [(usize, usize); n],
     }
-    ab.sort_by_key(|&(ai, _)| ai);
-    ab.reverse();
-    let mut result = 0usize;
-    for i in 0..n {
-        if ab[i].1 <= w {
-            result += ab[i].0 * ab[i].1;
-            w -= ab[i].1;
-        } else {
-            result += ab[i].0 * w;
-            break;
-        }
-    }
-    println!("{}", result);
+    println!("{}", n);
 }

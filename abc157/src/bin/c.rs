@@ -25,14 +25,16 @@ fn main() {
     input! {
         n: u32,
         m: usize,
-        sc: [(u32, u32); m],
+        sc: [(u32, usize); m],
     }
-    if n == 1 && sc.iter().all(|&(s, c)| (0 / 10u32.pow(n - s)) % 10 == c) {
-        println!("{}", 0);
-        return;
-    }
-    for x in 10u32.pow(n - 1)..10u32.pow(n) {
-        if sc.iter().all(|&(s, c)| (x / 10u32.pow(n - s)) % 10 == c) {
+    'outer: for x in 0..10usize.pow(n) {
+        for i in 0..m {
+            let (si, ci) = sc[i];
+            if x / 10usize.pow(n - si) % 10 != ci {
+                continue 'outer;
+            }
+        }
+        if n == 1 || x >= 10usize.pow(n - 1) {
             println!("{}", x);
             return;
         }

@@ -24,6 +24,16 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        m: usize,
+        s: [usize; n],
+        t: [usize; m],
     }
-    println!("{}", n);
+    let t = t.iter().collect::<HashSet<_>>();
+    let mut result = 0;
+    for i in 0..n {
+        if t.contains(&(s[i] % 1000)) {
+            result += 1;
+        }
+    }
+    println!("{}", result);
 }

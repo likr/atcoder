@@ -7,7 +7,7 @@ use std::cmp::*;
 use std::collections::*;
 #[allow(unused_imports)]
 use std::f64::consts::*;
-use superslice::Ext;
+use superslice::*;
 
 #[allow(unused)]
 const INF: usize = std::usize::MAX / 4;
@@ -26,21 +26,24 @@ fn main() {
     input! {
         n: usize,
         q: usize,
-        mut a: [i64; n],
-        x: [i64; q],
+        mut a: [usize; n],
+        x: [usize; q],
     }
     a.sort();
     let mut acc = vec![0; n + 1];
     for i in 0..n {
-        acc[i + 1] = acc[i] + a[i];
+        acc[i + 1] += acc[i] + a[i];
     }
-
-    debug!(acc);
-    for &xi in x.iter() {
-        let k = a.upper_bound(&xi);
-        println!(
-            "{}",
-            xi * k as i64 - acc[k] + acc[n] - acc[k] - xi * (n - k) as i64
-        );
+    for i in 0..q {
+        let xi = x[i];
+        let k = a.lower_bound(&xi);
+        let mut result = 0;
+        if k > 0 {
+            result += xi * k - acc[k];
+        }
+        if k < n {
+            result += acc[n] - acc[k] - xi * (n - k);
+        }
+        println!("{}", result);
     }
 }

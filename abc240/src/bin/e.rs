@@ -21,17 +21,11 @@ macro_rules! debug {
     };
 }
 
-fn dfs(tree: &Vec<Vec<usize>>, u: usize, l: &mut Vec<usize>, r: &mut Vec<usize>, k: &mut usize) {
-    if tree[u].is_empty() {
-        l[u] = *k;
-        r[u] = *k;
-        *k += 1;
-    } else {
-        for &v in tree[u].iter() {
-            dfs(tree, v, l, r, k);
-            l[u] = min(l[u], l[v]);
-            r[u] = max(r[u], r[v]);
-        }
+fn rec(children: &Vec<Vec<usize>>, l: &mut Vec<usize>, r: &mut Vec<usize>, u: usize) {
+    for &v in children[u].iter() {
+        rec(children, l, r, v);
+        l[u] = min(l[u], l[v]);
+        r[u] = max(r[u], r[v]);
     }
 }
 
@@ -41,30 +35,45 @@ fn main() {
         uv: [(Usize1, Usize1); n - 1],
     }
     let mut graph = vec![vec![]; n];
-    for &(u, v) in uv.iter() {
-        graph[u].push(v);
-        graph[v].push(u);
+    for &(ui, vi) in uv.iter() {
+        graph[ui].push(vi);
+        graph[vi].push(ui);
     }
-
     let mut children = vec![vec![]; n];
+    let mut stack = vec![];
+    stack.push(0);
     let mut visited = vec![false; n];
-    let mut queue = VecDeque::new();
     visited[0] = true;
-    queue.push_back(0);
-    while let Some(u) = queue.pop_front() {
+    while let Some(u) = stack.pop() {
         for &v in graph[u].iter() {
             if !visited[v] {
                 children[u].push(v);
+                stack.push(v);
                 visited[v] = true;
-                queue.push_back(v);
             }
         }
     }
-
+    let mut count = 1;
     let mut l = vec![INF; n];
     let mut r = vec![0; n];
-    let mut k = 1;
-    dfs(&children, 0, &mut l, &mut r, &mut k);
+    let mut stack = vec![];
+    stack.push(0);
+    let mut visited = vec![false; n];
+    visited[0] = true;
+    while let Some(u) = stack.pop() {
+        for &v in graph[u].iter() {
+            if !visited[v] {
+                if children[v].len() == 0 {
+                    l[v] = count;
+                    r[v] = count;
+                    count += 1;
+                }
+                stack.push(v);
+                visited[v] = true;
+            }
+        }
+    }
+    rec(&children, &mut l, &mut r, 0);
     for i in 0..n {
         println!("{} {}", l[i], r[i]);
     }

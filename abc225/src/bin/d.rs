@@ -21,9 +21,67 @@ macro_rules! debug {
     };
 }
 
+#[derive(Clone)]
+struct Node {
+    prev: Option<usize>,
+    next: Option<usize>,
+}
+
 fn main() {
     input! {
         n: usize,
+        q: usize,
     }
-    println!("{}", n);
+    let mut nodes = vec![
+        Node {
+            prev: None,
+            next: None
+        };
+        n
+    ];
+    for _ in 0..q {
+        input! {
+            t: usize,
+        }
+        if t == 1 {
+            input! {
+                x: Usize1,
+                y: Usize1,
+            }
+            nodes[x].next = Some(y);
+            nodes[y].prev = Some(x);
+        } else if t == 2 {
+            input! {
+                x: Usize1,
+                y: Usize1,
+            }
+            nodes[x].next = None;
+            nodes[y].prev = None;
+        } else {
+            input! {
+                x: Usize1,
+            }
+            let mut result = vec![x];
+            let mut u = x;
+            while let Some(v) = nodes[u].prev {
+                result.push(v);
+                u = v;
+            }
+            result.reverse();
+            let mut u = x;
+            while let Some(v) = nodes[u].next {
+                result.push(v);
+                u = v;
+            }
+            println!(
+                "{} {}",
+                result.len(),
+                result
+                    .iter()
+                    .map(|&u| format!("{}", u + 1))
+                    .collect::<Vec<_>>()
+                    .join(" ")
+            );
+        }
+    }
 }

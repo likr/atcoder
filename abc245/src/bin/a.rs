@@ -23,14 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        a: usize,
-        b: usize,
-        c: usize,
-        d: usize,
+        n: usize,
     }
-    if (a, b) <= (c, d) {
-        println!("Takahashi");
-    } else {
-        println!("Aoki");
-    }
+    println!("{}", n);
 }

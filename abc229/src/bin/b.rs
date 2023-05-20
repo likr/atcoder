@@ -27,9 +27,7 @@ fn main() {
         mut b: usize,
     }
     while a > 0 && b > 0 {
-        let da = a % 10;
-        let db = b % 10;
-        if da + db >= 10 {
+        if a % 10 + b % 10 >= 10 {
             println!("Hard");
             return;
         }

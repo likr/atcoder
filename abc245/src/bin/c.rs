@@ -24,28 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        k: i64,
-        a: [i64; n],
-        b: [i64; n],
     }
-
-    let mut ok = vec![vec![true; 2]; n];
-
-    for i in 1..n {
-        if (!ok[i - 1][0] || (a[i] - a[i - 1]).abs() > k)
-            && (!ok[i - 1][1] || (a[i] - b[i - 1]).abs() > k)
-        {
-            ok[i][0] = false;
-        }
-        if (!ok[i - 1][0] || (b[i] - a[i - 1]).abs() > k)
-            && (!ok[i - 1][1] || (b[i] - b[i - 1]).abs() > k)
-        {
-            ok[i][1] = false;
-        }
-        if !ok[i][0] && !ok[i][1] {
-            println!("No");
-            return;
-        }
-    }
-    println!("Yes");
+    println!("{}", n);
 }

@@ -23,14 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        a: usize,
-        b: usize,
+        n: usize,
     }
-    let u = min(a, b);
-    let v = max(a, b);
-    if (v == 10 && u == 1) || v - u == 1 {
-        println!("Yes");
-    } else {
-        println!("No");
-    }
+    println!("{}", n);
 }

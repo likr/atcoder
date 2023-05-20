@@ -1,3 +1,4 @@
+use permutohedron::LexicalPermutation;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -23,7 +24,15 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        mut s: Chars,
     }
-    println!("{}", n);
+    s.sort();
+    let mut t = HashSet::new();
+    loop {
+        t.insert(s.clone());
+        if !s.next_permutation() {
+            break;
+        }
+    }
+    println!("{}", t.len());
 }

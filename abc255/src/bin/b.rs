@@ -24,35 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        k: usize,
-        a: [Usize1; k],
-        xy: [(f64, f64); n],
     }
-    let mut ok = 1e10;
-    let mut ng = 0.;
-    let mut flag = vec![false; n];
-    for _ in 0..50 {
-        let m = (ok + ng) / 2.;
-        for i in 0..n {
-            flag[i] = false;
-        }
-        for i in 0..k {
-            let (xi, yi) = xy[a[i]];
-            for j in 0..n {
-                let (xj, yj) = xy[j];
-                let dx = xj - xi;
-                let dy = yj - yi;
-                let d = (dx * dx + dy * dy).sqrt();
-                if d <= m {
-                    flag[j] = true;
-                }
-            }
-        }
-        if flag.iter().all(|&b| b) {
-            ok = m;
-        } else {
-            ng = m;
-        }
-    }
-    println!("{}", ok);
+    println!("{}", n);
 }

@@ -23,9 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        r: Usize1,
-        c: Usize1,
-        a: [[usize; 2]; 2]
+        n: usize,
     }
-    println!("{}", a[r][c]);
+    println!("{}", n);
 }

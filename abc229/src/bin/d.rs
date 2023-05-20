@@ -23,23 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        s: Chars,
-        mut k: usize,
+        n: usize,
     }
-    let n = s.len();
-    let mut result = 0;
-    let mut j = 0;
-    for i in 0..n {
-        while j < n && (k > 0 || s[j] == 'X') {
-            if s[j] == '.' {
-                k -= 1;
-            }
-            j += 1;
-        }
-        result = max(result, j - i);
-        if s[i] == '.' {
-            k += 1;
-        }
-    }
-    println!("{}", result);
+    println!("{}", n);
 }

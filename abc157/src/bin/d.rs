@@ -1,4 +1,3 @@
-use petgraph::unionfind::UnionFind;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -25,39 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        m: usize,
-        k: usize,
-        ab: [(Usize1, Usize1); m],
-        cd: [(Usize1, Usize1); k],
     }
-    let mut uf = UnionFind::new(n);
-    for &(ai, bi) in ab.iter() {
-        uf.union(ai, bi);
-    }
-    let mut count = vec![0; n];
-    for i in 0..n {
-        count[uf.find(i)] += 1;
-    }
-    let mut result = vec![0; n];
-    for i in 0..n {
-        result[i] = count[uf.find(i)] - 1;
-    }
-    for &(ai, bi) in ab.iter() {
-        result[ai] -= 1;
-        result[bi] -= 1;
-    }
-    for &(ci, di) in cd.iter() {
-        if uf.find(ci) == uf.find(di) {
-            result[ci] -= 1;
-            result[di] -= 1;
-        }
-    }
-    println!(
-        "{}",
-        result
-            .iter()
-            .map(|x| format!("{}", x))
-            .collect::<Vec<_>>()
-            .join(" ")
-    );
+    println!("{}", n);
 }

@@ -25,15 +25,32 @@ fn main() {
     input! {
         n: usize,
         m: usize,
-        a: [i64; n],
-        b: [i64; n],
-        c: [i64; m],
-        d: [i64; m],
+        a: [usize; n],
+        b: [usize; n],
+        c: [usize; m],
+        d: [usize; m],
     }
-    let mut x = (0..n).collect::<Vec<_>>();
-    x.sort_by(|&i, &j| {
-        cmp( a[i] * b[j] , a[j] * b[i]) 
-    })
-    let mut y = (0..m).collect::<Vec<_>>();
-    println!("{}", n);
+    let mut points = vec![];
+    for i in 0..n {
+        points.push((a[i], b[i], 0, i));
+    }
+    for i in 0..m {
+        points.push((c[i], d[i], 1, i));
+    }
+    points.sort();
+    let mut visited = BTreeSet::new();
+    for &(_yi, xi, t, i) in points.iter() {
+        if t == 0 {
+            visited.insert((xi, i));
+        } else {
+            if let Some(&(xj, j)) = visited.range(..=(xi, INF)).rev().nth(0) {
+                visited.remove(&(xj, j));
+            }
+        }
+    }
+    if visited.len() > 0 {
+        println!("No");
+    } else {
+        println!("Yes");
+    }
 }

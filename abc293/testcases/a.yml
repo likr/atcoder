@@ -1,0 +1,27 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      abcdef
+    out: |
+      badcfe
+  - name: sample2
+    in: |
+      aaaa
+    out: |
+      aaaa
+  - name: sample3
+    in: |
+      atcoderbeginnercontest
+    out: |
+      taocedbrgeniencrnoetts
+
+extend:
+  - type: Text
+    path: "./a"
+    in: /in/*.txt
+    out: /out/*.txt

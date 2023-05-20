@@ -24,27 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        x: usize,
-        ab: [(usize, usize); n],
     }
-    let mut dp = vec![vec![false; x + 1]; n + 1];
-    dp[0][0] = true;
-    for i in 0..n {
-        let (ai, bi) = ab[i];
-        for j in 0..x {
-            if dp[i][j] {
-                if j + ai <= x {
-                    dp[i + 1][j + ai] = true;
-                }
-                if j + bi <= x {
-                    dp[i + 1][j + bi] = true;
-                }
-            }
-        }
-    }
-    if dp[n][x] {
-        println!("Yes");
-    } else {
-        println!("No");
-    }
+    println!("{}", n);
 }

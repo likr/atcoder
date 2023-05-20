@@ -24,27 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        m: usize,
-        a: [i64; n + 1],
-        mut c: [i64; n + m + 1]
     }
-    let mut b = vec![0; m + 1];
-    for j in (0..=m).rev() {
-        let mut s = 0;
-        for i in 0..=m - j {
-            debug!(i);
-            if i <= n && j + i <= m {
-                s += a[n - i] * b[j + i];
-            }
-        }
-        debug!(c[n + j], s, a[n]);
-        b[j] = (c[n + j] - s) / a[n];
-    }
-    println!(
-        "{}",
-        b.iter()
-            .map(|bi| format!("{}", bi))
-            .collect::<Vec<_>>()
-            .join(" ")
-    );
+    println!("{}", n);
 }

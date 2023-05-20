@@ -24,11 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        a: [usize; n],
     }
-    let mut nums = HashSet::new();
-    for i in 0..n {
-        nums.insert(a[i]);
-    }
-    println!("{}", nums.len());
+    println!("{}", n);
 }

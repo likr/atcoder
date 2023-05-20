@@ -1,0 +1,30 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      atcoder
+      atcorder
+    out: |
+      5
+  - name: sample2
+    in: |
+      million
+      milllion
+    out: |
+      5
+  - name: sample3
+    in: |
+      vvwvw
+      vvvwvw
+    out: |
+      3
+
+extend:
+  - type: Text
+    path: "./c"
+    in: /in/*.txt
+    out: /out/*.txt

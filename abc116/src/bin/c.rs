@@ -2,7 +2,7 @@ use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
-use std::cmp::{max, min};
+use std::cmp::*;
 #[allow(unused_imports)]
 use std::collections::*;
 #[allow(unused_imports)]
@@ -13,30 +13,35 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
-        n: usize,
+        mut n: usize,
         mut h: [usize; n],
     }
-    let mut count = 0;
-    while h.iter().any(|&hi| hi > 0) {
-        let mut l = 0;
-        while h[l] == 0 {
-            l += 1;
+    h.dedup();
+    n = h.len();
+    h.push(0);
+    h.reverse();
+    h.push(0);
+    h.reverse();
+    let mut result = 0;
+    for i in 1..=n {
+        if h[i - 1] < h[i] && h[i] > h[i + 1] {
+            result += h[i];
         }
-        let mut r = l + 1;
-        while r < n && h[r] > 0 {
-            r += 1;
-        }
-        // eprintln!("{} {}", l, r);
-        let mut min_h = h[l];
-        for i in l..r {
-            min_h = min(min_h, h[i]);
-        }
-        for i in l..r {
-            h[i] -= min_h;
-        }
-        count += min_h;
     }
-    println!("{}", count);
+    for i in 1..=n {
+        if h[i - 1] > h[i] && h[i] < h[i + 1] {
+            result -= h[i];
+        }
+    }
+    println!("{}", result);
 }
