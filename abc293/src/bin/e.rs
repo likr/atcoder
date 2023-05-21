@@ -21,53 +21,38 @@ macro_rules! debug {
     };
 }
 
-fn inv(a: usize, m: usize) -> usize {
-    let m = m as i64;
-    let mut a = a as i64;
-    let mut b = m as i64;
-    let mut u = 1;
-    let mut v = 0;
-    let mut tmp;
-    while b != 0 {
-        let t = a / b;
-        a -= t * b;
-        tmp = a;
-        a = b;
-        b = tmp;
-        u -= t * v;
-        tmp = u;
-        u = v;
-        v = tmp;
-    }
-    u %= m;
-    if u < 0 {
-        u += m;
-    }
-    return u as usize;
-}
-
 fn main() {
     input! {
         a: usize,
-        x: usize,
+        mut x: usize,
         m: usize,
     }
-    if a == 1 {
-        println!("{}", x % m);
-        return;
-    }
-    if m == 1 {
-        println!("0");
-        return;
-    }
-    let mut ax = 1;
-    let mut b = a % m;
-    for i in 0..60 {
-        if x & 1 << i > 0 {
-            ax = (ax * b) % m;
+    let mut ax = [[1, 0], [0, 1]];
+    let mut t = [[a, 1], [0, 1]];
+    while x > 0 {
+        if x % 2 == 1 {
+            ax = [
+                [
+                    (ax[0][0] * t[0][0] % m + ax[0][1] * t[1][0] % m) % m,
+                    (ax[0][0] * t[0][1] % m + ax[0][1] * t[1][1] % m) % m,
+                ],
+                [
+                    (ax[1][0] * t[0][0] % m + ax[1][1] * t[1][0] % m) % m,
+                    (ax[1][0] * t[0][1] % m + ax[1][1] * t[1][1] % m) % m,
+                ],
+            ];
         }
-        b = b * b % m;
+        t = [
+            [
+                (t[0][0] * t[0][0] % m + t[0][1] * t[1][0] % m) % m,
+                (t[0][0] * t[0][1] % m + t[0][1] * t[1][1] % m) % m,
+            ],
+            [
+                (t[1][0] * t[0][0] % m + t[1][1] * t[1][0] % m) % m,
+                (t[1][0] * t[0][1] % m + t[1][1] * t[1][1] % m) % m,
+            ],
+        ];
+        x /= 2;
     }
-    debug!(ax);
-    println!("{}", ((ax + m - 1) % m) * inv(a - 1, m) % m);
+    println!("{}", ax[0][1]);
 }
