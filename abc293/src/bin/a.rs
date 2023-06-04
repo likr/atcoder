@@ -23,7 +23,16 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        mut s: Chars,
     }
-    println!("{}", n);
+    for i in 0..s.len() / 2 {
+        s.swap(2 * i, 2 * i + 1);
+    }
+    println!(
+        "{}",
+        s.iter()
+            .map(|c| format!("{}", c))
+            .collect::<Vec<_>>()
+            .join("")
+    );
 }

@@ -24,20 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        a: [Usize1; n],
     }
-    let mut f = vec![true; n];
-    for i in 0..n {
-        if f[i] {
-            f[a[i]] = false;
-        }
-    }
-    let result = f
-        .iter()
-        .enumerate()
-        .filter(|&(_, &f)| f)
-        .map(|(i, _)| format!("{}", i + 1))
-        .collect::<Vec<_>>();
-    println!("{}", result.len());
-    println!("{}", result.join(" "));
+    println!("{}", n);
 }

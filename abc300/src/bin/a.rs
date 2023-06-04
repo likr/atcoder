@@ -24,6 +24,14 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        a: usize,
+        b: usize,
+        c: [usize; n],
     }
-    println!("{}", n);
+    for i in 0..n {
+        if c[i] == a + b {
+            println!("{}", i + 1);
+            return;
+        }
+    }
 }

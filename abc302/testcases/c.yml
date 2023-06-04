@@ -1,0 +1,41 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      4 4
+      bbed
+      abcd
+      abed
+      fbed
+    out: |
+      Yes
+  - name: sample2
+    in: |
+      2 5
+      abcde
+      abced
+    out: |
+      No
+  - name: sample3
+    in: |
+      8 4
+      fast
+      face
+      cast
+      race
+      fact
+      rice
+      nice
+      case
+    out: |
+      Yes
+
+extend:
+  - type: Text
+    path: "./c"
+    in: /in/*.txt
+    out: /out/*.txt

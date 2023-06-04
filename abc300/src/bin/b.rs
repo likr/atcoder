@@ -23,7 +23,26 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        h: usize,
+        w: usize,
+        a: [Chars; h],
+        b: [Chars; h],
     }
-    println!("{}", n);
+    for i in 0..h {
+        for j in 0..w {
+            let mut ok = true;
+            for i2 in 0..h {
+                for j2 in 0..w {
+                    if a[i2][j2] != b[(i2 + i) % h][(j2 + j) % w] {
+                        ok = false;
+                    }
+                }
+            }
+            if ok {
+                println!("Yes");
+                return;
+            }
+        }
+    }
+    println!("No");
 }

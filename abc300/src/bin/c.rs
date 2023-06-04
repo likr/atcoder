@@ -23,7 +23,46 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        h: usize,
+        w: usize,
+        c: [Chars; h],
     }
-    println!("{}", n);
+    let mut result = vec![];
+    for d in 1..=min(h, w) {
+        let mut count = 0;
+        for i in d..h - d {
+            for j in d..w - d {
+                let mut ok = true;
+                if (0..=d).any(|k| c[i - k][j - k] == '.') {
+                    ok = false;
+                }
+                if (0..=d).any(|k| c[i - k][j + k] == '.') {
+                    ok = false;
+                }
+                if (0..=d).any(|k| c[i + k][j - k] == '.') {
+                    ok = false;
+                }
+                if (0..=d).any(|k| c[i + k][j + k] == '.') {
+                    ok = false;
+                }
+                if ok {
+                    count += 1;
+                }
+            }
+        }
+        result.push(count);
+    }
+    let mut acc = 0;
+    for i in (0..result.len() - 1).rev() {
+        result[i] -= acc;
+        acc += result[i];
+    }
+    println!(
+        "{}",
+        result
+            .iter()
+            .map(|c| format!("{}", c))
+            .collect::<Vec<_>>()
+            .join(" ")
+    );
 }

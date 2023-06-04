@@ -24,20 +24,21 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        a: [Usize1; n],
     }
-    let mut f = vec![true; n];
-    for i in 0..n {
-        if f[i] {
-            f[a[i]] = false;
+    let mut l = 0;
+    let mut h = 1000000;
+    while h - l > 1 {
+        let m = (h + l) / 2;
+        let mut b = 1;
+        while b <= m {
+            b *= 10;
+        }
+        debug!(l, m, h, m * b + m);
+        if m * b + m <= n {
+            l = m;
+        } else {
+            h = m;
         }
     }
-    let result = f
-        .iter()
-        .enumerate()
-        .filter(|&(_, &f)| f)
-        .map(|(i, _)| format!("{}", i + 1))
-        .collect::<Vec<_>>();
-    println!("{}", result.len());
-    println!("{}", result.join(" "));
+    println!("{}", l);
 }

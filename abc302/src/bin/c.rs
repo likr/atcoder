@@ -7,6 +7,7 @@ use std::cmp::*;
 use std::collections::*;
 #[allow(unused_imports)]
 use std::f64::consts::*;
+use superslice::*;
 
 #[allow(unused)]
 const INF: usize = std::usize::MAX / 4;
@@ -24,20 +25,30 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        a: [Usize1; n],
+        m: usize,
+        mut s: [Chars; n],
     }
-    let mut f = vec![true; n];
-    for i in 0..n {
-        if f[i] {
-            f[a[i]] = false;
+    s.sort();
+    loop {
+        let mut ok = true;
+        for i in 1..n {
+            let mut count = 0;
+            for j in 0..m {
+                if s[i - 1][j] != s[i][j] {
+                    count += 1;
+                }
+            }
+            if count != 1 {
+                ok = false;
+            }
+        }
+        if ok {
+            println!("Yes");
+            return;
+        }
+        if !s.next_permutation() {
+            break;
         }
     }
-    let result = f
-        .iter()
-        .enumerate()
-        .filter(|&(_, &f)| f)
-        .map(|(i, _)| format!("{}", i + 1))
-        .collect::<Vec<_>>();
-    println!("{}", result.len());
-    println!("{}", result.join(" "));
+    println!("No");
 }
