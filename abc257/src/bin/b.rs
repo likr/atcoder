@@ -26,17 +26,26 @@ fn main() {
         n: usize,
         k: usize,
         q: usize,
-        mut a: [usize; k],
-        l: [Usize1; q],
+        a: [Usize1; k],
+        l: [usize; q],
     }
-    for i in 0..q {
-        if a[l[i]] < n && (l[i] + 1 == k || a[l[i]] + 1 != a[l[i] + 1]) {
-            a[l[i]] += 1;
+    let mut board = vec![0; n];
+    for (i, &ai) in a.iter().enumerate() {
+        board[ai] = i + 1;
+    }
+    for &li in l.iter() {
+        let k = board.iter().position(|&x| x == li).unwrap();
+        if k + 1 < n && board[k + 1] == 0 {
+            board[k + 1] = board[k];
+            board[k] = 0;
         }
     }
-    let mut result = vec![];
-    for i in 0..k {
-        result.push(format!("{}", a[i]));
-    }
-    println!("{}", result.join(" "));
+    println!(
+        "{}",
+        (0..n)
+            .filter(|&i| board[i] > 0)
+            .map(|i| format!("{}", i + 1))
+            .collect::<Vec<_>>()
+            .join(" ")
+    );
 }

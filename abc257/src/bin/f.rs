@@ -24,16 +24,17 @@ macro_rules! debug {
 fn dijkstra(graph: &Vec<Vec<(usize, usize)>>, s: usize) -> Vec<usize> {
     let mut distance = vec![INF; graph.len()];
     distance[s] = 0;
-    let mut heap = BinaryHeap::new();
-    heap.push((Reverse(0), s));
-    while let Some((Reverse(d), u)) = heap.pop() {
+    let mut queue = BinaryHeap::new();
+    queue.push(Reverse((0, s)));
+    while !queue.is_empty() {
+        let Reverse((d, u)) = queue.pop().unwrap();
         if distance[u] < d {
             continue;
         }
-        for &(v, c) in graph[u].iter() {
+        for &(v, c) in &graph[u] {
             if distance[u] + c < distance[v] {
                 distance[v] = distance[u] + c;
-                heap.push((Reverse(distance[v]), v));
+                queue.push(Reverse((distance[v], v)));
             }
         }
     }
@@ -47,24 +48,24 @@ fn main() {
         uv: [(usize, usize); m],
     }
     let mut graph = vec![vec![]; n + 1];
-    for i in 0..m {
-        let (ui, vi) = uv[i];
-        graph[ui].push((vi, 1));
-        graph[vi].push((ui, 1));
+    for &(u, v) in uv.iter() {
+        graph[u].push((v, 1));
+        graph[v].push((u, 1));
     }
-    let distance1 = dijkstra(&graph, 1);
-    let distancen = dijkstra(&graph, n);
+    let distance_1 = dijkstra(&graph, 1);
+    let distance_n = dijkstra(&graph, n);
     let mut result = vec![];
     for i in 1..=n {
-        let d = min(
-            distance1[n],
-            min(distance1[0] + distancen[i], distance1[i] + distancen[0]),
-        );
-
-        if d >= INF {
+        let d = [
+            distance_1[n],
+            distance_1[i] + distance_n[0],
+            distance_1[0] + distance_n[i],
+        ];
+        let &min_d = d.iter().min().unwrap();
+        if min_d == INF {
             result.push(format!("-1"));
         } else {
-            result.push(format!("{}", d));
+            result.push(format!("{}", min_d));
         }
     }
     println!("{}", result.join(" "));

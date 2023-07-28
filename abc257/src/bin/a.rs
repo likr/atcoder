@@ -26,6 +26,5 @@ fn main() {
         n: usize,
         x: Usize1,
     }
-    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".chars().collect::<Vec<_>>();
-    println!("{}", chars[x / n]);
+    println!("{}", ('A' as usize + x / n) as u8 as char);
 }
