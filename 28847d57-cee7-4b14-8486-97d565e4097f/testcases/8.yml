@@ -1,0 +1,34 @@
+---
+type: Batch
+timelimit: 2s
+match: Exact
+
+cases:
+  - in: |
+      2 3
+      GCP
+      PPP
+      CCC
+      PPC
+    out: |
+      3
+      1
+      2
+      4
+  - in: |
+      2 2
+      GC
+      PG
+      CG
+      PP
+    out: |
+      1
+      2
+      3
+      4
+
+extend:
+  - type: Text
+    path: "./8"
+    in: /in/*.txt
+    out: /out/*.txt

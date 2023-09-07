@@ -1,0 +1,38 @@
+---
+type: Batch
+timelimit: 2s
+match: Exact
+
+cases:
+  - in: |
+      bacdefghijklmnopqrstuvwxzy
+      4
+      abx
+      bzz
+      bzy
+      caa
+    out: |
+      bzz
+      bzy
+      abx
+      caa
+  - in: |
+      zyxwvutsrqponmlkjihgfedcba
+      5
+      a
+      ab
+      abc
+      ac
+      b
+    out: |
+      b
+      a
+      ac
+      ab
+      abc
+
+extend:
+  - type: Text
+    path: "./4"
+    in: /in/*.txt
+    out: /out/*.txt

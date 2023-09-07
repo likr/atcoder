@@ -1,0 +1,46 @@
+---
+type: Batch
+timelimit: 2s
+match: Exact
+
+cases:
+  - in: |
+      1 1
+      chokudai
+      chokudai
+    out: |
+      -1
+  - in: |
+      2 2
+      choku
+      dai
+      chokudai
+      choku_dai
+    out: |
+      dai_choku
+  - in: |
+      2 2
+      chokudai
+      atcoder
+      chokudai_atcoder
+      atcoder_chokudai
+    out: |
+      -1
+  - in: |
+      4 4
+      ab
+      cd
+      ef
+      gh
+      hoge
+      fuga
+      ____
+      _ab_cd_ef_gh_
+    out: |
+      ab__ef___cd_gh
+
+extend:
+  - type: Text
+    path: "./95"
+    in: /in/*.txt
+    out: /out/*.txt
