@@ -104,8 +104,8 @@ smallvec = { version = "=1.11.0", features = ["const_generics", "const_new", "wr
 #"./template-cargo-lock.toml" = "Cargo.lock"
 
 [new]
-kind = "cargo-compete"
-platform = "atcoder"
+kind = "oj-api"
+url = "https://kenkoooo.com/atcoder/#/contest/show/{{ id }}"
 path = "./{{ contest }}"
 
 [test]
