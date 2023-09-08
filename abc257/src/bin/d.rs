@@ -27,36 +27,41 @@ fn main() {
         xyp: [(i64, i64, i64); n],
     }
     let mut l = 0;
-    let mut h = 10000000000;
-    while h - l > 1 {
-        let m = (l + h) / 2;
-        let mut distance = vec![vec![INF; n]; n];
+    let mut h = 8000000000;
+    'outer: while h - l > 1 {
+        let s = (l + h) / 2;
+        let mut graph = vec![vec![]; n];
+        for j in 1..n {
+            let (xj, yj, pj) = xyp[j];
+            for i in 0..j {
+                let (xi, yi, pi) = xyp[i];
+                if pi * s >= (xi - xj).abs() + (yi - yj).abs() {
+                    graph[i].push(j);
+                }
+                if pj * s >= (xi - xj).abs() + (yi - yj).abs() {
+                    graph[j].push(i);
+                }
+            }
+        }
         for i in 0..n {
-            let (xi, yi, pi) = xyp[i];
-            distance[i][i] = 0;
-            for j in 0..n {
-                if i == j {
-                    continue;
-                }
-                let (xj, yj, _) = xyp[j];
-                let d = (xi - xj).abs() + (yi - yj).abs();
-                if pi * m >= d {
-                    distance[i][j] = 1;
-                }
-            }
-        }
-        for k in 0..n {
-            for i in 0..n {
-                for j in 0..n {
-                    distance[i][j] = min(distance[i][j], distance[i][k] + distance[k][j]);
+            let mut distance = vec![INF; n];
+            distance[i] = 0;
+            let mut queue = VecDeque::new();
+            queue.push_back(i);
+            while let Some(u) = queue.pop_front() {
+                for &v in graph[u].iter() {
+                    if distance[v] == INF {
+                        distance[v] = distance[u] + 1;
+                        queue.push_back(v);
+                    }
                 }
             }
+            if (0..n).all(|i| distance[i] != INF) {
+                h = s;
+                continue 'outer;
+            }
         }
-        if (0..n).any(|i| (0..n).all(|j| distance[i][j] != INF)) {
-            h = m;
-        } else {
-            l = m;
-        }
+        l = s;
     }
     println!("{}", h);
 }

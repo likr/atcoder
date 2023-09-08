@@ -28,20 +28,21 @@ fn main() {
         w: [usize; n],
     }
     let mut indices = (0..n).collect::<Vec<_>>();
-    indices.sort_by_key(|&i| (w[i], Reverse(s[i])));
-    let mut count0 = vec![0; n + 1];
+    indices.sort_by_key(|&i| w[i]);
+    let one_total = s.iter().filter(|&&c| c == '1').count();
+    let zero_total = n - one_total;
+    let mut result = one_total;
+    let mut one_count = 0;
+    let mut zero_count = 0;
     for i in 0..n {
-        count0[i + 1] = count0[i];
-        if s[indices[i]] == '0' {
-            count0[i + 1] += 1;
+        if s[indices[i]] == '1' {
+            one_count += 1;
+        } else {
+            zero_count += 1;
         }
-    }
-    let mut result = n - count0[n];
-    for i in 0..n {
-        result = max(
-            result,
-            count0[i + 1] + (n - i - 1 - (count0[n] - count0[i + 1])),
-        );
+        if i + 1 == n || w[indices[i]] != w[indices[i + 1]] {
+            result = max(result, n - one_count - (zero_total - zero_count));
+        }
     }
     println!("{}", result);
 }

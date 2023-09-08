@@ -1,0 +1,31 @@
+---
+type: Batch
+timelimit: 2s
+match: Exact
+
+cases:
+  - in: |
+      axyb
+      abyxb
+    out: |
+      axb
+  - in: |
+      aa
+      xayaz
+    out: |
+      aa
+  - in: |
+      a
+      z
+    out: "\n"
+  - in: |
+      abracadabra
+      avadakedavra
+    out: |
+      aaadara
+
+extend:
+  - type: Text
+    path: "./59"
+    in: /in/*.txt
+    out: /out/*.txt

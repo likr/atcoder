@@ -1,0 +1,27 @@
+---
+type: Batch
+timelimit: 2s
+match: Exact
+
+cases:
+  - in: |
+      5
+      .XXX.
+    out: |
+      1
+  - in: |
+      10
+      .X.XXXXXX.
+    out: |
+      2
+  - in: |
+      7
+      .......
+    out: |
+      0
+
+extend:
+  - type: Text
+    path: "./15"
+    in: /in/*.txt
+    out: /out/*.txt

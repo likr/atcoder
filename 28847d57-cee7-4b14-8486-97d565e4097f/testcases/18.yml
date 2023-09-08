@@ -1,0 +1,32 @@
+---
+type: Batch
+timelimit: 2s
+match: Exact
+
+cases:
+  - in: |
+      2
+      FLIP
+      2
+      2 0 0
+      1 1 4
+    out: |
+      LPFI
+  - in: |
+      2
+      FLIP
+      6
+      1 1 3
+      2 0 0
+      1 1 2
+      1 2 3
+      2 0 0
+      1 1 4
+    out: |
+      ILPF
+
+extend:
+  - type: Text
+    path: "./18"
+    in: /in/*.txt
+    out: /out/*.txt

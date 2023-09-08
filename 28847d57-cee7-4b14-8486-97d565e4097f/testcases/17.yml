@@ -1,0 +1,22 @@
+---
+type: Batch
+timelimit: 2s
+match: Exact
+
+cases:
+  - in: |
+      3
+      2 8 4
+    out: |
+      56
+  - in: |
+      5
+      -5 8 9 -4 -3
+    out: |
+      950
+
+extend:
+  - type: Text
+    path: "./17"
+    in: /in/*.txt
+    out: /out/*.txt

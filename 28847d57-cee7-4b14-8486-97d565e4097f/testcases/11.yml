@@ -1,0 +1,24 @@
+---
+type: Batch
+timelimit: 2s
+match: Exact
+
+cases:
+  - in: |
+      2 2 3
+    out: |
+      4
+  - in: |
+      2 2 4
+    out: |
+      1
+  - in: |
+      1000000000000000000 999999999999999999 999999999999999998
+    out: |
+      2999999999999999994
+
+extend:
+  - type: Text
+    path: "./11"
+    in: /in/*.txt
+    out: /out/*.txt

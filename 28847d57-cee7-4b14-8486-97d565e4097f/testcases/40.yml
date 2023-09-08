@@ -1,0 +1,30 @@
+---
+type: Batch
+timelimit: 3s
+match: Exact
+
+cases:
+  - in: |
+      4 3
+      3 5 6 7
+      2
+      5
+      3
+    out: |
+      2
+      9
+      4
+  - in: |
+      5 2
+      1 2 3 4 5
+      1
+      10
+    out: |
+      6
+      15
+
+extend:
+  - type: Text
+    path: "./40"
+    in: /in/*.txt
+    out: /out/*.txt
