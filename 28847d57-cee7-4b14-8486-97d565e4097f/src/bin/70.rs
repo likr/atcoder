@@ -23,7 +23,37 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        q: usize,
     }
-    println!("{}", n);
+    let mut heap = BinaryHeap::new();
+    let mut a = vec![];
+    let mut offset = 0;
+    for _ in 0..q {
+        input! {
+            t: usize,
+        }
+        match t {
+            1 => {
+                input! {
+                    x: usize,
+                }
+                a.push(x);
+            }
+            2 => {
+                if let Some(Reverse(ai)) = heap.pop() {
+                    println!("{}", ai);
+                } else {
+                    println!("{}", a[offset]);
+                    offset += 1;
+                }
+            }
+            _ => {
+                for i in offset..a.len() {
+                    heap.push(Reverse(a[i]));
+                }
+                a.clear();
+                offset = 0;
+            }
+        }
+    }
 }

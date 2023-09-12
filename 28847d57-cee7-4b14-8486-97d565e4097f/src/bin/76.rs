@@ -1,3 +1,4 @@
+use num::integer::gcd;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -23,7 +24,12 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        t: usize,
+        ndk: [(usize, usize, Usize1); t],
     }
-    println!("{}", n);
+    for &(n, d, k) in ndk.iter() {
+        let g = gcd(n, d);
+        let c = n / g;
+        println!("{}", (d * (k % c)) % n + (k / c));
+    }
 }

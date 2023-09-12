@@ -24,6 +24,26 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        mut a: [usize; n],
     }
-    println!("{}", n);
+    let mut count = HashMap::new();
+    for i in 0..n {
+        *count.entry(a[i]).or_insert(0) += 1;
+    }
+    a.sort();
+    a.dedup();
+    let m = *a.iter().max().unwrap() + 1;
+    let mut f = vec![true; m];
+    let mut ans = 0;
+    for i in 0..a.len() {
+        if f[a[i]] {
+            if count[&a[i]] == 1 {
+                ans += 1;
+            }
+            for j in (2 * a[i]..m).step_by(a[i]) {
+                f[j] = false;
+            }
+        }
+    }
+    println!("{}", ans);
 }

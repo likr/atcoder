@@ -1,3 +1,4 @@
+use ac_library::*;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -24,6 +25,44 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        q: usize,
+        c: [Usize1; n],
     }
-    println!("{}", n);
+    let mut dsu = Dsu::new(n);
+    let mut size = vec![HashMap::new(); n];
+    for i in 0..n {
+        size[i].insert(c[i], 1);
+    }
+    for _ in 0..q {
+        input! {
+            t: usize,
+        }
+        if t == 1 {
+            input! {
+                a: Usize1,
+                b: Usize1,
+            }
+            if !dsu.same(a, b) {
+                let (u, v) = if dsu.size(a) < dsu.size(b) {
+                    (dsu.leader(a), dsu.leader(b))
+                } else {
+                    (dsu.leader(b), dsu.leader(a))
+                };
+                for (&k, &c) in size[u].clone().iter() {
+                    *size[v].entry(k).or_insert(0) += c;
+                }
+                dsu.merge(a, b);
+            }
+        } else {
+            input! {
+                x: Usize1,
+                y: Usize1,
+            }
+            if let Some(&ans) = size[dsu.leader(x)].get(&y) {
+                println!("{}", ans);
+            } else {
+                println!("0");
+            }
+        }
+    }
 }

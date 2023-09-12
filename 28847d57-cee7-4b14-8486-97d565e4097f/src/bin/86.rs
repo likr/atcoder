@@ -23,7 +23,19 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        n: i64,
+        m: usize,
+        k: i64,
+        mut ab: [(i64, i64); m],
     }
-    println!("{}", n);
+    ab.push((n + 1, 0));
+    let mut ans = 0;
+    let mut s = 0;
+    for i in 0..m {
+        s += ab[i].1;
+        let d = ab[i + 1].0 - ab[i].0;
+        ans += min(d, max(0, s - k));
+        s = max(0, s - d);
+    }
+    println!("{}", ans);
 }

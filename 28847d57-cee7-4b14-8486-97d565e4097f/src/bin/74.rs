@@ -23,7 +23,22 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        q: usize,
+        tx: [(usize, i64); q],
     }
-    println!("{}", n);
+    let mut a = vec![-1; 1 << 20];
+    let mut indices = (0..1 << 20).collect::<BTreeSet<usize>>();
+    for &(ti, xi) in tx.iter() {
+        if ti == 1 {
+            let k = if let Some(&k) = indices.range((xi as usize - 1) % a.len()..).nth(0) {
+                k
+            } else {
+                *indices.range(0..).nth(0).unwrap()
+            };
+            a[k] = xi;
+            indices.remove(&k);
+        } else {
+            println!("{}", a[(xi as usize - 1) % a.len()]);
+        }
+    }
 }

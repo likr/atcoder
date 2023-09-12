@@ -24,6 +24,28 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        s: Chars,
     }
-    println!("{}", n);
+    let chars = "0123456789".chars().collect::<Vec<_>>();
+    let mut ans = 0;
+    for &c1 in chars.iter() {
+        for &c2 in chars.iter() {
+            for &c3 in chars.iter() {
+                let t = vec![c1, c2, c3];
+                let mut j = 0;
+                for i in 0..n {
+                    if s[i] == t[j] {
+                        j += 1;
+                    }
+                    if j == 3 {
+                        break;
+                    }
+                }
+                if j == 3 {
+                    ans += 1;
+                }
+            }
+        }
+    }
+    println!("{}", ans);
 }

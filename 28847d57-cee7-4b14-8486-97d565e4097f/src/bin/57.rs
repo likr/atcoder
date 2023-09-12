@@ -25,5 +25,25 @@ fn main() {
     input! {
         n: usize,
     }
-    println!("{}", n);
+    let mut factors = vec![];
+    let mut x = n;
+    for d in 2.. {
+        if d * d > n {
+            break;
+        }
+        while x % d == 0 {
+            factors.push(d);
+            x /= d;
+        }
+    }
+    if x > 1 {
+        factors.push(x);
+    }
+    let mut ans = 0;
+    let mut m = 1;
+    while factors.len() > m {
+        ans += 1;
+        m *= 2;
+    }
+    println!("{}", ans);
 }

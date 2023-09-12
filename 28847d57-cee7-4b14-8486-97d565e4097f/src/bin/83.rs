@@ -25,5 +25,19 @@ fn main() {
     input! {
         n: usize,
     }
-    println!("{}", n);
+    let chars = "abcdefghijklmnopqrstuvwxyz".chars().collect::<Vec<_>>();
+    let mut s = vec![vec![]; n];
+    s[0].push(vec![0]);
+    for j in 1..n {
+        for k in 0..s[j - 1].len() {
+            for i in 0..=s[j - 1][k].iter().max().unwrap() + 1 {
+                let mut ti = s[j - 1][k].clone();
+                ti.push(i);
+                s[j].push(ti);
+            }
+        }
+    }
+    for si in s[n - 1].iter() {
+        println!("{}", si.into_iter().map(|&i| chars[i]).collect::<String>());
+    }
 }

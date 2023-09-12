@@ -1,3 +1,4 @@
+use ac_library::*;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -24,6 +25,14 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        mut uvw: [(Usize1, Usize1, usize); n - 1],
     }
-    println!("{}", n);
+    uvw.sort_by_key(|&(_, _, w)| w);
+    let mut dsu = Dsu::new(n);
+    let mut ans = 0;
+    for &(u, v, w) in uvw.iter() {
+        ans += w * dsu.size(u) * dsu.size(v);
+        dsu.merge(u, v);
+    }
+    println!("{}", ans);
 }

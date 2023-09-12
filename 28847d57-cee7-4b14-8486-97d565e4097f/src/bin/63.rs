@@ -7,6 +7,7 @@ use std::cmp::*;
 use std::collections::*;
 #[allow(unused_imports)]
 use std::f64::consts::*;
+use superslice::*;
 
 #[allow(unused)]
 const INF: usize = std::usize::MAX / 4;
@@ -23,7 +24,23 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        x: i64,
     }
-    println!("{}", n);
+    let lim = 111111111111111111;
+    let mut nums = vec![lim];
+    for d in -9..=9 {
+        for mut s in 1..=9 {
+            let mut x = s;
+            nums.push(x);
+            while x < lim && 0 <= s + d && s + d <= 9 {
+                s += d;
+                x *= 10;
+                x += s;
+                nums.push(x);
+            }
+        }
+    }
+    nums.sort();
+    nums.dedup();
+    println!("{}", nums[nums.lower_bound(&x)]);
 }

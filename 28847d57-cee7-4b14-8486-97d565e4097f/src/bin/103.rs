@@ -1,3 +1,4 @@
+use ac_library::*;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -11,7 +12,7 @@ use std::f64::consts::*;
 #[allow(unused)]
 const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
-const M: usize = 1000000007;
+const M: u32 = 998244353;
 
 #[allow(unused_macros)]
 macro_rules! debug {
@@ -23,7 +24,14 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        n: i64,
+        k: i64,
+        m: i64,
     }
-    println!("{}", n);
+    if m % M as i64 == 0 {
+        println!("0");
+    } else {
+        let p = pow_mod(k, n, M - 1) as i64;
+        println!("{}", pow_mod(m, p, M));
+    }
 }

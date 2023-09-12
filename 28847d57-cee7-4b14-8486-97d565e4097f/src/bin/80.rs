@@ -1,3 +1,4 @@
+use ac_library::*;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -24,6 +25,33 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        k: usize,
+        p: [usize; n],
     }
-    println!("{}", n);
+    let mut ans = vec![INF; n + 1];
+    let mut dsu = Dsu::new(n + 1);
+    let mut board = BTreeSet::new();
+    for i in 0..n {
+        if let Some(&x) = board.range(p[i]..).nth(0) {
+            dsu.merge(p[i], x);
+            board.remove(&x);
+        }
+        board.insert(p[i]);
+        if dsu.size(p[i]) == k {
+            ans[dsu.leader(p[i])] = i + 1;
+            board.remove(&p[i]);
+        }
+    }
+    for g in dsu.groups().iter() {
+        for &i in g.iter() {
+            ans[i] = ans[dsu.leader(i)];
+        }
+    }
+    for i in 1..=n {
+        if ans[i] == INF {
+            println!("-1");
+        } else {
+            println!("{}", ans[i]);
+        }
+    }
 }

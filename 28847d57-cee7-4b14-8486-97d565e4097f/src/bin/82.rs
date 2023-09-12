@@ -24,6 +24,39 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        mut a: [i64; n],
     }
-    println!("{}", n);
+    a.sort();
+    let mut b = VecDeque::new();
+    b.push_back(a.pop().unwrap());
+    let mut a = a.into_iter().collect::<VecDeque<_>>();
+    let mut ans = 0;
+    for _ in 1..n {
+        let ah = *a.front().unwrap();
+        let at = *a.back().unwrap();
+        let bh = *b.front().unwrap();
+        let bt = *b.back().unwrap();
+        let d = [
+            (ah - bh).abs(),
+            (ah - bt).abs(),
+            (at - bh).abs(),
+            (at - bt).abs(),
+        ];
+        let max_d = *d.iter().max().unwrap();
+        ans += max_d;
+        if d[0] == max_d {
+            a.pop_front();
+            b.push_front(ah);
+        } else if d[1] == max_d {
+            a.pop_front();
+            b.push_back(ah);
+        } else if d[2] == max_d {
+            a.pop_back();
+            b.push_front(at);
+        } else {
+            a.pop_back();
+            b.push_back(at);
+        }
+    }
+    println!("{}", ans);
 }

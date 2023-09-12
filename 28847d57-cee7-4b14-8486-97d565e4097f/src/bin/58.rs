@@ -7,6 +7,7 @@ use std::cmp::*;
 use std::collections::*;
 #[allow(unused_imports)]
 use std::f64::consts::*;
+use superslice::*;
 
 #[allow(unused)]
 const INF: usize = std::usize::MAX / 4;
@@ -24,6 +25,19 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        a: [usize; n],
+        q: usize,
+        lrx: [(Usize1, Usize1, usize); q],
     }
-    println!("{}", n);
+    let mut indices = HashMap::new();
+    for i in 0..n {
+        indices.entry(a[i]).or_insert(vec![]).push(i);
+    }
+    for &(li, ri, xi) in lrx.iter() {
+        if let Some(is) = indices.get(&xi) {
+            println!("{}", is.upper_bound(&ri) - is.lower_bound(&li));
+        } else {
+            println!("0");
+        }
+    }
 }

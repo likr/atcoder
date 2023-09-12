@@ -24,6 +24,43 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        q: usize,
     }
-    println!("{}", n);
+    let mut m = n;
+    let mut graph = vec![HashSet::new(); n];
+    for _ in 0..q {
+        input! {
+            t: usize,
+        }
+        if t == 1 {
+            input! {
+                u: Usize1,
+                v: Usize1,
+            }
+            if graph[u].len() == 0 {
+                m -= 1;
+            }
+            if graph[v].len() == 0 {
+                m -= 1;
+            }
+            graph[u].insert(v);
+            graph[v].insert(u);
+        } else {
+            input! {
+                v: Usize1,
+            }
+            let s = graph[v].clone();
+            for &u in s.iter() {
+                graph[u].remove(&v);
+                if graph[u].len() == 0 {
+                    m += 1;
+                }
+            }
+            if graph[v].len() > 0 {
+                m += 1;
+            }
+            graph[v].clear();
+        }
+        println!("{}", m);
+    }
 }

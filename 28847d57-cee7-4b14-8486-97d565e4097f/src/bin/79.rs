@@ -23,7 +23,37 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        h: usize,
+        w: usize,
+        s: [Chars; h],
     }
-    println!("{}", n);
+    let patterns = vec![
+        [['.', '.'], ['.', '#']],
+        [['.', '.'], ['#', '.']],
+        [['.', '#'], ['.', '.']],
+        [['#', '.'], ['.', '.']],
+        [['#', '#'], ['#', '.']],
+        [['#', '#'], ['.', '#']],
+        [['#', '.'], ['#', '#']],
+        [['.', '#'], ['#', '#']],
+    ];
+    let mut ans = 0;
+    for i in 0..h - 1 {
+        for j in 0..w - 1 {
+            for k in 0..patterns.len() {
+                let mut ok = true;
+                for di in 0..2 {
+                    for dj in 0..2 {
+                        if s[i + di][j + dj] != patterns[k][di][dj] {
+                            ok = false;
+                        }
+                    }
+                }
+                if ok {
+                    ans += 1;
+                }
+            }
+        }
+    }
+    println!("{}", ans);
 }

@@ -24,6 +24,11 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        a: [usize; n],
     }
-    println!("{}", n);
+    if (0..n).all(|i| a[i] % 2 == 0) {
+        println!("second");
+    } else {
+        println!("first");
+    }
 }

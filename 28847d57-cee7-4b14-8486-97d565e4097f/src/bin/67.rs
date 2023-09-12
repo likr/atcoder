@@ -23,7 +23,30 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        mut x: Chars,
     }
-    println!("{}", n);
+    let n = x.len();
+    let mut x = x
+        .into_iter()
+        .map(|c| c as usize - '0' as usize)
+        .collect::<Vec<_>>();
+    let mut acc = x.clone();
+    for i in 1..n {
+        acc[i] += acc[i - 1];
+    }
+    x.reverse();
+    let mut s = 0;
+    for i in 0..n {
+        x[i] = (s + acc[n - 1 - i]) % 10;
+        s = (s + acc[n - 1 - i]) / 10;
+    }
+    while s > 0 {
+        x.push(s % 10);
+        s /= 10;
+    }
+    x.reverse();
+    println!(
+        "{}",
+        x.into_iter().map(|c| format!("{}", c)).collect::<String>()
+    );
 }

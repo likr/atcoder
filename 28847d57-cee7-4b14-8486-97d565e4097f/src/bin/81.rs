@@ -24,6 +24,25 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        x: usize,
+        y: usize,
+        ab: [(usize, usize); n],
     }
-    println!("{}", n);
+    let mut dp = vec![vec![INF; x + 1]; y + 1];
+    dp[0][0] = 0;
+    for &(ak, bk) in ab.iter() {
+        for i in (0..=y).rev() {
+            for j in (0..=x).rev() {
+                if dp[i][j] != INF {
+                    dp[min(y, i + bk)][min(x, j + ak)] =
+                        min(dp[min(y, i + bk)][min(x, j + ak)], dp[i][j] + 1);
+                }
+            }
+        }
+    }
+    if dp[y][x] == INF {
+        println!("-1");
+    } else {
+        println!("{}", dp[y][x]);
+    }
 }

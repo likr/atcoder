@@ -1,3 +1,4 @@
+use ac_library::*;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -24,6 +25,27 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        m: usize,
+        uv: [(Usize1, Usize1); m],
+        k: usize,
+        xy: [(Usize1, Usize1); k],
+        q: usize,
+        pq: [(Usize1, Usize1); q],
     }
-    println!("{}", n);
+    let mut dsu = Dsu::new(n);
+    for &(ui, vi) in uv.iter() {
+        dsu.merge(ui, vi);
+    }
+    let mut pairs = HashSet::new();
+    for &(xi, yi) in xy.iter() {
+        pairs.insert((dsu.leader(xi), dsu.leader(yi)));
+        pairs.insert((dsu.leader(yi), dsu.leader(xi)));
+    }
+    for &(pi, qi) in pq.iter() {
+        if pairs.contains(&(dsu.leader(pi), dsu.leader(qi))) {
+            println!("No");
+        } else {
+            println!("Yes");
+        }
+    }
 }

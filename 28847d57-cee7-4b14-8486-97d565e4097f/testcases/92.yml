@@ -18,6 +18,15 @@ cases:
       4
     out: |
       7
+  - in: |
+      5 0
+      0
+      0
+      0
+      0
+      0
+    out: |
+      5
 
 extend:
   - type: Text

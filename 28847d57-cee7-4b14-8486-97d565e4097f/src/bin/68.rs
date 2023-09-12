@@ -1,3 +1,4 @@
+use ac_library::*;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -24,6 +25,29 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        q: usize,
+        a: [usize; n],
     }
-    println!("{}", n);
+    let mut bit = FenwickTree::new(n, 0);
+    for i in 0..n {
+        bit.add(i, a[i]);
+    }
+    for _ in 0..q {
+        input! {
+            t: usize,
+        }
+        if t == 0 {
+            input! {
+                p: usize,
+                x: usize,
+            }
+            bit.add(p, x);
+        } else {
+            input! {
+                l: usize,
+                r: usize,
+            }
+            println!("{}", bit.sum(l..r));
+        }
+    }
 }
