@@ -24,6 +24,17 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        k: usize,
+        p: [usize; n],
     }
-    println!("{}", n);
+    let mut heap = BinaryHeap::new();
+    for i in 0..k {
+        heap.push(Reverse(p[i]));
+    }
+    println!("{}", heap.peek().unwrap().0);
+    for i in k..n {
+        heap.push(Reverse(p[i]));
+        heap.pop().unwrap();
+        println!("{}", heap.peek().unwrap().0);
+    }
 }

@@ -24,6 +24,18 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        xy: [(f64, f64); n],
     }
-    println!("{}", n);
+    let mut d = 0.;
+    for i in 0..n {
+        let (xi, yi) = xy[i];
+        for j in 0..i {
+            let (xj, yj) = xy[j];
+            let new_d = (xi - xj).hypot(yi - yj);
+            if new_d > d {
+                d = new_d
+            }
+        }
+    }
+    println!("{}", d);
 }
