@@ -21,29 +21,6 @@ macro_rules! debug {
     };
 }
 
-
-fn dijkstra(graph: &Vec<Vec<(usize, usize)>>, s: usize) -> Vec<usize> {
-    let mut distance = vec![INF; graph.len()];
-    distance[s] = 0;
-    let mut parent = vec![INF; graph.len()];
-    let mut queue = BinaryHeap::new();
-    queue.push(Reverse((0, s)));
-    while !queue.is_empty() {
-        let Reverse((d, u)) = queue.pop().unwrap();
-        if distance[u] < d {
-            continue;
-        }
-        for &(v, c) in &graph[u] {
-            if distance[u] + c < distance[v] {
-                distance[v] = distance[u] + c;
-                parent[v] = u;
-                queue.push(Reverse((distance[v], v)));
-            }
-        }
-    }
-    parent
-}
-
 fn main() {
     input! {
         n: usize,
@@ -51,23 +28,39 @@ fn main() {
         abc: [(Usize1, Usize1, usize); m],
     }
     let mut graph = vec![vec![]; n];
-    for &(ai, bi, ci) in abc.iter() {
+    for i in 0..m {
+        let (ai, bi, ci) = abc[i];
         graph[ai].push((bi, ci));
         graph[bi].push((ai, ci));
     }
-    let parent = dijkstra(&graph, 0);
-    let mut edges = HashSet::new();
-    for u in 1..n {
-        let v = parent[u];
-        edges.insert((u, v));
-        edges.insert((v, u));
-    }
-    let mut result = vec![];
-    for i in 0..m {
-        let (u, v, _) = abc[i];
-        if edges.contains(&(u, v)) || edges.contains(&(v, u)) {
-            result.push(format!("{}", i + 1));
+    let mut distance = vec![INF; n];
+    distance[0] = 0;
+    let mut parent = vec![INF; n];
+    let mut heap = BinaryHeap::new();
+    heap.push((Reverse(0), 0));
+    while let Some((Reverse(d), u)) = heap.pop() {
+        if d > distance[u] {
+            continue;
+        }
+        for &(v, c) in graph[u].iter() {
+            if distance[u] + c < distance[v] {
+                distance[v] = distance[u] + c;
+                parent[v] = u;
+                heap.push((Reverse(distance[v]), v));
+            }
         }
     }
-    println!("{}", result.join(" "));
+    let mut edges = HashSet::new();
+    for u in 1..n {
+        edges.insert((u, parent[u]));
+        edges.insert((parent[u], u));
+    }
+    println!(
+        "{}",
+        (0..m)
+            .filter(|&i| edges.contains(&(abc[i].0, abc[i].1)))
+            .map(|i| format!("{}", i + 1))
+            .collect::<Vec<_>>()
+            .join(" ")
+    );
 }

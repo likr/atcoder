@@ -26,18 +26,18 @@ fn main() {
         n: usize,
         a: [usize; n],
     }
-    let mut count = vec![0; 200001];
+    let mut count = HashMap::new();
     for i in 0..n {
-        count[a[i]] += 1;
+        *count.entry(a[i]).or_insert(0) += 1;
     }
-    let mut result = n * (n - 1) * (n - 2) / 6;
-    for i in 0..count.len() {
-        if count[i] >= 2 {
-            result -= count[i] * (count[i] - 1) / 2 * (n - count[i]);
+    let mut ans = n * (n - 1) * (n - 2) / 6;
+    for &ai in count.keys() {
+        if count[&ai] >= 2 {
+            ans -= (n - count[&ai]) * count[&ai] * (count[&ai] - 1) / 2;
         }
-        if count[i] >= 3 {
-            result -= count[i] * (count[i] - 1) * (count[i] - 2) / 6;
+        if count[&ai] >= 3 {
+            ans -= count[&ai] * (count[&ai] - 1) * (count[&ai] - 2) / 6;
         }
     }
-    println!("{}", result);
+    println!("{}", ans);
 }

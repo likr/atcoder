@@ -21,63 +21,34 @@ macro_rules! debug {
     };
 }
 
-fn has_cycle(
-    u: usize,
-    graph: &Vec<Vec<usize>>,
-    stack: &mut HashSet<usize>,
-    visited: &mut HashSet<usize>,
-) -> bool {
-    for &v in graph[u].iter() {
-        if stack.contains(&v) {
-            return true;
-        }
-        if visited.contains(&v) {
-            continue;
-        }
-        visited.insert(v);
-        stack.insert(v);
-        if has_cycle(v, graph, stack, visited) {
-            return true;
-        }
-        stack.remove(&v);
-    }
-    return false;
-}
-
 fn main() {
     input! {
         n: usize,
         m: usize,
+        mut a: [[Usize1]; m],
     }
-    let a = (0..m)
-        .map(|_| {
-            input! {
-                k: usize,
-                a: [Usize1; k],
+    let mut check = (0..m).collect::<Vec<_>>();
+    let mut top = vec![None; n];
+    while !check.is_empty() {
+        let mut next_check = vec![];
+        for &j in check.iter() {
+            if let Some(&aj) = a[j].last() {
+                if let Some(k) = top[aj] {
+                    next_check.push(j);
+                    next_check.push(k);
+                    a[j].pop();
+                    a[k].pop();
+                    top[aj] = None;
+                } else {
+                    top[aj] = Some(j);
+                }
             }
-            a
-        })
-        .collect::<Vec<_>>();
-    let mut graph = vec![vec![]; n];
-    for k in 0..m {
-        for i in 1..a[k].len() {
-            let u = a[k][i - 1];
-            let v = a[k][i];
-            graph[u].push(v);
         }
+        std::mem::swap(&mut check, &mut next_check);
     }
-    let mut visited = HashSet::new();
-    for s in 0..n {
-        if visited.contains(&s) {
-            continue;
-        }
-        let mut stack = HashSet::new();
-        visited.insert(s);
-        stack.insert(s);
-        if has_cycle(s, &graph, &mut stack, &mut visited) {
-            println!("No");
-            return;
-        }
+    if (0..m).all(|j| a[j].is_empty()) {
+        println!("Yes");
+    } else {
+        println!("No");
     }
-    println!("Yes");
 }

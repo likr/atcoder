@@ -26,16 +26,23 @@ fn main() {
         n: usize,
         xy: [(usize, usize); n],
     }
-    let p = xy.iter().collect::<HashSet<_>>();
-    let mut result = 0usize;
+    let mut p = HashSet::new();
     for i in 0..n {
+        let (xi, yi) = xy[i];
+        p.insert((xi, yi));
+    }
+    let mut ans = 0usize;
+    for i in 0..n {
+        let (xi, yi) = xy[i];
         for j in 0..i {
-            let (xi, yi) = xy[i];
             let (xj, yj) = xy[j];
-            if xi != xj && yi != yj && p.contains(&(xi, yj)) && p.contains(&(xj, yi)) {
-                result += 1;
+            if xi == xj || yi == yj {
+                continue;
+            }
+            if p.contains(&(xi, yj)) && p.contains(&(xj, yi)) {
+                ans += 1;
             }
         }
     }
-    println!("{}", result / 2);
+    println!("{}", ans / 2);
 }

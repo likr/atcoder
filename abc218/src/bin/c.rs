@@ -21,51 +21,60 @@ macro_rules! debug {
     };
 }
 
+fn trim(s: Vec<Vec<char>>, w: usize, h: usize) -> Vec<Vec<char>> {
+    let left = (0..w)
+        .filter(|&j| (0..h).any(|i| s[i][j] == '#'))
+        .min()
+        .unwrap();
+    let right = (0..w)
+        .filter(|&j| (0..h).any(|i| s[i][j] == '#'))
+        .max()
+        .unwrap();
+    let top = (0..h)
+        .filter(|&i| (0..w).any(|j| s[i][j] == '#'))
+        .min()
+        .unwrap();
+    let bottom = (0..h)
+        .filter(|&i| (0..w).any(|j| s[i][j] == '#'))
+        .max()
+        .unwrap();
+    let w2 = right - left + 1;
+    let h2 = bottom - top + 1;
+    let mut t = vec![vec![' '; w2]; h2];
+    for i in 0..h2 {
+        for j in 0..w2 {
+            t[i][j] = s[i + top][j + left];
+        }
+    }
+    t
+}
+
+fn rotate(s: Vec<Vec<char>>) -> Vec<Vec<char>> {
+    let h = s.len();
+    let w = s[0].len();
+    let mut t = vec![vec![' '; h]; w];
+    for i in 0..h {
+        for j in 0..w {
+            t[j][h - 1 - i] = s[i][j];
+        }
+    }
+    t
+}
+
 fn main() {
     input! {
         n: usize,
-        s: [Chars; n],
-        mut t: [Chars; n],
+        s: [Chars;n ],
+        t: [Chars; n],
     }
-    let s_y_offset = (0..n)
-        .take_while(|&i| (0..n).all(|j| s[i][j] == '.'))
-        .count();
-    let s_x_offset = (0..n)
-        .take_while(|&j| (0..n).all(|i| s[i][j] == '.'))
-        .count();
-    let mut s2 = vec![vec!['.'; n]; n];
-    for i in s_y_offset..n {
-        for j in s_x_offset..n {
-            s2[i - s_y_offset][j - s_x_offset] = s[i][j];
-        }
-    }
-    let mut t2 = vec![vec!['.'; n]; n];
+    let mut trim_s = trim(s, n, n);
+    let trim_t = trim(t, n, n);
     for _ in 0..4 {
-        for i in 0..n {
-            for j in 0..n {
-                t2[i][j] = t[j][n - 1 - i];
-            }
-        }
-        let t_y_offset = (0..n)
-            .take_while(|&i| (0..n).all(|j| t2[i][j] == '.'))
-            .count();
-        let t_x_offset = (0..n)
-            .take_while(|&j| (0..n).all(|i| t2[i][j] == '.'))
-            .count();
-        for i in 0..n {
-            for j in 0..n {
-                t[i][j] = '.';
-            }
-        }
-        for i in t_y_offset..n {
-            for j in t_x_offset..n {
-                t[i - t_y_offset][j - t_x_offset] = t2[i][j];
-            }
-        }
-        if s2 == t {
+        if trim_s == trim_t {
             println!("Yes");
             return;
         }
+        trim_s = rotate(trim_s);
     }
     println!("No");
 }

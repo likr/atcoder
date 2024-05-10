@@ -25,12 +25,7 @@ fn main() {
     input! {
         p: [Usize1; 26],
     }
-    let s = "abcdefghijklmnopqrstuvwxyz".chars().collect::<Vec<_>>();
-    println!(
-        "{}",
-        p.iter()
-            .map(|&i| format!("{}", s[i]))
-            .collect::<Vec<_>>()
-            .join("")
-    );
+    let chars = "abcdefghijklmnopqrstuvwxyz".chars().collect::<Vec<_>>();
+    let q = p.iter().map(|&pi| chars[pi]).collect::<Vec<_>>();
+    println!("{}", q.iter().collect::<String>());
 }

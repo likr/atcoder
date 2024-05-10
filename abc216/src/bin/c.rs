@@ -25,15 +25,27 @@ fn main() {
     input! {
         mut n: usize,
     }
-    let mut result = vec![];
-    while n > 1 {
-        if n % 2 == 1 {
-            result.push('A');
-        }
-        result.push('B');
+    let mut b = vec![];
+    while n > 0 {
+        b.push(n % 2);
         n /= 2;
     }
-    result.push('A');
-    result.reverse();
-    println!("{}", result.iter().collect::<String>());
+    let mut ans = vec![];
+    while let Some(bi) = b.pop() {
+        if bi == 1 {
+            ans.push('A');
+        }
+        ans.push('B');
+    }
+    ans.pop();
+    let mut check = 0;
+    for &c in ans.iter() {
+        if c == 'A' {
+            check += 1;
+        } else {
+            check *= 2;
+        }
+    }
+    debug!(check);
+    println!("{}", ans.iter().collect::<String>());
 }

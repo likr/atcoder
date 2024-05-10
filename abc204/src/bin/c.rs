@@ -28,14 +28,15 @@ fn main() {
         ab: [(Usize1, Usize1); m],
     }
     let mut graph = vec![vec![]; n];
-    for &(ai, bi) in ab.iter() {
-        graph[ai].push(bi);
+    for i in 0..m {
+        let (u, v) = ab[i];
+        graph[u].push(v);
     }
-    let mut result = 0;
+    let mut ans = 0;
     for s in 0..n {
         let mut queue = VecDeque::new();
-        queue.push_back(s);
         let mut distance = vec![INF; n];
+        queue.push_back(s);
         distance[s] = 0;
         while let Some(u) = queue.pop_front() {
             for &v in graph[u].iter() {
@@ -47,9 +48,9 @@ fn main() {
         }
         for u in 0..n {
             if distance[u] != INF {
-                result += 1;
+                ans += 1;
             }
         }
     }
-    println!("{}", result);
+    println!("{}", ans);
 }

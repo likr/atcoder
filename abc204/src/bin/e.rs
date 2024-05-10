@@ -28,29 +28,36 @@ fn main() {
         abcd: [(Usize1, Usize1, usize, usize); m],
     }
     let mut graph = vec![vec![]; n];
-    for i in 0..m {
-        let (ai, bi, ci, di) = abcd[i];
-        graph[ai].push((bi, ci, di));
-        graph[bi].push((ai, ci, di));
+    for &(u, v, c, d) in abcd.iter() {
+        if u != v {
+            graph[u].push((v, c, d));
+            graph[v].push((u, c, d));
+        }
     }
+    let mut heap = BinaryHeap::new();
     let mut distance = vec![INF; n];
     distance[0] = 0;
-    let mut heap = BinaryHeap::new();
     heap.push((Reverse(0), 0));
     while let Some((Reverse(d), u)) = heap.pop() {
-        if distance[u] < d {
+        if d > distance[u] {
             continue;
         }
-        for &(v, a, b) in graph[u].iter() {
-            let e = (b as f64).sqrt() as usize + 1;
-            let c = if d < e {
-                min(a + e - d + b / (e + 1), a + e - 1 - d + b / e)
+        for &(v, c, d) in graph[u].iter() {
+            let cost = if d == 0 {
+                c
             } else {
-                a + b / (d + 1)
+                let t1 = (d as f64).sqrt() as usize - 1;
+                if t1 < distance[u] {
+                    c + d / (distance[u] + 1)
+                } else {
+                    let t2 = t1 + 1;
+                    min(t1 + d / (t1 + 1) + c, t2 + d / (t2 + 1) + c) - distance[u]
+                }
             };
-            if d + c < distance[v] {
-                distance[v] = d + c;
-                heap.push((Reverse(distance[v]), v));
+            let new_d = distance[u] + cost;
+            if new_d < distance[v] {
+                heap.push((Reverse(new_d), v));
+                distance[v] = new_d;
             }
         }
     }

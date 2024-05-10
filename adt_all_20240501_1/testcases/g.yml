@@ -1,0 +1,44 @@
+---
+type: Batch
+timelimit: 4s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      5
+      ....#
+      #..#.
+      .P...
+      ..P..
+      ....#
+    out: |
+      3
+  - name: sample2
+    in: |
+      2
+      P#
+      #P
+    out: |
+      -1
+  - name: sample3
+    in: |
+      10
+      ..........
+      ..........
+      ..........
+      ..........
+      ....P.....
+      .....P....
+      ..........
+      ..........
+      ..........
+      ..........
+    out: |
+      10
+
+extend:
+  - type: Text
+    path: "./g"
+    in: /in/*.txt
+    out: /out/*.txt

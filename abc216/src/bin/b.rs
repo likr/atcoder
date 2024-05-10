@@ -24,16 +24,14 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        st: [(String, String); n],
+        mut st: [(String, String); n],
     }
-    let mut names = HashSet::new();
-    for i in 0..n {
-        let name = format!("{} {}", st[i].0, st[i].1);
-        if names.contains(&name) {
+    st.sort();
+    for i in 1..n {
+        if st[i - 1] == st[i] {
             println!("Yes");
             return;
         }
-        names.insert(name);
     }
     println!("No");
 }

@@ -23,7 +23,11 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        s: [Chars; 2],
     }
-    println!("{}", n);
+    if (s[0][0] == '.' && s[1][1] == '.') || (s[0][1] == '.' && s[1][0] == '.') {
+        println!("No");
+    } else {
+        println!("Yes");
+    }
 }

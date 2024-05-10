@@ -28,15 +28,7 @@ fn main() {
     }
     if x == y {
         println!("{}", x);
-        return;
-    }
-    let mut s = HashSet::new();
-    s.insert(0);
-    s.insert(1);
-    s.insert(2);
-    s.remove(&x);
-    s.remove(&y);
-    for &z in s.iter() {
-        println!("{}", z);
+    } else {
+        println!("{}", 3 - x - y);
     }
 }

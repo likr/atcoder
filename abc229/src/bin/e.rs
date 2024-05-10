@@ -1,3 +1,4 @@
+use ac_library::*;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -24,6 +25,28 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        m: usize,
+        ab: [(Usize1, Usize1); m],
     }
-    println!("{}", n);
+    let mut edges = vec![vec![]; n];
+    for &(ai, bi) in ab.iter() {
+        edges[ai].push(bi);
+    }
+    let mut count = 0;
+    let mut ans = vec![];
+    let mut dsu = Dsu::new(n);
+    for u in (0..n).rev() {
+        ans.push(count);
+        count += 1;
+        for &v in edges[u].iter() {
+            if !dsu.same(u, v) {
+                count -= 1;
+                dsu.merge(u, v);
+            }
+        }
+    }
+    ans.reverse();
+    for i in 0..n {
+        println!("{}", ans[i]);
+    }
 }

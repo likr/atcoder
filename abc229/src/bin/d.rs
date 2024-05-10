@@ -23,7 +23,26 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        s: Chars,
+        k: usize,
     }
-    println!("{}", n);
+    let n = s.len();
+    let mut dot_count = vec![0; n + 1];
+    for i in 0..n {
+        if s[i] == '.' {
+            dot_count[i + 1] = 1;
+        }
+    }
+    for i in 0..n {
+        dot_count[i + 1] += dot_count[i];
+    }
+    let mut ans = 0;
+    let mut j = 0;
+    for i in 0..n {
+        while j < n && (s[j] == 'x' || dot_count[j + 1] - dot_count[i] <= k) {
+            j += 1;
+        }
+        ans = max(ans, j - i);
+    }
+    println!("{}", ans);
 }

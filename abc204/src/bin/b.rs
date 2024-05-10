@@ -26,11 +26,11 @@ fn main() {
         n: usize,
         a: [usize; n],
     }
-    let mut result = 0;
+    let mut ans = 0;
     for i in 0..n {
         if a[i] >= 10 {
-            result += a[i] - 10;
+            ans += a[i] - 10;
         }
     }
-    println!("{}", result);
+    println!("{}", ans);
 }

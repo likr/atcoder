@@ -25,5 +25,6 @@ fn main() {
     input! {
         n: usize,
     }
-    println!("{}", n as u8 as char);
+    let chars = "abcdefghijklmnopqrstuvwxyz".chars().collect::<Vec<_>>();
+    println!("{}", chars[n - 97]);
 }

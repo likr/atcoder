@@ -26,17 +26,26 @@ fn main() {
         n: usize,
         s: [Chars; n],
     }
-    let s = s.into_iter().map(|si| si.into_iter().map(|c| c as u8 as usize - '0' as u8 as usize).collect::<Vec<_>>()).collect::<Vec<_>>();
-    let mut count = vec![vec![0; 10]; 10];
-    for i in 0..n {
-        for j in 0..10 {
-            count[s[i][j]][j] += 1;
-        }
-    }
-    let mut result = INF;
+    let s = s
+        .into_iter()
+        .map(|si| {
+            si.into_iter()
+                .map(|c| c as usize - '0' as usize)
+                .collect::<Vec<_>>()
+        })
+        .collect::<Vec<_>>();
+    let mut ans = INF;
     for i in 0..10 {
-        let k = (0..10).max_by_key(|&j| count[i][j]).unwrap();
-        result = min(result, 10 * (count[i][k] - 1) + k);
+        let mut count = vec![0; 10];
+        for j in 0..n {
+            for k in 0..10 {
+                if s[j][k] == i {
+                    count[k] += 1;
+                }
+            }
+        }
+        let k_max = (0..10).max_by_key(|&k| (count[k], k)).unwrap();
+        ans = min(ans, 10 * (count[k_max] - 1) + k_max);
     }
-    println!("{}", result);
+    println!("{}", ans);
 }

@@ -25,23 +25,23 @@ fn main() {
     input! {
         n: usize,
         l: usize,
-        a: [usize; n],
+        mut a: [usize; n],
     }
     let mut heap = BinaryHeap::new();
-    for &ai in a.iter() {
-        heap.push(Reverse(ai));
+    let mut a_sum = 0;
+    for i in 0..n {
+        heap.push(Reverse(a[i]));
+        a_sum += a[i];
     }
-    let sum_a = a.iter().sum::<usize>();
-    let mut result = 0usize;
-    if sum_a < l {
-        heap.push(Reverse(l - sum_a));
+    if l > a_sum {
+        heap.push(Reverse(l - a_sum));
     }
-    while heap.len() >= 2 {
-        let Reverse(v1) = heap.pop().unwrap();
-        let Reverse(v2) = heap.pop().unwrap();
-        let v3 = v1 + v2;
-        result += v3;
-        heap.push(Reverse(v3));
+    let mut ans = 0;
+    while heap.len() > 1 {
+        let x = heap.pop().unwrap().0;
+        let y = heap.pop().unwrap().0;
+        heap.push(Reverse(x + y));
+        ans += x + y;
     }
-    println!("{}", result);
+    println!("{}", ans);
 }

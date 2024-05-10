@@ -23,23 +23,16 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        s: Chars,
+        mut s: Chars,
     }
-    let x = s[..s.len() - 2]
-        .iter()
-        .collect::<String>()
-        .parse::<usize>()
-        .unwrap();
-    let y = s[s.len() - 1..]
-        .iter()
-        .collect::<String>()
-        .parse::<usize>()
-        .unwrap();
+    let y = s.pop().unwrap() as usize - '0' as usize;
+    s.pop();
+    let x = s.iter().collect::<String>().parse::<usize>().unwrap();
     if y <= 2 {
         println!("{}-", x);
-    } else if y <= 6 {
-        println!("{}", x);
-    } else {
+    } else if y >= 7 {
         println!("{}+", x);
+    } else {
+        println!("{}", x);
     }
 }

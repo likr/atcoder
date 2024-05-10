@@ -30,23 +30,27 @@ fn main() {
     for i in 0..n {
         s += t[i];
     }
-    let mut dp = vec![vec![false; s + 1]; n + 1];
-    dp[0][0] = true;
-    for i in 0..n {
-        for j in 0..s {
-            if dp[i][j] {
-                dp[i + 1][j] = true;
-                if j + t[i] <= s {
-                    dp[i + 1][j + t[i]] = true;
+    let mut ng = 0;
+    let mut ok = s;
+    while ok - ng > 1 {
+        let m = (ng + ok) / 2;
+        let mut dp = vec![vec![false; m + 1]; n + 1];
+        dp[0][0] = true;
+        for i in 0..n {
+            for j in 0..m {
+                dp[i + 1][j] |= dp[i][j];
+                if j + t[i] <= m {
+                    dp[i + 1][j + t[i]] |= dp[i][j];
                 }
             }
         }
-    }
-    let mut result = INF;
-    for j in 0..=s {
-        if dp[n][j] {
-            result = min(result, max(j, s - j));
+        let v1 = (0..=m).filter(|&j| dp[n][j]).max().unwrap();
+        let v2 = s - v1;
+        if max(v1, v2) <= m {
+            ok = m;
+        } else {
+            ng = m;
         }
     }
-    println!("{}", result);
+    println!("{}", ok);
 }

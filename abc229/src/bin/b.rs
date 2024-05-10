@@ -23,16 +23,31 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        mut a: usize,
-        mut b: usize,
+        a: Chars,
+        b: Chars,
     }
-    while a > 0 && b > 0 {
-        if a % 10 + b % 10 >= 10 {
+    let mut a = a
+        .into_iter()
+        .map(|c| c as usize - '0' as usize)
+        .rev()
+        .collect::<Vec<_>>();
+    let mut b = b
+        .into_iter()
+        .map(|c| c as usize - '0' as usize)
+        .rev()
+        .collect::<Vec<_>>();
+    while a.len() < b.len() {
+        a.push(0);
+    }
+    while b.len() < a.len() {
+        b.push(0);
+    }
+    let n = a.len();
+    for i in 0..n {
+        if a[i] + b[i] > 9 {
             println!("Hard");
             return;
         }
-        a /= 10;
-        b /= 10;
     }
     println!("Easy");
 }
