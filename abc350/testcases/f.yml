@@ -1,0 +1,31 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      ((A)y)x
+    out: |
+      YAx
+  - name: sample2
+    in: |
+      ((XYZ)n(X(y)Z))
+    out: |
+      XYZNXYZ
+  - name: sample3
+    in: |
+      (((()))(()))(())
+    out: >
+  - name: sample4
+    in: |
+      dF(qT(plC())NnnfR(GsdccC))PO()KjsiI((ysA)eWW)ve
+    out: |
+      dFGsdccCrFNNnplCtQPOKjsiIwwEysAve
+
+extend:
+  - type: Text
+    path: "./f"
+    in: /in/*.txt
+    out: /out/*.txt
