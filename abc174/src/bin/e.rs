@@ -13,26 +13,40 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         n: usize,
         k: usize,
-        a: [f64; n],
+        a: [usize; n],
     }
-    let mut l = 0.0;
-    let mut r = 100000000000.0 as f64;
-    while r - l > 0.00001 {
-        let m = (l + r) / 2.;
+    let sum_a = a.iter().sum::<usize>();
+    if k >= sum_a {
+        println!("1");
+        return;
+    }
+    let mut ng = 1;
+    let mut ok = INF;
+    while ok - ng > 1 {
+        let m = (ok + ng) / 2;
         let mut count = 0;
         for i in 0..n {
-            count += (a[i] / m) as usize;
+            if a[i] > m {
+                count += a[i] / m;
+            }
         }
-        if count <= k {
-            r = m;
+        if count > k {
+            ng = m;
         } else {
-            l = m;
+            ok = m;
         }
     }
-    eprintln!("{} {}", l, r);
-    println!("{}", (l + 0.5).round());
+    println!("{}", ok);
 }

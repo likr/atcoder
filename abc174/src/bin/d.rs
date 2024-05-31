@@ -13,6 +13,14 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         n: usize,
@@ -24,11 +32,11 @@ fn main() {
             red_count += 1;
         }
     }
-    let mut left_red_count = 0;
+    let mut ans = 0;
     for i in 0..red_count {
-        if c[i] == 'R' {
-            left_red_count += 1;
+        if c[i] == 'W' {
+            ans += 1;
         }
     }
-    println!("{}", red_count - left_red_count);
+    println!("{}", ans);
 }
