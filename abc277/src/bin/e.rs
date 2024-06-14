@@ -21,6 +21,26 @@ macro_rules! debug {
     };
 }
 
+fn dijkstra(graph: &Vec<Vec<(usize, usize)>>, s: usize) -> Vec<usize> {
+    let mut distance = vec![INF; graph.len()];
+    distance[s] = 0;
+    let mut queue = BinaryHeap::new();
+    queue.push(Reverse((0, s)));
+    while !queue.is_empty() {
+        let Reverse((d, u)) = queue.pop().unwrap();
+        if distance[u] < d {
+            continue;
+        }
+        for &(v, c) in &graph[u] {
+            if distance[u] + c < distance[v] {
+                distance[v] = distance[u] + c;
+                queue.push(Reverse((distance[v], v)));
+            }
+        }
+    }
+    distance
+}
+
 fn main() {
     input! {
         n: usize,
@@ -30,8 +50,7 @@ fn main() {
         s: [Usize1; k],
     }
     let mut graph = vec![vec![]; n * 2];
-    for i in 0..m {
-        let (ui, vi, ai) = uva[i];
+    for &(ui, vi, ai) in uva.iter() {
         if ai == 1 {
             graph[ui].push((vi, 1));
             graph[vi].push((ui, 1));
@@ -40,30 +59,15 @@ fn main() {
             graph[vi + n].push((ui + n, 1));
         }
     }
-    for i in 0..k {
-        let si = s[i];
-        graph[si].push((si + n, 0));
-        graph[si + n].push((si, 0));
+    for &u in s.iter() {
+        graph[u].push((u + n, 0));
+        graph[u + n].push((u, 0));
     }
-    let mut distance = vec![INF; n * 2];
-    distance[0] = 0;
-    let mut heap = BinaryHeap::new();
-    heap.push((Reverse(distance[0]), 0));
-    while let Some((Reverse(d), u)) = heap.pop() {
-        if distance[u] < d {
-            continue;
-        }
-        for &(v, c) in graph[u].iter() {
-            if distance[u] + c < distance[v] {
-                distance[v] = distance[u] + c;
-                heap.push((Reverse(distance[v]), v));
-            }
-        }
-    }
-    let result = min(distance[n - 1], distance[2 * n - 1]);
-    if result == INF {
+    let distance = dijkstra(&graph, 0);
+    let ans = min(distance[n - 1], distance[2 * n - 1]);
+    if ans == INF {
         println!("-1");
     } else {
-        println!("{}", result);
+        println!("{}", ans);
     }
 }

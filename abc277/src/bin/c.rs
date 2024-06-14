@@ -26,41 +26,39 @@ fn main() {
         n: usize,
         ab: [(usize, usize); n],
     }
-    let mut floors = vec![1];
-    for i in 0..n {
-        let (ai, bi) = ab[i];
-        floors.push(ai);
-        floors.push(bi);
+    let mut nodes = vec![1];
+    for &(ai, bi) in ab.iter() {
+        nodes.push(ai);
+        nodes.push(bi);
     }
-    floors.sort();
-    floors.dedup();
-    let floor_index = floors
-        .iter()
-        .enumerate()
-        .map(|(i, f)| (f, i))
-        .collect::<HashMap<_, _>>();
-    let mut graph = vec![vec![]; floors.len()];
-    for i in 0..n {
-        graph[floor_index[&ab[i].0]].push(floor_index[&ab[i].1]);
-        graph[floor_index[&ab[i].1]].push(floor_index[&ab[i].0]);
+    nodes.sort();
+    nodes.dedup();
+    let mut index = HashMap::new();
+    for (i, &f) in nodes.iter().enumerate() {
+        index.insert(f, i);
+    }
+    let mut graph = vec![vec![]; nodes.len()];
+    for &(ai, bi) in ab.iter() {
+        graph[index[&ai]].push(index[&bi]);
+        graph[index[&bi]].push(index[&ai]);
     }
     let mut queue = VecDeque::new();
-    queue.push_back(0);
-    let mut visited = vec![false; floors.len()];
-    visited[0] = true;
+    queue.push_back(index[&1]);
+    let mut distance = vec![INF; nodes.len()];
+    distance[index[&1]] = 0;
     while let Some(u) = queue.pop_front() {
         for &v in graph[u].iter() {
-            if !visited[v] {
+            if distance[v] == INF {
+                distance[v] = distance[u] + 1;
                 queue.push_back(v);
-                visited[v] = true;
             }
         }
     }
-    let mut result = 1;
-    for i in 0..floors.len() {
-        if visited[i] {
-            result = max(result, floors[i]);
+    let mut ans = 0;
+    for &f in nodes.iter() {
+        if distance[index[&f]] < INF {
+            ans = max(ans, f);
         }
     }
-    println!("{}", result);
+    println!("{}", ans);
 }

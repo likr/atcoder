@@ -24,12 +24,13 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        x: usize,
-        p: [usize; n],
+        x: Usize1,
+        p: [Usize1; n],
     }
     for i in 0..n {
         if p[i] == x {
             println!("{}", i + 1);
+            return;
         }
     }
 }

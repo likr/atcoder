@@ -24,43 +24,38 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        m: usize,
+        mut a0: [usize; n],
     }
-    let mut s = 0;
-    let mut nums = vec![];
-    for i in 0..n {
-        s += a[i];
-        nums.push(a[i]);
+    let s = a0.iter().sum::<usize>();
+    a0.sort();
+    let mut a = a0.clone();
+    for &ai in a0.iter() {
+        a.push(ai + m);
     }
-    nums.sort();
-    nums.dedup();
-    for i in 0..nums.len() {
-        nums.push(nums[i] + m);
+    a0.dedup();
+    if a0.len() == m {
+        println!("0");
+        return;
     }
-    let num_index = nums
-        .iter()
-        .enumerate()
-        .map(|(i, &v)| (v, i))
-        .collect::<HashMap<_, _>>();
-    let mut count = vec![0; nums.len()];
-    for i in 0..n {
-        count[num_index[&a[i]]] += 1;
-        count[num_index[&(a[i] + m)]] += 1;
-    }
-    let mut acc = vec![0; count.len()];
-    acc[0] = nums[0] * count[0];
-    for i in 1..count.len() {
-        acc[i] = acc[i - 1] + count[i] * (nums[i] % m);
-    }
-    let mut result = s;
-    let mut j = 1;
-    for i in 0..nums.len() / 2 {
-        if j <= i {
-            j = i + 1;
+    let mut x = 0;
+    for i in 0..a.len() {
+        if i == 0 || a[i] - a[i - 1] > 1 {
+            let mut t = a[i];
+            if 2 * i >= a.len() {
+                t -= m;
+            }
+            for j in i + 1.. {
+                if j >= a.len() || a[j] - a[j - 1] > 1 {
+                    break;
+                }
+                t += a[j];
+                if 2 * j >= a.len() {
+                    t -= m;
+                }
+            }
+            x = max(x, t);
         }
-        while j - i < nums.len() / 2 && nums[j] + 1 == nums[j + 1] {
-            j += 1;
-        }
-        result = min(result, s - (acc[j] - acc[i]));
     }
-    println!("{}", result);
+    println!("{}", s - x);
 }
