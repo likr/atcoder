@@ -24,18 +24,27 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        m: usize,
-        a: [[u16; m]; n],
+        a: usize,
+        b: usize,
+        d: [usize; n],
     }
-    let mut ans = 0;
-    for j in 0..n {
-        for i in 0..j {
-            let mut count = 0;
-            for (aik, ajk) in a[i].iter().zip(a[j].iter()) {
-                count += (*aik == *ajk) as u16;
-            }
-            ans += (count % 2 == 1) as u32;
+    let c = a + b;
+    let mut x = vec![];
+    for i in 0..n {
+        x.push(d[i] % c);
+    }
+    x.sort();
+    x.dedup();
+    let m = x.len();
+    if x[0] + c - x[m - 1] - 1 >= b {
+        println!("Yes");
+        return;
+    }
+    for i in 1..m {
+        if x[i] - x[i - 1] - 1 >= b {
+            println!("Yes");
+            return;
         }
     }
-    println!("{}", ans);
+    println!("No");
 }
