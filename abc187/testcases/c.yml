@@ -1,0 +1,38 @@
+---
+type: Batch
+timelimit: ~
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      6
+      a
+      !a
+      b
+      !c
+      d
+      !d
+    out: |
+      a
+  - name: sample2
+    in: |
+      10
+      red
+      red
+      red
+      !orange
+      yellow
+      !blue
+      cyan
+      !green
+      brown
+      !gray
+    out: |
+      satisfiable
+
+extend:
+  - type: Text
+    path: "./c"
+    in: /in/*.txt
+    out: /out/*.txt
