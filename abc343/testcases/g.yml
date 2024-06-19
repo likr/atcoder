@@ -1,0 +1,39 @@
+---
+type: Batch
+timelimit: ~
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      3
+      snuke
+      kensho
+      uk
+    out: |
+      9
+  - name: sample2
+    in: |
+      3
+      abc
+      abc
+      arc
+    out: |
+      6
+  - name: sample3
+    in: |
+      6
+      cmcmrcc
+      rmrrrmr
+      mrccm
+      mmcr
+      rmmrmrcc
+      ccmcrcmcm
+    out: |
+      27
+
+extend:
+  - type: Text
+    path: "./g"
+    in: /in/*.txt
+    out: /out/*.txt
