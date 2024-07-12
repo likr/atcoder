@@ -23,7 +23,14 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        a: usize,
+        b: usize,
+        c: usize,
+        d: usize,
     }
-    println!("{}", n);
+    if a * 100 + b <= c * 100 + d {
+        println!("Takahashi");
+    } else {
+        println!("Aoki");
+    }
 }

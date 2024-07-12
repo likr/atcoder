@@ -24,6 +24,20 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        m: usize,
+        mut a: [i64; n + 1],
+        mut c: [i64; n + m + 1],
     }
-    println!("{}", n);
+    a.reverse();
+    c.reverse();
+    let mut b = vec![];
+    for j in 0..=m {
+        let bj = c[j] / a[0];
+        for i in 0..=n {
+            c[i + j] -= a[i] * bj;
+        }
+        b.push(format!("{}", bj));
+    }
+    b.reverse();
+    println!("{}", b.join(" "));
 }

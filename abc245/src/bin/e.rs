@@ -30,27 +30,27 @@ fn main() {
         c: [usize; m],
         d: [usize; m],
     }
-    let mut points = vec![];
+    let mut events = vec![];
     for i in 0..n {
-        points.push((a[i], b[i], 0, i));
+        events.push((a[i], b[i], 0, i));
     }
-    for i in 0..m {
-        points.push((c[i], d[i], 1, i));
+    for j in 0..m {
+        events.push((c[j], d[j], 1, j));
     }
-    points.sort();
-    let mut visited = BTreeSet::new();
-    for &(_yi, xi, t, i) in points.iter() {
+    events.sort();
+    let mut set = BTreeSet::new();
+    for &(_, yi, t, k) in events.iter() {
         if t == 0 {
-            visited.insert((xi, i));
+            set.insert((yi, k));
         } else {
-            if let Some(&(xj, j)) = visited.range(..=(xi, INF)).rev().nth(0) {
-                visited.remove(&(xj, j));
+            if let Some(&r) = set.range(..=(yi, INF)).last() {
+                set.remove(&r);
             }
         }
     }
-    if visited.len() > 0 {
-        println!("No");
-    } else {
+    if set.is_empty() {
         println!("Yes");
+    } else {
+        println!("No");
     }
 }
