@@ -25,11 +25,11 @@ fn main() {
     input! {
         s: String,
     }
-    let t = vec!["ACE", "BDF", "CEG", "DFA", "EGB", "FAC", "GBD"]
+    let set = vec!["ACE", "BDF", "CEG", "DFA", "EGB", "FAC", "GBD"]
         .into_iter()
-        .map(|ti| ti.to_string())
+        .map(|s| s.to_string())
         .collect::<HashSet<_>>();
-    if t.contains(&s) {
+    if set.contains(&s) {
         println!("Yes");
     } else {
         println!("No");

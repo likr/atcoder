@@ -7,6 +7,7 @@ use std::cmp::*;
 use std::collections::*;
 #[allow(unused_imports)]
 use std::f64::consts::*;
+use superslice::*;
 
 #[allow(unused)]
 const INF: usize = std::usize::MAX / 4;
@@ -24,6 +25,23 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        m: usize,
+        mut a: [usize; n],
+        mut b: [usize; m],
     }
-    println!("{}", n);
+    a.sort();
+    b.sort();
+    let mut ng = 0;
+    let mut ok = INF;
+    while ok - ng > 1 {
+        let x = (ok + ng) / 2;
+        let k1 = a.upper_bound(&x);
+        let k2 = b.len() - b.lower_bound(&x);
+        if k1 >= k2 {
+            ok = x;
+        } else {
+            ng = x;
+        }
+    }
+    println!("{}", ok);
 }

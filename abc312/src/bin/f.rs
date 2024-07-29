@@ -22,66 +22,58 @@ macro_rules! debug {
     };
 }
 
-fn lower_bound(count: &FenwickTree<usize>, n: usize, m: usize) -> usize {
-    let mut ok = 0;
-    let mut ng = n;
-    while ng - ok > 1 {
-        let k = (ok + ng) / 2;
-        if count.accum(k) >= m {
-            ng = k;
-        } else {
-            ok = k;
-        }
-    }
-    ok
-}
-
 fn main() {
     input! {
         n: usize,
-        m: usize,
+        mut m: usize,
         tx: [(usize, usize); n],
     }
-    let mut items = vec![];
-    let mut c = vec![];
-    for &(ti, xi) in tx.iter() {
-        if ti == 2 {
-            c.push(xi);
-        } else {
-            items.push((xi, ti));
-        }
-    }
-    items.sort();
-    items.reverse();
-    c.sort();
-    let mut b = vec![];
-    let n = items.len();
-    let mut acc = FenwickTree::new(n, 0);
-    let mut count = FenwickTree::new(n, 0);
+    let mut p = vec![];
     for i in 0..n {
-        if items[i].1 == 0 {
-            acc.add(i, items[i].0);
-            count.add(i, 1);
+        let (ti, xi) = tx[i];
+        if ti == 2 {
+            p.push((0, xi, ti));
         } else {
-            b.push((items[i].0, i));
+            p.push((xi, 0, ti));
         }
     }
-    b.sort();
-    let k = lower_bound(&count, n, m);
-    let mut ans = acc.sum(0..min(n, k + 1));
-    let mut c_count = 0;
-    while let Some(x) = c.pop() {
-        for _ in 0..min(x, b.len()) {
-            let (y, j) = b.pop().unwrap();
-            acc.add(j, y);
-            count.add(j, 1);
+    p.sort();
+    p.reverse();
+
+    let mut count = Segtree::<Additive<usize>>::new(n);
+    let mut value = Segtree::<Additive<usize>>::new(n);
+    let mut x1 = vec![];
+    let mut x2 = vec![];
+    for i in 0..n {
+        if p[i].2 == 0 {
+            count.set(i, 1);
+            value.set(i, p[i].0)
+        } else if p[i].2 == 1 {
+            x1.push((p[i].0, i));
+        } else {
+            x2.push(p[i].1);
         }
-        c_count += 1;
-        if m < c_count {
+    }
+    x1.reverse();
+    x2.reverse();
+
+    let mut ans = 0;
+    loop {
+        let k = min(n, count.max_right(0, |&s| s <= m));
+        ans = max(ans, value.prod(0..k));
+        if m == 0 || x2.is_empty() {
             break;
         }
-        let k = lower_bound(&count, n, m - c_count);
-        ans = max(ans, acc.sum(0..min(n, k + 1)));
+        let k = x2.pop().unwrap();
+        for _ in 0..k {
+            if let Some((v, i)) = x1.pop() {
+                count.set(i, 1);
+                value.set(i, v);
+            } else {
+                break;
+            }
+        }
+        m -= 1;
     }
     println!("{}", ans);
 }
