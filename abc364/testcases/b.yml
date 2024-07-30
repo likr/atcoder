@@ -1,0 +1,45 @@
+---
+type: Batch
+timelimit: ~
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      2 3
+      2 1
+      .#.
+      ...
+      ULDRU
+    out: |
+      2 2
+  - name: sample2
+    in: |
+      4 4
+      4 2
+      ....
+      .#..
+      ...#
+      ....
+      DUUUURULRD
+    out: |
+      2 4
+  - name: sample3
+    in: |
+      6 6
+      1 1
+      .#####
+      ######
+      ######
+      ######
+      ######
+      ######
+      RURLDLULLRULRDL
+    out: |
+      1 1
+
+extend:
+  - type: Text
+    path: "./b"
+    in: /in/*.txt
+    out: /out/*.txt
