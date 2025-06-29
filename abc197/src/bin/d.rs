@@ -5,6 +5,7 @@ use proconio::marker::*;
 use std::cmp::*;
 #[allow(unused_imports)]
 use std::collections::*;
+use std::f64;
 #[allow(unused_imports)]
 use std::f64::consts::*;
 
@@ -29,10 +30,12 @@ fn main() {
         x2: f64,
         y2: f64,
     }
-    let xm = (x1 + x2) / 2.;
-    let ym = (y1 + y2) / 2.;
-    let r = ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)).sqrt() / 2.;
-    let dt = 2. * PI / n as f64;
-    let t = (y1 - ym).atan2(x1 - xm);
-    println!("{} {}", r * (t + dt).cos() + xm, r * (t + dt).sin() + ym);
+    let cx = (x1 + x2) / 2.;
+    let cy = (y1 + y2) / 2.;
+    let t = 2. * f64::consts::PI / n as f64;
+    let x0 = x1 - cx;
+    let y0 = y1 - cy;
+    let x = x0 * t.cos() - y0 * t.sin();
+    let y = x0 * t.sin() + y0 * t.cos();
+    println!("{} {}", x + cx, y + cy);
 }

@@ -13,22 +13,17 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         n: usize,
-        a: [Usize1; n],
     }
-    let mut i = 0;
-    let mut c = 0;
-    let mut visited = HashSet::new();
-    while !visited.contains(&a[i]) {
-        visited.insert(i);
-        i = a[i];
-        c += 1;
-        if i == 1 {
-            println!("{}", c);
-            return;
-        }
-    }
-    println!("-1");
+    println!("{}", n);
 }

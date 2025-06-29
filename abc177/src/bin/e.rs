@@ -13,67 +13,26 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
-fn gcd(a: usize, b: usize) -> usize {
-    if b > a {
-        gcd(b, a)
-    } else if a % b == 0 {
-        b
-    } else {
-        gcd(b, a % b)
-    }
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
 }
 
-fn is_pairwise_coprime(a: &Vec<usize>) -> bool {
-    let primes = {
-        let mut primes = vec![true; 1001];
-        primes[0] = false;
-        primes[1] = false;
-        for i in 2..primes.len() {
-            if primes[i] {
-                for j in 2.. {
-                    if i * j >= primes.len() {
-                        break;
-                    }
-                    primes[i * j] = false;
-                }
-            }
-        }
-        primes
-            .into_iter()
-            .enumerate()
-            .filter(|&(_, f)| f)
-            .map(|(i, _)| i)
-            .collect::<Vec<_>>()
-    };
-
-    let n = a.len();
-    let mut b = a.clone();
-    let mut visited = HashSet::new();
-    for i in 0..n {
-        for &p in &primes {
-            if b[i] % p == 0 {
-                if visited.contains(&p) {
-                    return false;
-                } else {
-                    visited.insert(p);
-                }
-            }
-            while b[i] % p == 0 {
-                b[i] /= p;
-            }
-            if b[i] == 1 {
-                break;
-            }
-        }
-        if b[i] > 1 {
-            if visited.contains(&b[i]) {
-                return false;
-            } else {
-                visited.insert(b[i]);
+fn find_primes(n: usize) -> Vec<bool> {
+    let mut is_prime = vec![true; n + 1];
+    is_prime[0] = false;
+    is_prime[1] = false;
+    for i in 2..=n {
+        if is_prime[i] {
+            for j in (2 * i..=n).step_by(i) {
+                is_prime[j] = false;
             }
         }
     }
-    return true;
+    is_prime
 }
 
 fn main() {
@@ -81,19 +40,51 @@ fn main() {
         n: usize,
         a: [usize; n],
     }
-
-    if is_pairwise_coprime(&a) {
+    let a_max = *a.iter().max().unwrap();
+    let is_prime = find_primes(a_max);
+    let primes = is_prime
+        .iter()
+        .enumerate()
+        .filter_map(|(i, &f)| if f { Some(i) } else { None })
+        .collect::<Vec<_>>();
+    debug!(primes);
+    let mut count = HashMap::new();
+    let mut ans1 = true;
+    for &ai in a.iter() {
+        let mut x = ai;
+        for &p in primes.iter() {
+            if p * p > x {
+                break;
+            }
+            if x % p == 0 {
+                while x % p == 0 {
+                    x /= p;
+                }
+                if count.contains_key(&p) {
+                    ans1 = false;
+                }
+                *count.entry(p).or_insert(0) += 1;
+            }
+        }
+        if x > 1 {
+            if count.contains_key(&x) {
+                ans1 = false;
+            }
+            *count.entry(x).or_insert(0) += 1;
+        }
+    }
+    if ans1 {
         println!("pairwise coprime");
         return;
     }
-
-    let mut g = a[0];
-    for i in 1..n {
-        g = gcd(g, a[i]);
+    debug!(count);
+    for &p in primes.iter() {
+        if let Some(&c) = count.get(&p) {
+            if c == n {
+                println!("not coprime");
+                return;
+            }
+        }
     }
-    if g == 1 {
-        println!("setwise coprime");
-    } else {
-        println!("not coprime");
-    }
+    println!("setwise coprime");
 }

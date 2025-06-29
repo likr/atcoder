@@ -23,8 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        a: usize,
-        b: usize,
+        n: usize,
     }
-    println!("{}", a ^ b);
+    println!("{}", n);
 }

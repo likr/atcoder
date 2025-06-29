@@ -24,32 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        s: Chars,
     }
-    let mut p = (0, 0);
-    let mut points = HashSet::new();
-    points.insert(p);
-    for i in 0..n {
-        match s[i] {
-            'R' => {
-                p.0 += 1;
-            }
-            'L' => {
-                p.0 -= 1;
-            }
-            'U' => {
-                p.1 += 1;
-            }
-            'D' => {
-                p.1 -= 1;
-            }
-            _ => {}
-        }
-        points.insert(p);
-    }
-    if points.len() <= n {
-        println!("Yes");
-    } else {
-        println!("No");
-    }
+    println!("{}", n);
 }

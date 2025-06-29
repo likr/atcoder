@@ -25,26 +25,22 @@ fn main() {
     input! {
         n: usize,
     }
-    let m = 2usize.pow(n as u32);
+    let mut m = 1 << n;
     input! {
-        a: [usize; m],
+        a: [usize; 1 << n],
     }
-    let mut win = vec![];
-    win.push((0..m).collect::<Vec<_>>());
-    while win[win.len() - 1].len() != 2 {
-        let mut win_next = vec![];
-        for i in (0..win[win.len() - 1].len()).step_by(2) {
-            if a[win[win.len() - 1][i]] < a[win[win.len() - 1][i + 1]] {
-                win_next.push(win[win.len() - 1][i + 1]);
-            } else {
-                win_next.push(win[win.len() - 1][i]);
-            }
+    let mut a = a
+        .iter()
+        .enumerate()
+        .map(|(i, ai)| (ai, i + 1))
+        .collect::<Vec<_>>();
+    for i in 1..n {
+        let mut b = vec![];
+        for j in (0..a.len()).step_by(2) {
+            b.push(max(a[j], a[j + 1]));
         }
-        win.push(win_next);
+        a = b;
     }
-    if a[win[win.len() - 1][0]] < a[win[win.len() - 1][1]] {
-        println!("{}", win[win.len() - 1][0] + 1);
-    } else {
-        println!("{}", win[win.len() - 1][1] + 1);
-    }
+    debug!(a);
+    println!("{}", min(a[0], a[1]).1);
 }

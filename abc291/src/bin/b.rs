@@ -27,9 +27,9 @@ fn main() {
         mut x: [usize; 5 * n],
     }
     x.sort();
-    let mut s = 0;
+    let mut ans = 0f64;
     for i in n..4 * n {
-        s += x[i];
+        ans += x[i] as f64;
     }
-    println!("{}", s as f64 / (3 * n) as f64);
+    println!("{}", ans / (3 * n) as f64);
 }

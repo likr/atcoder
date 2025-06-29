@@ -25,5 +25,5 @@ fn main() {
     input! {
         n: usize,
     }
-    println!("{:02X}", n);
+    println!("{}", n);
 }

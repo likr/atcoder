@@ -29,4 +29,8 @@ cases:
     out: |
       9500000000
 
-extend: []
+extend:
+  - type: Text
+    path: "./d"
+    in: /in/*.txt
+    out: /out/*.txt

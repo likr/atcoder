@@ -24,14 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        a: [usize; n],
     }
-    let mut a = a
-        .into_iter()
-        .enumerate()
-        .map(|(i, ai)| (ai, i))
-        .collect::<Vec<_>>();
-    a.sort();
-    a.reverse();
-    println!("{}", a[1].1 + 1);
+    println!("{}", n);
 }

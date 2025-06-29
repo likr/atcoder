@@ -23,17 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        mut n: Chars,
+        n: usize,
     }
-    while n.len() > 0 && n[n.len() - 1] == '0' {
-        n.pop();
-    }
-    let m = n.len();
-    for i in 0..m / 2 {
-        if n[i] != n[m - 1 - i] {
-            println!("No");
-            return;
-        }
-    }
-    println!("Yes");
+    println!("{}", n);
 }

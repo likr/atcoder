@@ -24,20 +24,22 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        a: [i64; n],
+        a: [isize; n],
     }
     let mut acc = vec![0; n + 1];
     for i in 0..n {
         acc[i + 1] = acc[i] + a[i];
     }
-
-    let mut max_x = 0;
-    let mut max_d = 0;
-    let mut x = 0;
-    for i in 1..=n {
-        max_d = max(max_d, acc[i]);
-        max_x = max(max_x, x + max_d);
-        x += acc[i];
+    for i in 0..n {
+        acc[i + 1] = max(acc[i + 1], acc[i]);
     }
-    println!("{}", max_x);
+    let mut pos = 0;
+    let mut v = 0;
+    let mut ans = 0;
+    for i in 0..n {
+        v += a[i];
+        ans = max(pos + acc[i + 1], ans);
+        pos += v;
+    }
+    println!("{}", ans);
 }

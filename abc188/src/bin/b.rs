@@ -24,16 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        a: [i64; n],
-        b: [i64; n],
     }
-    let mut s = 0i64;
-    for i in 0..n {
-        s += a[i] * b[i];
-    }
-    if s == 0 {
-        println!("Yes");
-    } else {
-        println!("No");
-    }
+    println!("{}", n);
 }

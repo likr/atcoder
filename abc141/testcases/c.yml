@@ -62,4 +62,8 @@ cases:
       Yes
       No
 
-extend: []
+extend:
+  - type: Text
+    path: "./c"
+    in: /in/*.txt
+    out: /out/*.txt

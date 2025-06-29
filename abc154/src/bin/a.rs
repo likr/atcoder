@@ -2,7 +2,7 @@ use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
-use std::cmp::{max, min};
+use std::cmp::*;
 #[allow(unused_imports)]
 use std::collections::*;
 #[allow(unused_imports)]
@@ -13,17 +13,26 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         s: String,
         _t: String,
-        a: usize,
-        b: usize,
+        mut a: usize,
+        mut b: usize,
         u: String,
     }
     if s == u {
-        println!("{} {}", a - 1, b);
+        a -= 1;
     } else {
-        println!("{} {}", a, b - 1);
+        b -= 1;
     }
+    println!("{} {}", a, b);
 }

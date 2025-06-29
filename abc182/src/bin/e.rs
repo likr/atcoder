@@ -30,66 +30,32 @@ fn main() {
         ab: [(Usize1, Usize1); n],
         cd: [(Usize1, Usize1); m],
     }
-    let mut s = vec![vec!['.'; w]; h];
-    for &(ci, di) in &cd {
-        s[ci][di] = '#';
+    let mut grid = vec![vec!['.'; w]; h];
+    for &(ci, di) in cd.iter() {
+        grid[ci][di] = 'x';
     }
-    let ab = ab.into_iter().collect::<HashSet<_>>();
-    for i in 0..h {
-        let mut on = false;
-        for j in 0..w {
-            if s[i][j] == '#' {
-                on = false;
-            } else if ab.contains(&(i, j)) {
-                on = true;
-            }
-            if s[i][j] == '.' && on {
-                s[i][j] = 'o';
-            }
-        }
-        let mut on = false;
-        for j in (0..w).rev() {
-            if s[i][j] == '#' {
-                on = false;
-            } else if ab.contains(&(i, j)) {
-                on = true;
-            }
-            if s[i][j] == '.' && on {
-                s[i][j] = 'o';
+    for &(ai, bi) in ab.iter() {
+        grid[ai][bi] = 'o';
+        for &(dx, dy) in &[(!0, 0), (1, 0), (0, !0), (0, 1)] {
+            let mut y = ai;
+            let mut x = bi;
+            while y.wrapping_add(dy) < h && x.wrapping_add(dx) < w {
+                y = y.wrapping_add(dy);
+                x = x.wrapping_add(dx);
+                if grid[y][x] == 'x' {
+                    break;
+                }
+                grid[y][x] = 'o'
             }
         }
     }
-    for j in 0..w {
-        let mut on = false;
-        for i in 0..h {
-            if s[i][j] == '#' {
-                on = false;
-            } else if ab.contains(&(i, j)) {
-                on = true;
-            }
-            if s[i][j] == '.' && on {
-                s[i][j] = 'o';
-            }
-        }
-        let mut on = false;
-        for i in (0..h).rev() {
-            if s[i][j] == '#' {
-                on = false;
-            } else if ab.contains(&(i, j)) {
-                on = true;
-            }
-            if s[i][j] == '.' && on {
-                s[i][j] = 'o';
-            }
-        }
-    }
-    let mut result = 0;
+    let mut ans = 0;
     for i in 0..h {
         for j in 0..w {
-            if s[i][j] == 'o' {
-                result += 1;
+            if grid[i][j] == 'o' {
+                ans += 1;
             }
         }
     }
-    println!("{}", result);
+    println!("{}", ans);
 }

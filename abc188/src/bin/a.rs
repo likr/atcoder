@@ -23,12 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        x: usize,
-        y: usize,
+        n: usize,
     }
-    if min(x, y) + 3 > max(x, y) {
-        println!("Yes");
-    } else {
-        println!("No");
-    }
+    println!("{}", n);
 }

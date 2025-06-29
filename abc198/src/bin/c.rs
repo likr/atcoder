@@ -23,19 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        r: usize,
-        x: usize,
-        y: usize,
+        n: usize,
     }
-    let dd = x * x + y * y;
-    if dd < r * r {
-        println!("2");
-        return;
-    }
-    for i in 1.. {
-        if i * i * r * r >= dd {
-            println!("{}", i);
-            return;
-        }
-    }
+    println!("{}", n);
 }

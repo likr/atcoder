@@ -26,30 +26,24 @@ fn main() {
         w: usize,
         b: usize,
     }
-    let t = "wbwbwwbwbwbw".chars().collect::<Vec<_>>();
-    let mut s = vec![];
-    for _ in 0..30 {
-        for &c in t.iter() {
-            s.push(c);
-        }
-    }
+    let s = "wbwbwwbwbwbw".repeat(100).chars().collect::<Vec<_>>();
     let n = s.len();
-    let mut w_acc = vec![0; n + 1];
-    let mut b_acc = vec![0; n + 1];
+    let mut w_count = vec![0; n + 1];
+    let mut b_count = vec![0; n + 1];
     for i in 0..n {
         if s[i] == 'w' {
-            w_acc[i + 1] = 1;
+            w_count[i + 1] = 1;
         } else {
-            b_acc[i + 1] = 1;
+            b_count[i + 1] = 1;
         }
     }
     for i in 0..n {
-        w_acc[i + 1] += w_acc[i];
-        b_acc[i + 1] += b_acc[i];
+        w_count[i + 1] += w_count[i];
+        b_count[i + 1] += b_count[i];
     }
-    for j in 1..=n {
+    for j in 0..=n {
         for i in 0..j {
-            if w_acc[j] - w_acc[i] == w && b_acc[j] - b_acc[i] == b {
+            if w_count[j] - w_count[i] == w && b_count[j] - b_count[i] == b {
                 println!("Yes");
                 return;
             }

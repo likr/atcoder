@@ -24,19 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        c: Chars,
     }
-    let mut red_count = 0;
-    for i in 0..n {
-        if c[i] == 'R' {
-            red_count += 1;
-        }
-    }
-    let mut ans = 0;
-    for i in 0..red_count {
-        if c[i] == 'W' {
-            ans += 1;
-        }
-    }
-    println!("{}", ans);
+    println!("{}", n);
 }

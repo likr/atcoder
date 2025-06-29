@@ -24,18 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        q: usize,
-        t: [Usize1; q],
     }
-    let mut a = vec![true; n];
-    for &ti in t.iter() {
-        a[ti] = !a[ti];
-    }
-    let mut ans = 0;
-    for i in 0..n {
-        if a[i] {
-            ans += 1;
-        }
-    }
-    println!("{}", ans);
+    println!("{}", n);
 }

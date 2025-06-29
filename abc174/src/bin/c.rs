@@ -25,17 +25,17 @@ fn main() {
     input! {
         k: usize,
     }
-    let mut f = vec![false; k];
+    let mut visited = HashSet::new();
     let mut b = 0;
-    for ans in 1.. {
+    for i in 1.. {
         b = (b * 10 + 7) % k;
-        if f[b % k] {
+        if visited.contains(&(b % k)) {
             println!("-1");
             return;
         }
-        f[b % k] = true;
+        visited.insert(b % k);
         if b % k == 0 {
-            println!("{}", ans);
+            println!("{}", i);
             return;
         }
     }

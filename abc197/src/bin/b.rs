@@ -29,30 +29,18 @@ fn main() {
         y: Usize1,
         s: [Chars; h],
     }
-    let mut result = 1usize;
-    for x2 in (0..x).rev() {
-        if s[x2][y] == '#' {
-            break;
+    let mut ans = 1;
+    for (dx, dy) in [(0, 1), (0, !0), (1, 0), (!0, 0)] {
+        let mut x_cur = x;
+        let mut y_cur = y;
+        while x_cur.wrapping_add(dx) < h && y_cur.wrapping_add(dy) < w {
+            x_cur = x_cur.wrapping_add(dx);
+            y_cur = y_cur.wrapping_add(dy);
+            if s[x_cur][y_cur] == '#' {
+                break;
+            }
+            ans += 1;
         }
-        result += 1;
     }
-    for x2 in x + 1..h {
-        if s[x2][y] == '#' {
-            break;
-        }
-        result += 1;
-    }
-    for y2 in (0..y).rev() {
-        if s[x][y2] == '#' {
-            break;
-        }
-        result += 1;
-    }
-    for y2 in y + 1..w {
-        if s[x][y2] == '#' {
-            break;
-        }
-        result += 1;
-    }
-    println!("{}", result);
+    println!("{}", ans);
 }

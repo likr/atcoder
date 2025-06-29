@@ -23,15 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        mut s: Chars,
+        n: usize,
     }
-    s.sort();
-    let t = "0123456789".chars().collect::<Vec<_>>();
-    for i in 0..9 {
-        if s[i] != t[i] {
-            println!("{}", t[i]);
-            return;
-        }
-    }
-    println!("9");
+    println!("{}", n);
 }

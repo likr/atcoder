@@ -7,7 +7,7 @@ use std::cmp::*;
 use std::collections::*;
 #[allow(unused_imports)]
 use std::f64::consts::*;
-use superslice::*;
+use superslice::Ext;
 
 #[allow(unused)]
 const INF: usize = std::usize::MAX / 4;
@@ -29,14 +29,20 @@ fn main() {
         mut s: Chars,
     }
     s.sort();
-    let mut set = HashSet::new();
+    let mut ts = HashSet::new();
     loop {
-        if (0..=n - k).all(|i| (0..k).any(|j| s[i + j] != s[i + k - 1 - j])) {
-            set.insert(s.clone());
-        }
+        ts.insert(s.clone());
         if !s.next_permutation() {
             break;
         }
     }
-    println!("{}", set.len());
+    debug!(ts);
+    let mut ans = 0;
+    for t in ts.iter() {
+        if !(0..=n - k).any(|i| (0..k).all(|j| t[i + j] == t[i + k - 1 - j])) {
+            debug!(t);
+            ans += 1;
+        }
+    }
+    println!("{}", ans);
 }

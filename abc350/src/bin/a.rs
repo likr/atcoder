@@ -23,14 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        s: Chars,
+        n: usize,
     }
-    let n = (s[3] as usize - '0' as usize) * 100
-        + (s[4] as usize - '0' as usize) * 10
-        + (s[5] as usize - '0' as usize);
-    if n != 316 && 1 <= n && n <= 349 {
-        println!("Yes");
-    } else {
-        println!("No");
-    }
+    println!("{}", n);
 }

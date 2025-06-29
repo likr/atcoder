@@ -1,4 +1,4 @@
-use petgraph::unionfind::UnionFind;
+use ac_library::Dsu;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -14,19 +14,27 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         n: usize,
         m: usize,
         ab: [(Usize1, Usize1); m],
     }
-    let mut components = UnionFind::new(n);
-    for &(ai, bi) in &ab {
-        components.union(ai, bi);
+    let mut dsu = Dsu::new(n);
+    for &(ai, bi) in ab.iter() {
+        dsu.merge(ai, bi);
     }
-    let mut size = HashMap::new();
+    let mut ans = 0;
     for i in 0..n {
-        *size.entry(components.find(i)).or_insert(0) += 1usize;
+        ans = max(ans, dsu.size(i));
     }
-    println!("{}", size.values().max().unwrap());
+    println!("{}", ans);
 }

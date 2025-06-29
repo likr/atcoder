@@ -23,40 +23,21 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        mut s: Chars,
-        t: Chars,
+        n: usize,
+        m: usize,
     }
-    let n = s.len();
-    let m = t.len();
-    if m > n {
-        println!("UNRESTORABLE");
+    let (n, m) = (max(n, m), min(n, m));
+    if n - m > 1 {
+        println!("0");
         return;
     }
-    for i in (0..=n - m).rev() {
-        let mut ok = true;
-        for j in 0..m {
-            if s[i + j] != '?' && s[i + j] != t[j] {
-                ok = false;
-            }
-        }
-        if ok {
-            for j in 0..m {
-                s[i + j] = t[j];
-            }
-            for j in 0..n {
-                if s[j] == '?' {
-                    s[j] = 'a';
-                }
-            }
-            println!(
-                "{}",
-                s.iter()
-                    .map(|c| format!("{}", c))
-                    .collect::<Vec<_>>()
-                    .join("")
-            );
-            return;
-        }
+    let mut fact_n = 1;
+    for i in 2..=n {
+        fact_n = (fact_n * i) % M;
     }
-    println!("UNRESTORABLE");
+    let mut fact_m = 1;
+    for i in 2..=m {
+        fact_m = (fact_m * i) % M;
+    }
+    println!("{}", fact_n * fact_m % M);
 }

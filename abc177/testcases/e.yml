@@ -1,0 +1,30 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      3
+      3 4 5
+    out: |
+      pairwise coprime
+  - name: sample2
+    in: |
+      3
+      6 10 15
+    out: |
+      setwise coprime
+  - name: sample3
+    in: |
+      3
+      6 10 16
+    out: |
+      not coprime
+
+extend:
+  - type: Text
+    path: "./e"
+    in: /in/*.txt
+    out: /out/*.txt

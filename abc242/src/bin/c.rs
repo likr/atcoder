@@ -1,3 +1,4 @@
+use ac_library::*;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -11,7 +12,7 @@ use std::f64::consts::*;
 #[allow(unused)]
 const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
-const M: usize = 998244353;
+const M: usize = 1000000007;
 
 #[allow(unused_macros)]
 macro_rules! debug {
@@ -22,23 +23,27 @@ macro_rules! debug {
 }
 
 fn main() {
+    let f = ModInt998244353::new;
     input! {
         n: usize,
     }
-    let mut dp = vec![vec![0; 11]; n];
-    for x in 1..10 {
-        dp[0][x] = 1;
+    let mut dp = vec![vec![f(0); 10]; n];
+    for j in 1..10 {
+        dp[0][j] = f(1);
     }
     for i in 1..n {
-        for x in 1..10 {
-            for dx in 0..3 {
-                dp[i][x] = (dp[i][x] + dp[i - 1][x + dx - 1]) % M;
+        for j in 1..10usize {
+            for d in [!0, 0, 1] {
+                let j2 = j.wrapping_add(d);
+                if 1 <= j2 && j2 <= 9 {
+                    dp[i][j2] = dp[i][j2] + dp[i - 1][j];
+                }
             }
         }
     }
-    let mut result = 0;
-    for x in 1..10 {
-        result = (result + dp[n - 1][x]) % M;
+    let mut ans = f(0);
+    for j in 1..10 {
+        ans = ans + dp[n - 1][j];
     }
-    println!("{}", result);
+    println!("{}", ans);
 }

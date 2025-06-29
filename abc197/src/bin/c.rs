@@ -26,23 +26,23 @@ fn main() {
         n: usize,
         a: [usize; n],
     }
-    let mut result = INF;
-    for x in 0..2usize.pow((n - 1) as u32) {
-        let mut vals = vec![];
-        let mut s = a[0];
+    let mut ans = INF;
+    for x in 0..1 << (n - 1) {
+        let mut values = vec![];
+        values.push(a[0]);
         for i in 1..n {
-            if 1 << (i - 1) & x > 0 {
-                vals.push(s);
-                s = 0;
+            if x & 1 << (i - 1) > 0 {
+                let m = values.len();
+                values[m - 1] |= a[i];
+            } else {
+                values.push(a[i]);
             }
-            s |= a[i];
         }
-        vals.push(s);
-        let mut current = 0;
-        for &v in vals.iter() {
-            current ^= v;
+        let mut v = values[0];
+        for j in 1..values.len() {
+            v ^= values[j];
         }
-        result = min(result, current);
+        ans = min(ans, v);
     }
-    println!("{}", result);
+    println!("{}", ans);
 }

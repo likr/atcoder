@@ -23,12 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        s: String,
+        n: usize,
     }
-    let t = match &*s {
-        "Sunny" => "Cloudy",
-        "Cloudy" => "Rainy",
-        _ => "Sunny",
-    };
-    println!("{}", t);
+    println!("{}", n);
 }

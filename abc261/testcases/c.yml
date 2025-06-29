@@ -1,0 +1,52 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      5
+      newfile
+      newfile
+      newfolder
+      newfile
+      newfolder
+    out: |
+      newfile
+      newfile(1)
+      newfolder
+      newfile(2)
+      newfolder(1)
+  - name: sample2
+    in: |
+      11
+      a
+      a
+      a
+      a
+      a
+      a
+      a
+      a
+      a
+      a
+      a
+    out: |
+      a
+      a(1)
+      a(2)
+      a(3)
+      a(4)
+      a(5)
+      a(6)
+      a(7)
+      a(8)
+      a(9)
+      a(10)
+
+extend:
+  - type: Text
+    path: "./c"
+    in: /in/*.txt
+    out: /out/*.txt

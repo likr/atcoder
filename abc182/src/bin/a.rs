@@ -26,10 +26,5 @@ fn main() {
         a: usize,
         b: usize,
     }
-    let c = 2 * a + 100;
-    if b >= c {
-        println!("0");
-    } else {
-        println!("{}", c - b);
-    }
+    println!("{}", 2 * a + 100 - b);
 }

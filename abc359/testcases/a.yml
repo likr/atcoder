@@ -1,0 +1,52 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      3
+      Aoki
+      Takahashi
+      Takahashi
+    out: |
+      2
+  - name: sample2
+    in: |
+      2
+      Aoki
+      Aoki
+    out: |
+      0
+  - name: sample3
+    in: |
+      20
+      Aoki
+      Takahashi
+      Takahashi
+      Aoki
+      Aoki
+      Aoki
+      Aoki
+      Takahashi
+      Aoki
+      Aoki
+      Aoki
+      Takahashi
+      Takahashi
+      Aoki
+      Takahashi
+      Aoki
+      Aoki
+      Aoki
+      Aoki
+      Takahashi
+    out: |
+      7
+
+extend:
+  - type: Text
+    path: "./a"
+    in: /in/*.txt
+    out: /out/*.txt

@@ -1,0 +1,30 @@
+---
+type: Batch
+timelimit: 2s
+match:
+  Float:
+    relative_error: 1e-6
+    absolute_error: 1e-6
+
+cases:
+  - name: sample1
+    in: |
+      2 2 4
+    out: |
+      45.0000000000
+  - name: sample2
+    in: |
+      12 21 10
+    out: |
+      89.7834636934
+  - name: sample3
+    in: |
+      3 1 8
+    out: |
+      4.2363947991
+
+extend:
+  - type: Text
+    path: "./d"
+    in: /in/*.txt
+    out: /out/*.txt

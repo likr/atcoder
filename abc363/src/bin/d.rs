@@ -23,33 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        mut n: Usize1,
+        n: usize,
     }
-    if n == 0 {
-        println!("0");
-        return;
-    }
-    let mut b = 9;
-    let mut c = 1;
-    let mut d = 1;
-    while n > b {
-        n -= b;
-        d += 1;
-        if d % 2 == 1 {
-            c *= 10;
-            b *= 10;
-        }
-    }
-    debug!(n, b, d);
-    let mut s = vec![];
-    for c in format!("{}", n + c - 1).chars() {
-        s.push(c);
-    }
-    if d % 2 == 1 {
-        s.pop();
-    }
-    for c in format!("{}", n + c - 1).chars().rev() {
-        s.push(c);
-    }
-    println!("{}", s.iter().collect::<String>());
+    println!("{}", n);
 }

@@ -1,0 +1,41 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      7
+      AtCoder
+      5
+      1 4 i
+      3 0 a
+      1 5 b
+      2 0 a
+      1 4 Y
+    out: |
+      atcYber
+  - name: sample2
+    in: |
+      35
+      TheQuickBrownFoxJumpsOverTheLazyDog
+      10
+      2 0 a
+      1 19 G
+      1 13 m
+      1 2 E
+      1 21 F
+      2 0 a
+      1 27 b
+      3 0 a
+      3 0 a
+      1 15 i
+    out: |
+      TEEQUICKBROWMFiXJUGPFOVERTBELAZYDOG
+
+extend:
+  - type: Text
+    path: "./g"
+    in: /in/*.txt
+    out: /out/*.txt

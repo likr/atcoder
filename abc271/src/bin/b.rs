@@ -24,11 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        q: usize,
-        a: [[usize]; n],
-        st: [(Usize1, Usize1); q],
     }
-    for &(si, ti) in st.iter() {
-        println!("{}", a[si][ti]);
-    }
+    println!("{}", n);
 }

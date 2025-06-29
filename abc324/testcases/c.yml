@@ -1,0 +1,43 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      5 ababc
+      ababc
+      babc
+      abacbc
+      abdbc
+      abbac
+    out: |
+      4
+      1 2 3 4
+  - name: sample2
+    in: |
+      1 aoki
+      takahashi
+    out: "0\n\n"
+  - name: sample3
+    in: |
+      9 atcoder
+      atoder
+      atcode
+      athqcoder
+      atcoder
+      tacoder
+      jttcoder
+      atoder
+      atceoder
+      atcoer
+    out: |
+      6
+      1 2 4 7 8 9
+
+extend:
+  - type: Text
+    path: "./c"
+    in: /in/*.txt
+    out: /out/*.txt

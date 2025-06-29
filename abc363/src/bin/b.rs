@@ -24,11 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        t: usize,
-        p: usize,
-        mut l: [usize; n],
     }
-    l.sort();
-    l.reverse();
-    println!("{}", if l[p - 1] > t { 0 } else { t - l[p - 1] });
+    println!("{}", n);
 }

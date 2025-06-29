@@ -1,6 +1,6 @@
 ---
 type: Batch
-timelimit: ~
+timelimit: 2s
 match: Lines
 
 cases:

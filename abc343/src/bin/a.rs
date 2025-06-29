@@ -23,13 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        a: usize,
-        b: usize,
+        n: usize,
     }
-    for i in 0..10 {
-        if i != a + b {
-            println!("{}", i);
-            return;
-        }
-    }
+    println!("{}", n);
 }

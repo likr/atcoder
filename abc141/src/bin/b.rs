@@ -23,12 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        s: Chars,
+        n: usize,
     }
-    let n = s.len();
-    if (0..n).step_by(2).all(|i| s[i] != 'L') && (1..n).step_by(2).all(|i| s[i] != 'R') {
-        println!("Yes");
-    } else {
-        println!("No");
-    }
+    println!("{}", n);
 }

@@ -1,4 +1,3 @@
-use ac_library::*;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -25,19 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        m: usize,
-        ab: [(Usize1, Usize1); m],
     }
-    let mut dsu = Dsu::new(n);
-    for &(ai, bi) in ab.iter() {
-        dsu.merge(ai, bi);
-    }
-    let mut ans = 0;
-    for i in 0..n {
-        if i == dsu.leader(i) {
-            let k = dsu.size(i);
-            ans += k * (k - 1) / 2;
-        }
-    }
-    println!("{}", ans - m);
+    println!("{}", n);
 }

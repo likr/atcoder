@@ -1,0 +1,32 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      atcoder.jp
+    out: |
+      jp
+  - name: sample2
+    in: |
+      translate.google.com
+    out: |
+      com
+  - name: sample3
+    in: |
+      .z
+    out: |
+      z
+  - name: sample4
+    in: |
+      ..........txt
+    out: |
+      txt
+
+extend:
+  - type: Text
+    path: "./b"
+    in: /in/*.txt
+    out: /out/*.txt

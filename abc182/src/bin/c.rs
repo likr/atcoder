@@ -23,48 +23,35 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        n: usize,
+        n: Chars,
     }
-    let mut d = vec![];
-    let mut x = n;
-    while x > 0 {
-        d.push(x % 10);
-        x /= 10;
+    let m = n.len();
+    let digits = n
+        .into_iter()
+        .map(|c| c as usize - '0' as usize)
+        .collect::<Vec<_>>();
+    let mut div = vec![0; 3];
+    for i in 0..m {
+        div[digits[i] % 3] += 1;
     }
-    let mut count = vec![0; 3];
-    let k = d.len();
-    for i in 0..k {
-        count[d[i] % 3] += 1;
-    }
-    let s = d.iter().sum::<usize>();
-    let result = match s % 3 {
-        1 => {
-            if count[1] >= 1 {
-                Some(1)
-            } else if count[2] >= 2 {
-                Some(2)
-            } else {
-                None
-            }
+    let s = (div[1] + div[2] * 2) % 3;
+    if s == 1 {
+        if div[1] > 0 && m > 1 {
+            println!("1");
+        } else if div[2] > 1 && m > 2 {
+            println!("2");
+        } else {
+            println!("-1")
         }
-        2 => {
-            if count[2] >= 1 {
-                Some(1)
-            } else if count[1] >= 2 {
-                Some(2)
-            } else {
-                None
-            }
-        }
-        _ => Some(0),
-    };
-    if let Some(result) = result {
-        if result < k {
-            println!("{}", result);
+    } else if s == 2 {
+        if div[2] > 0 && m > 1 {
+            println!("1");
+        } else if div[1] > 1 && m > 2 {
+            println!("2");
         } else {
             println!("-1");
         }
     } else {
-        println!("-1");
+        println!("0");
     }
 }

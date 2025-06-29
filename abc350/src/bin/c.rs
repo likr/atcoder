@@ -26,21 +26,19 @@ fn main() {
         n: usize,
         mut a: [Usize1; n],
     }
-    let mut indices = vec![0; n];
+    let mut index = vec![0; n];
     for i in 0..n {
-        indices[a[i]] = i;
+        index[a[i]] = i;
     }
     let mut ans = vec![];
-    for k in 0..n - 1 {
-        let i = indices[a[k]];
-        let j = indices[k];
-        if i != j {
-            ans.push((i, j));
-            indices.swap(k, a[k]);
-            a.swap(i, j);
+    for i in 0..n {
+        if a[i] != i {
+            let ai = a[i];
+            ans.push((i, index[i]));
+            a.swap(i, index[i]);
+            index.swap(i, ai);
         }
     }
-    debug!(a);
     println!("{}", ans.len());
     for &(i, j) in ans.iter() {
         println!("{} {}", i + 1, j + 1);

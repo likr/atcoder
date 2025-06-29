@@ -13,40 +13,92 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
+fn find_path(
+    s: usize,
+    h: usize,
+    w: usize,
+    events: &Vec<(usize, usize, usize)>,
+) -> (usize, Vec<(usize, usize)>) {
+    let mut index = 0;
+    let mut d = 0;
+    let mut walls = BTreeSet::new();
+    let mut path = vec![(0, 0)];
+    walls.insert(h);
+    for k in 0..s {
+        while index < events.len() && events[index].0 == k {
+            let (_, close, j) = events[index];
+            if close == 1 {
+                walls.remove(&j);
+            } else {
+                walls.insert(j);
+            }
+            index += 1;
+        }
+    }
+    for k in s..w {
+        while index < events.len() && events[index].0 == k && events[index].1 == 0 {
+            let (_, _, j) = events[index];
+            walls.insert(j);
+            index += 1;
+        }
+        let new_d = *walls.range(d..).nth(0).unwrap();
+        if new_d > d {
+            path.push((k, new_d));
+            d = new_d;
+        }
+        while index < events.len() && events[index].0 == k && events[index].1 == 1 {
+            let (_, _, j) = events[index];
+            walls.remove(&j);
+            index += 1;
+        }
+    }
+    (d, path)
+}
+
 fn main() {
     input! {
         h: usize,
         w: usize,
         ab: [(Usize1, Usize1); h],
     }
-
-    let mut start = BTreeMap::new();
-    let mut moves = BTreeSet::new();
-    for j in 0..w {
-        start.insert(j, j);
-        moves.insert((0, j));
+    let mut events = vec![];
+    for j in 0..h {
+        let (aj, bj) = ab[j];
+        events.push((aj, 0, j));
+        events.push((bj, 1, j));
     }
-    for i in 0..h {
-        let (ai, bi) = ab[i];
-        let mut keys = vec![];
-        for (&k, _) in start.range(ai..=bi) {
-            keys.push(k);
-        }
-        if !start.contains_key(&(bi + 1)) && !keys.is_empty() && bi + 1 < w {
-            start.insert(bi + 1, start[&keys[keys.len() - 1]]);
-            moves.insert((bi - start[&(bi + 1)] + 1, bi + 1));
-        }
-        for &k in &keys {
-            let v = start[&k];
-            start.remove(&k);
-            moves.remove(&(k - v, k));
-        }
-        // eprintln!("{:?}", start);
-        // eprintln!("{:?}", moves);
-        if let Some((d, _)) = moves.range(..).nth(0) {
-            println!("{}", i + d + 1);
+    events.sort();
+    let (y0, mut ans_path) = find_path(0, h, w, &events);
+    debug!(y0);
+    debug!(ans_path);
+    let mut ok = 0;
+    let mut ng = w;
+    while ng - ok > 1 {
+        let s = (ok + ng) / 2;
+        let (y, path) = find_path(s, h, w, &events);
+        if y == y0 {
+            ok = s;
+            ans_path = path;
         } else {
-            println!("-1");
+            ng = s;
         }
+    }
+    for i in 1..ans_path.len() {
+        let (_, y1) = ans_path[i - 1];
+        let (x2, y2) = ans_path[i];
+        for j in (y1 + 1)..=y2 {
+            println!("{}", x2 - ok + j);
+        }
+    }
+    for _ in y0 + 1..=h {
+        println!("-1");
     }
 }

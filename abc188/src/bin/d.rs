@@ -24,27 +24,18 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        c: i64,
-        abc: [(usize, usize, i64); n],
     }
-    let mut events = BinaryHeap::new();
-    for &(ai, bi, ci) in abc.iter() {
-        events.push((Reverse(ai), ci));
-        events.push((Reverse(bi + 1), -ci));
+    let mut m = 1 << n;
+    input! {
+        mut a: [usize; 1 << n],
     }
-    let mut result = 0i64;
-    let mut total = 0;
-    let mut day0 = 0;
-    while let Some(&(Reverse(day), _)) = events.peek() {
-        result += min(total, c) * (day - day0) as i64;
-        while let Some(&(Reverse(d), ci)) = events.peek() {
-            if d != day {
-                break;
-            }
-            total += ci;
-            events.pop().unwrap();
+    for i in 1..n {
+        let mut b = vec![];
+        for j in (0..a.len()).step_by(2) {
+            b.push(max(a[j], a[j + 1]));
         }
-        day0 = day;
+        a = b;
     }
-    println!("{}", result);
+    debug!(a);
+    println!("{}", min(a[0], a[1]));
 }

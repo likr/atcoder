@@ -24,20 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        k: i64,
-        q: usize,
-        a: [Usize1; q],
     }
-    let mut score = vec![k - q as i64; n];
-    for i in 0..q {
-        score[a[i]] += 1;
-    }
-    debug!(score);
-    for i in 0..n {
-        if score[i] <= 0 {
-            println!("No");
-        } else {
-            println!("Yes");
-        }
-    }
+    println!("{}", n);
 }

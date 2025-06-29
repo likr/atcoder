@@ -1,0 +1,51 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      3 bac
+      abba
+      bcb
+      aaca
+    out: |
+      3
+  - name: sample2
+    in: |
+      5 xx
+      x
+      x
+      x
+      x
+      x
+    out: |
+      25
+  - name: sample3
+    in: |
+      1 y
+      x
+    out: |
+      0
+  - name: sample4
+    in: |
+      10 ms
+      mkgn
+      m
+      hlms
+      vmsle
+      mxsm
+      nnzdhi
+      umsavxlb
+      ffnsybomr
+      yvmm
+      naouel
+    out: |
+      68
+
+extend:
+  - type: Text
+    path: "./e"
+    in: /in/*.txt
+    out: /out/*.txt

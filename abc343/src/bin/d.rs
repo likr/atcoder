@@ -24,20 +24,19 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        t:  usize,
+        t: usize,
         ab: [(Usize1, usize); t],
     }
+    let mut points = vec![0; n];
     let mut count = HashMap::new();
     count.insert(0, n);
-    let mut score = vec![0; n];
-    for i in 0..t {
-        let (ai, bi) = ab[i];
-        *count.entry(score[ai]).or_insert(0) -= 1;
-        if count[&score[ai]] == 0 {
-            count.remove(&score[ai]);
+    for &(ai, bi) in ab.iter() {
+        *count.entry(points[ai]).or_insert(0) -= 1;
+        if count[&points[ai]] == 0 {
+            count.remove(&points[ai]).unwrap();
         }
-        score[ai] += bi;
-        *count.entry(score[ai]).or_insert(0) += 1;
-        println!("{}", count.len());
+        points[ai] += bi;
+        *count.entry(points[ai]).or_insert(0) += 1;
+        println!("{}", count.len())
     }
 }

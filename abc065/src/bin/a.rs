@@ -13,17 +13,17 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
-        x: usize,
-        a: usize,
-        b: usize,
+        n: usize,
     }
-    if b <= a {
-        println!("delicious");
-    } else if b <= a + x {
-        println!("safe");
-    } else {
-        println!("dangerous");
-    }
+    println!("{}", n);
 }

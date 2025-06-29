@@ -24,6 +24,22 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
+        w: [String; n],
     }
-    println!("{}", n);
+    let t = vec![
+        "and".to_string(),
+        "not".to_string(),
+        "that".to_string(),
+        "the".to_string(),
+        "you".to_string(),
+    ];
+    for wi in w.iter() {
+        for tj in t.iter() {
+            if wi == tj {
+                println!("Yes");
+                return;
+            }
+        }
+    }
+    println!("No");
 }

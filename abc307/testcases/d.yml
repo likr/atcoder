@@ -1,0 +1,35 @@
+---
+type: Batch
+timelimit: 2s
+match: Lines
+
+cases:
+  - name: sample1
+    in: |
+      8
+      a(b(d))c
+    out: |
+      ac
+  - name: sample2
+    in: |
+      5
+      a(b)(
+    out: |
+      a(
+  - name: sample3
+    in: |
+      2
+      ()
+    out: >
+  - name: sample4
+    in: |
+      6
+      )))(((
+    out: |
+      )))(((
+
+extend:
+  - type: Text
+    path: "./d"
+    in: /in/*.txt
+    out: /out/*.txt

@@ -24,27 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        mut a: [usize; n],
     }
-    a.sort();
-    let mut l = 0;
-    let mut u = INF;
-    while u - l > 1 {
-        let m = (u + l) / 2;
-        let mut used = HashSet::new();
-        let mut s = 0;
-        for &ai in a.iter() {
-            if ai <= m && !used.contains(&ai) {
-                used.insert(ai);
-            } else {
-                s += 1;
-            }
-        }
-        if s / 2 >= m - used.len() {
-            l = m;
-        } else {
-            u = m;
-        }
-    }
-    println!("{}", l);
+    println!("{}", n);
 }

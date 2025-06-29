@@ -25,18 +25,28 @@ fn main() {
     input! {
         n: usize,
     }
-    let mut dp = vec![0.; n];
-    dp[0] = 3.5;
+    let mut dp = vec![vec![0f64; 6]; n];
+    for j in 0..6 {
+        dp[0][j] = (j + 1) as f64;
+    }
     for i in 1..n {
         let mut s = 0.;
-        for j in 1..=6 {
-            if j as f64 > dp[i - 1] {
-                s += j as f64;
-            } else {
-                s += dp[i - 1];
-            }
+        for j in 0..6 {
+            s += dp[i - 1][j];
         }
-        dp[i] = s / 6.;
+        s /= 6.;
+        for j in 0..6 {
+            dp[i][j] = if s > (j + 1) as f64 {
+                s
+            } else {
+                (j + 1) as f64
+            };
+        }
     }
-    println!("{}", dp[n - 1]);
+    let mut s = 0.;
+    for j in 0..6 {
+        s += dp[n - 1][j];
+    }
+    s /= 6.;
+    println!("{}", s);
 }

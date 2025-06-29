@@ -23,11 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        x: i64,
+        n: usize,
     }
-    if x >= 30 {
-        println!("Yes");
-    } else {
-        println!("No");
-    }
+    println!("{}", n);
 }

@@ -26,7 +26,8 @@ fn main() {
         n: usize,
         a: [usize; n],
     }
-    let mut gcd = vec![0; 1001];
+    let mut ans = 0;
+    let mut max_count = 0;
     for k in 2..=1000 {
         let mut count = 0;
         for i in 0..n {
@@ -34,7 +35,10 @@ fn main() {
                 count += 1;
             }
         }
-        gcd[k] = count;
+        if count >= max_count {
+            ans = k;
+            max_count = count;
+        }
     }
-    println!("{}", (0..=1000).max_by_key(|&i| gcd[i]).unwrap());
+    println!("{}", ans);
 }

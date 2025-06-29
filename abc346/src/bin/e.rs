@@ -1,4 +1,3 @@
-use ac_library::*;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -27,33 +26,41 @@ fn main() {
         h: usize,
         w: usize,
         m: usize,
-        tax: [(usize, Usize1, usize); m],
+        mut tax: [(usize, Usize1, usize); m],
     }
-    let mut rows = Segtree::<Additive<usize>>::new(h);
-    let mut cols = Segtree::<Additive<usize>>::new(w);
-    let mut ans = HashMap::new();
-    for &(ti, ai, xi) in tax.iter().rev() {
+    let mut row_index = (0..h).collect::<HashSet<_>>();
+    let mut col_index = (0..w).collect::<HashSet<_>>();
+    let mut count = HashMap::new();
+    tax.reverse();
+    for &(ti, ai, xi) in tax.iter() {
         if ti == 1 {
-            if rows.get(ai) == 0 {
-                *ans.entry(xi).or_insert(0) += w - cols.all_prod();
-                rows.set(ai, 1);
+            if row_index.contains(&ai) {
+                if xi != 0 && col_index.len() > 0 {
+                    *count.entry(xi).or_insert(0) += col_index.len();
+                }
+                row_index.remove(&ai);
             }
         } else {
-            if cols.get(ai) == 0 {
-                *ans.entry(xi).or_insert(0) += h - rows.all_prod();
-                cols.set(ai, 1);
+            if col_index.contains(&ai) {
+                if xi != 0 && row_index.len() > 0 {
+                    *count.entry(xi).or_insert(0) += row_index.len();
+                }
+                col_index.remove(&ai);
             }
         }
     }
-    let s = ans.values().sum::<usize>();
-    *ans.entry(0).or_insert(0) += h * w - s;
-    let mut ans = ans
-        .into_iter()
-        .filter(|&(_, count)| count > 0)
-        .collect::<Vec<_>>();
+    let mut s = h * w;
+    let mut ans = vec![];
+    for (&c, &count) in count.iter() {
+        s -= count;
+        ans.push((c, count));
+    }
+    if s > 0 {
+        ans.push((0, s));
+    }
     ans.sort();
     println!("{}", ans.len());
-    for &(x, count) in ans.iter() {
-        println!("{} {}", x, count);
+    for &(c, count) in ans.iter() {
+        println!("{} {}", c, count);
     }
 }

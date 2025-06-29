@@ -23,7 +23,9 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        s: Chars,
+        mut s: Chars,
     }
-    println!("{}{}{}", s[1], s[2], s[0]);
+    let c = s.remove(0);
+    s.push(c);
+    println!("{}", s.iter().collect::<String>());
 }

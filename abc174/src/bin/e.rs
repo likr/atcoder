@@ -24,29 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        k: usize,
-        a: [usize; n],
     }
-    let sum_a = a.iter().sum::<usize>();
-    if k >= sum_a {
-        println!("1");
-        return;
-    }
-    let mut ng = 1;
-    let mut ok = INF;
-    while ok - ng > 1 {
-        let m = (ok + ng) / 2;
-        let mut count = 0;
-        for i in 0..n {
-            if a[i] > m {
-                count += a[i] / m;
-            }
-        }
-        if count > k {
-            ng = m;
-        } else {
-            ok = m;
-        }
-    }
-    println!("{}", ok);
+    println!("{}", n);
 }

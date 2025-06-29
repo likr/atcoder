@@ -23,16 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        a: usize,
-        b: usize,
-        c: usize,
-        x: usize,
+        n: usize,
     }
-    if x <= a {
-        println!("1.0");
-    } else if x <= b {
-        println!("{}", c as f64 / (b - a) as f64);
-    } else {
-        println!("0.0");
-    }
+    println!("{}", n);
 }

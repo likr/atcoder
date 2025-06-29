@@ -1,3 +1,4 @@
+use ac_library::*;
 use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
@@ -7,7 +8,6 @@ use std::cmp::*;
 use std::collections::*;
 #[allow(unused_imports)]
 use std::f64::consts::*;
-use superslice::*;
 
 #[allow(unused)]
 const INF: usize = std::usize::MAX / 4;
@@ -28,15 +28,15 @@ fn main() {
         s: Chars,
         t: Chars,
     }
-    let mut index = "abcdefghijklmnopqrstuvwxyz"
-        .chars()
-        .map(|c| (c, vec![]))
-        .collect::<HashMap<char, Vec<usize>>>();
+    let mut index = vec![];
+    for _ in 0..26 {
+        index.push(Segtree::<Additive<usize>>::new(s.len()));
+    }
     for (i, &c) in s.iter().enumerate() {
-        index.entry(c).or_insert(vec![]).push(i);
+        index[c as usize - 'a' as usize].set(i, 1);
     }
     for &c in t.iter() {
-        if index[&c].len() == 0 {
+        if index[c as usize - 'a' as usize].all_prod() == 0 {
             println!("0");
             return;
         }
@@ -46,25 +46,39 @@ fn main() {
     while ng - ok > 1 {
         let k = (ok + ng) / 2;
         let mut offset = 0;
-        let mut count = 0;
+        let mut repeat = 0;
         for &c in t.iter() {
-            let m = index[&c].len();
-            let x = index[&c].lower_bound(&offset);
-            let a = m - x;
-            if a >= k {
-                offset = index[&c][x + k - 1] + 1;
+            let mut x = k;
+            let a = index[c as usize - 'a' as usize].prod(0..offset);
+            let b = index[c as usize - 'a' as usize].all_prod();
+            debug!(c, a, b, x, offset, repeat);
+            if x <= b - a {
+                offset = index[c as usize - 'a' as usize].max_right(offset, |&s| s < x + a) + 1;
             } else {
-                let b = (k - a) % m;
-                if b == 0 {
-                    count += (k - a) / m;
-                    offset = index[&c][m - 1] + 1;
+                repeat += 1;
+                x -= b - a;
+                debug!(x, b);
+                if x % b == 0 {
+                    repeat += x / b - 1;
+                    x -= b * (x / b - 1);
+                    offset = index[c as usize - 'a' as usize].max_right(0, |&s| s < x) + 1;
                 } else {
-                    count += (k - a) / m + 1;
-                    offset = index[&c][b - 1] + 1
+                    repeat += x / b;
+                    x = x % b;
+                    offset = index[c as usize - 'a' as usize].max_right(0, |&s| s < x) + 1;
                 }
+                debug!(offset);
+            }
+            if offset >= s.len() {
+                offset = 0;
+                repeat += 1;
             }
         }
-        if count < n {
+        if offset > 0 {
+            repeat += 1;
+        }
+        debug!(k, repeat);
+        if repeat <= n {
             ok = k;
         } else {
             ng = k;

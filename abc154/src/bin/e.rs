@@ -2,7 +2,7 @@ use proconio::input;
 #[allow(unused_imports)]
 use proconio::marker::*;
 #[allow(unused_imports)]
-use std::cmp::{max, min};
+use std::cmp::*;
 #[allow(unused_imports)]
 use std::collections::*;
 #[allow(unused_imports)]
@@ -13,32 +13,43 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
-      n: Chars,
-      k: usize,
+        n: Chars,
+        k: usize,
     }
+    let n = n
+        .into_iter()
+        .map(|c| c as usize - '0' as usize)
+        .rev()
+        .collect::<Vec<_>>();
     let m = n.len();
-    let mut dp0 = vec![vec![0; k + 1]; m + 1];
-    let mut dp1 = vec![vec![0; k + 1]; m + 1];
-    dp0[0][0] = 1;
+    let mut dp = vec![vec![(0, 0); k + 1]; m + 1];
+    dp[0][0] = (1, 0);
     for i in 0..m {
-        let d = n[i] as usize - '0' as usize;
         for j in 0..=k {
-            if d == 0 {
-                dp0[i + 1][j] = dp0[i][j];
+            if n[i] == 0 {
+                dp[i + 1][j].0 += dp[i][j].0;
             } else {
-                dp1[i + 1][j] += dp0[i][j];
+                dp[i + 1][j].1 += dp[i][j].0;
             }
-            dp1[i + 1][j] += dp1[i][j];
+            dp[i + 1][j].1 += dp[i][j].1;
         }
         for j in 0..k {
-            if d > 0 {
-                dp0[i + 1][j + 1] = dp0[i][j];
-                dp1[i + 1][j + 1] += (d - 1) * dp0[i][j];
+            if n[i] > 0 {
+                dp[i + 1][j + 1].0 += dp[i][j].0;
+                dp[i + 1][j + 1].1 += dp[i][j].0 * (n[i] - 1);
             }
-            dp1[i + 1][j + 1] += 9 * dp1[i][j];
+            dp[i + 1][j + 1].1 += dp[i][j].1 * 9;
         }
     }
-    println!("{}", dp0[m][k] + dp1[m][k]);
+    println!("{}", dp[m][k].0 + dp[m][k].1);
 }

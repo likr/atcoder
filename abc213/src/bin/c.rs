@@ -23,30 +23,32 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        _h: usize,
-        _w: usize,
+        h: usize,
+        w: usize,
         n: usize,
-        ab: [(usize, usize); n],
+        ab: [(Usize1, Usize1); n],
     }
-    let mut x = HashSet::new();
-    let mut y = HashSet::new();
+    let mut row = vec![];
+    let mut col = vec![];
     for &(ai, bi) in ab.iter() {
-        x.insert(ai);
-        y.insert(bi);
+        row.push(ai);
+        col.push(bi);
     }
-    let mut x = x.iter().collect::<Vec<_>>();
-    x.sort();
-    let mut x_index = HashMap::new();
-    for (i, &xi) in x.iter().enumerate() {
-        x_index.insert(xi, i + 1);
-    }
-    let mut y = y.iter().collect::<Vec<_>>();
-    y.sort();
-    let mut y_index = HashMap::new();
-    for (i, &yi) in y.iter().enumerate() {
-        y_index.insert(yi, i + 1);
-    }
+    row.sort();
+    row.dedup();
+    col.sort();
+    col.dedup();
+    let row_map = row
+        .iter()
+        .enumerate()
+        .map(|(i, &x)| (x, i + 1))
+        .collect::<HashMap<_, _>>();
+    let col_map = col
+        .iter()
+        .enumerate()
+        .map(|(i, &x)| (x, i + 1))
+        .collect::<HashMap<_, _>>();
     for &(ai, bi) in ab.iter() {
-        println!("{} {}", x_index[&ai], y_index[&bi]);
+        println!("{} {}", row_map[&ai], col_map[&bi]);
     }
 }

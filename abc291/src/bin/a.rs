@@ -23,14 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        s: Chars,
+        n: usize,
     }
-    let t = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".chars().collect::<HashSet<_>>();
-    let n = s.len();
-    for i in 0..n {
-        if t.contains(&s[i]) {
-            println!("{}", i + 1);
-            return;
-        }
-    }
+    println!("{}", n);
 }

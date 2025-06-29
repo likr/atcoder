@@ -25,12 +25,12 @@ fn main() {
     input! {
         mut a: usize,
         b: usize,
-        k: usize,
+        k:usize
     }
-    let mut result = 0;
+    let mut count = 0;
     while a < b {
         a *= k;
-        result += 1;
+        count += 1;
     }
-    println!("{}", result);
+    println!("{}", count);
 }

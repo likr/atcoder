@@ -13,25 +13,17 @@ const INF: usize = std::usize::MAX / 4;
 #[allow(unused)]
 const M: usize = 1000000007;
 
+#[allow(unused_macros)]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
+
 fn main() {
     input! {
         n: usize,
-        m: usize,
-        a: [Chars; n],
-        b: [Chars; m],
     }
-    for i in 0..=n - m {
-        'outer: for j in 0..=n - m {
-            for k in 0..m {
-                for l in 0..m {
-                    if a[i + k][j + l] != b[k][l] {
-                        continue 'outer;
-                    }
-                }
-            }
-            println!("Yes");
-            return;
-        }
-    }
-    println!("No");
+    println!("{}", n);
 }

@@ -24,15 +24,6 @@ macro_rules! debug {
 fn main() {
     input! {
         n: usize,
-        d: i64,
-        xy: [(i64, i64); n],
     }
-    let mut ans = 0;
-    for i in 0..n {
-        let (xi, yi) = xy[i];
-        if xi * xi + yi * yi <= d * d {
-            ans += 1;
-        }
-    }
-    println!("{}", ans);
+    println!("{}", n);
 }

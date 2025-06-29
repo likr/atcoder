@@ -29,20 +29,15 @@ fn main() {
     }
     let mut heap = BinaryHeap::new();
     for i in 0..n {
-        heap.push((a[i], a[i], 0));
+        heap.push(a[i]);
     }
-
     for _ in 0..m {
-        let (p, q, c) = heap.pop().unwrap();
-        if p == 0 {
-            break;
-        }
-        heap.push((q / 2usize.pow(c + 1), q, c + 1));
+        let x = heap.pop().unwrap();
+        heap.push(x / 2);
     }
-
     let mut s = 0;
-    while let Some((p, _, _)) = heap.pop() {
-        s += p;
+    while let Some(x) = heap.pop() {
+        s += x;
     }
     println!("{}", s);
 }

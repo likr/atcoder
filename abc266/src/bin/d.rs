@@ -26,25 +26,33 @@ fn main() {
         n: usize,
         txa: [(usize, usize, usize); n],
     }
-    let m = 100000;
-    let mut dp = vec![vec![0; 5]; m + 1];
-    let mut i = 0;
-    for t in 1..=m {
+    let mut t0 = 0;
+    let mut dp = vec![vec![None; 5]; n + 1];
+    dp[0][0] = Some(0);
+    for i in 0..n {
+        let (ti, xi, ai) = txa[i];
         for j in 0..5 {
-            dp[t][j] = dp[t - 1][j];
-        }
-        for j in 1..5 {
-            dp[t][j] = max(dp[t][j], dp[t - 1][j - 1]);
-        }
-        for j in 0..4 {
-            dp[t][j] = max(dp[t][j], dp[t - 1][j + 1]);
-        }
-        if i < n && txa[i].0 == t {
-            if txa[i].1 <= t {
-                dp[t][txa[i].1] += txa[i].2;
+            if let Some(v) = dp[i][j] {
+                for k in 0..5 {
+                    if max(j, k) - min(j, k) <= ti - t0 {
+                        let new_v = v + if k == xi { ai } else { 0 };
+                        dp[i + 1][k] = Some(if let Some(c) = dp[i + 1][k] {
+                            max(new_v, c)
+                        } else {
+                            new_v
+                        });
+                    }
+                }
             }
-            i += 1;
         }
+        t0 = ti;
     }
-    println!("{}", (0..5).map(|j| dp[m][j]).max().unwrap());
+    println!(
+        "{}",
+        (0..5)
+            .filter(|&j| dp[n][j].is_some())
+            .map(|j| dp[n][j].unwrap())
+            .max()
+            .unwrap()
+    );
 }

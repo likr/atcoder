@@ -1,0 +1,30 @@
+---
+type: Batch
+timelimit: 2s
+match:
+  Float:
+    relative_error: 0.01
+    absolute_error: 0.01
+
+cases:
+  - name: sample1
+    in: |
+      100 80
+    out: |
+      20.0
+  - name: sample2
+    in: |
+      7 6
+    out: |
+      14.285714285714285714
+  - name: sample3
+    in: |
+      99999 99998
+    out: |
+      0.00100001000010000100
+
+extend:
+  - type: Text
+    path: "./a"
+    in: /in/*.txt
+    out: /out/*.txt

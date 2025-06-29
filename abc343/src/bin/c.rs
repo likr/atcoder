@@ -21,21 +21,28 @@ macro_rules! debug {
     };
 }
 
+fn is_palindrome(x: usize) -> bool {
+    let mut digits = vec![];
+    let mut x = x;
+    while x > 0 {
+        digits.push(x % 10);
+        x /= 10;
+    }
+    (0..digits.len()).all(|i| digits[i] == digits[digits.len() - 1 - i])
+}
+
 fn main() {
     input! {
         n: usize,
     }
-    let mut nums = vec![];
-    for x in 1.. {
-        if x * x * x > n {
+    let mut ans = 1;
+    for i in 1.. {
+        if i * i * i > n {
             break;
         }
-        let s = format!("{}", x * x * x);
-        let t = s.chars().rev().collect::<String>();
-        if s == t {
-            nums.push(x * x * x);
+        if is_palindrome(i * i * i) {
+            ans = i * i * i;
         }
     }
-    nums.reverse();
-    println!("{}", nums[0]);
+    println!("{}", ans);
 }

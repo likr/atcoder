@@ -23,8 +23,7 @@ macro_rules! debug {
 
 fn main() {
     input! {
-        mut s: Chars,
+        n: usize,
     }
-    s.sort();
-    println!("{}", s.iter().collect::<String>());
+    println!("{}", n);
 }

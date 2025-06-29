@@ -25,11 +25,17 @@ fn main() {
     input! {
         n: usize,
         k: usize,
-        mut a: [usize; n],
+        a: [usize; n],
     }
-    let mut a = a.into_iter().filter(|&ai| ai <= k).collect::<Vec<_>>();
-    a.sort();
-    a.dedup();
-    let s = a.iter().sum::<usize>();
+    let mut set = HashSet::new();
+    for i in 0..n {
+        if a[i] <= k {
+            set.insert(a[i]);
+        }
+    }
+    let mut s = 0;
+    for &v in set.iter() {
+        s += v;
+    }
     println!("{}", k * (k + 1) / 2 - s);
 }
